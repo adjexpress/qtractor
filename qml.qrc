@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Fonts/Font Awesome 5 Free-Solid-900.otf</file>
+        <file>Icons/bridge.png</file>
+        <file>Icons/general.png</file>
+        <file>Icons/port.png</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>Fonts/Ubuntu-R.ttf</file>
+        <file>Images/black.jpg</file>
+        <file>Images/blue.jpg</file>
+        <file>Images/design.jpg</file>
+        <file>Images/water.jpg</file>
+        <file>Icons/austria.png</file>
+        <file>Icons/belgium.png</file>
+        <file>Icons/canada.png</file>
+        <file>Icons/finland.png</file>
+        <file>Icons/france.png</file>
+        <file>Icons/germany.png</file>
+        <file>Icons/netherlands.png</file>
+        <file>Icons/norway.png</file>
+        <file>Icons/poland.png</file>
+        <file>Icons/romania.png</file>
+        <file>Icons/russia.png</file>
+        <file>Icons/spain.png</file>
+        <file>Icons/speed.png</file>
+        <file>Icons/sweden.png</file>
+        <file>Icons/switzerland.png</file>
+        <file>Icons/ukraine.png</file>
+        <file>Icons/united-kingdom.png</file>
+        <file>Fonts/UbuntuMono-R.ttf</file>
+        <file>Images/gradient.jpg</file>
+        <file>PortsSetting.qml</file>
+        <file>General.qml</file>
+        <file>BridgesSetting.qml</file>
+    </qresource>
+</RCC>
