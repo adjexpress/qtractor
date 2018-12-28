@@ -8,7 +8,7 @@ Item {
     id: root
 
     property int func: {
-        process.start("tractor isrunning")
+        isRunning.start("tractor isrunning")
         return 0
     }
 
@@ -95,22 +95,21 @@ Item {
                 }
 
                 model: ListModel {
-                    ListElement { title: "Auto (Best)"; icon: "qrc:/Icons/speed.png" }
-                    ListElement { title: "Austria"; icon: "qrc:/Icons/austria.png" }
-                    ListElement { title: "Belgium"; icon: "qrc:/Icons/belgium.png" }
-                    ListElement { title: "Canada"; icon: "qrc:/Icons/canada.png" }
-                    ListElement { title: "Finland"; icon: "qrc:/Icons/finland.png" }
-                    ListElement { title: "France"; icon: "qrc:/Icons/france.png" }
-                    ListElement { title: "Germany"; icon: "qrc:/Icons/germany.png" }
-                    ListElement { title: "Netherlands"; icon: "qrc:/Icons/netherlands.png" }
-                    ListElement { title: "Norway"; icon: "qrc:/Icons/norway.png" }
-                    ListElement { title: "Poland"; icon: "qrc:/Icons/poland.png" }
-                    ListElement { title: "Romania"; icon: "qrc:/Icons/romania.png" }
-                    ListElement { title: "Spain"; icon: "qrc:/Icons/spain.png" }
-                    ListElement { title: "Sweden"; icon: "qrc:/Icons/sweden.png" }
-                    ListElement { title: "Switzerland"; icon: "qrc:/Icons/switzerland.png" }
-                    ListElement { title: "Ukraine"; icon: "qrc:/Icons/ukraine.png" }
-                    ListElement { title: "United Kingdom"; icon: "qrc:/Icons/united-kingdom.png" }
+                    ListElement { title: "Auto (Best)"; icon: "qrc:/Icons/speed.png"; code: "ww"}
+                    ListElement { title: "Austria"; icon: "qrc:/Icons/austria.png"; code: "au"}
+                    ListElement { title: "Canada"; icon: "qrc:/Icons/canada.png"; code: "ca" }
+                    ListElement { title: "Finland"; icon: "qrc:/Icons/finland.png"; code: "fi" }
+                    ListElement { title: "France"; icon: "qrc:/Icons/france.png"; code: "fr" }
+                    ListElement { title: "Germany"; icon: "qrc:/Icons/germany.png"; code: "de" }
+                    ListElement { title: "Netherlands"; icon: "qrc:/Icons/netherlands.png"; code: "nl" }
+                    ListElement { title: "Norway"; icon: "qrc:/Icons/norway.png"; code: "no" }
+                    ListElement { title: "Poland"; icon: "qrc:/Icons/poland.png"; code: "pl" }
+                    ListElement { title: "Romania"; icon: "qrc:/Icons/romania.png"; code: "ro" }
+                    ListElement { title: "Spain"; icon: "qrc:/Icons/spain.png"; code: "es" }
+                    ListElement { title: "Sweden"; icon: "qrc:/Icons/sweden.png"; code: "se" }
+                    ListElement { title: "Switzerland"; icon: "qrc:/Icons/switzerland.png"; code: "ch" }
+                    ListElement { title: "Ukraine"; icon: "qrc:/Icons/ukraine.png"; code: "ua" }
+                    ListElement { title: "United Kingdom"; icon: "qrc:/Icons/united-kingdom.png"; code: "uk" }
                 }
             }
         }
@@ -152,7 +151,7 @@ Item {
         minValue: 0
         maxValue: 100
         value: {
-            if (bootstrapText.text.includes("True"))
+            if (bootstrapText.text == "Tractor is Connected.")
                 return 100
             else
                 return 0
@@ -186,7 +185,7 @@ Item {
             id: barText
 
             anchors.centerIn: parent
-            //text: "CONNECT"
+
             text: {
                 if (parent.value == 100)
                     return "CONNECTED"
@@ -208,7 +207,7 @@ Item {
 
             Behavior on font.pointSize {
                 NumberAnimation {
-                    duration: 800
+                    duration: 400
                     easing.type: "OutElastic"
                 }
             }
@@ -237,16 +236,16 @@ Item {
             hoverEnabled: true
 
             onClicked: {
-                progressAnim.enabled = true
+                //progressAnim.enabled = true
                 if (parent.value == 0){
-                    process.start("tractor start")
-                    parent.value = 100
+                    processStart.start("tractor start")
+                    //parent.value = 100
 
                 } else {
-                    process.start("tractor stop")
-                    parent.value = 0
+                    processStop.start("tractor stop")
+                    //parent.value = 0
                 }
-                progressAnim.enabled = false
+                //progressAnim.enabled = false
             }
         }
     }
@@ -256,24 +255,86 @@ Item {
 
         //visible: false
         //width: root.width - 200
-        height: 40
+        height: 15
+        clip: true
         anchors.top: bar.bottom
         anchors.topMargin: 25
         anchors.horizontalCenter: root.horizontalCenter
-        color: "#1DE9B6"
+        color: {
+            if (text == "Tractor is not Connected." || text == "Tractor stopped")
+                return "#ff1744"
+            else
+                return "#1DE9B6"
+        }
+
         text: ""
         font.family: ubuntuFontMono.name
         font.pointSize: 12
     }
 
     Process {
-        id: process
+        id: processStart
+
+        property string str: ""
+
+        onStarted: {
+            progressAnim.enabled = true
+        }
+
+        onFinished: {
+            progressAnim.enabled = false
+        }
+
+        //onReadyReadStandardOutput: bootstrapText.text = readAll()
+        onReadyReadStandardOutput: {
+            str = readAll()
+            if (str.includes("Tractor"))
+                bootstrapText.text = str.slice(7, str.length - 5)
+            else {
+                bootstrapText.text = str.slice(5, str.length - 5)
+                if (str.includes("Bootstrapped")) {
+                    bar.value = parseInt(str.slice(str.indexOf("Bootstrapped") + 13, str.indexOf("%")))
+                }
+            }
+        }
+    }
+
+    Process {
+        id: processStop
+
+        property string str: ""
+        //onReadyReadStandardOutput: bootstrapText.text = readAll()
+        onReadyReadStandardOutput: {
+            str = readAll()
+            if (str.includes("Tractor"))
+                bootstrapText.text = str.slice(7, str.length - 5)
+            else
+                bootstrapText.text = str.slice(5, str.length - 5)
+        }
+
+        onFinished: {
+            if (bootstrapText.text == "Tractor stopped")
+                bar.value = 0
+        }
+    }
+
+    Process {
+        id: isRunning
+
+        onFinished: {
+            bootstrapText.opacity = 1
+            if (bootstrapText.text.includes("True"))
+                bootstrapText.text = "Tractor is Connected."
+            else {
+                bootstrapText.text = "Tractor is not Connected."
+            }
+        }
 
         onReadyReadStandardOutput: bootstrapText.text = readAll()
     }
 
 
-    // - - - - animations - - - -
+    // - - - - stand alone animations - - - -
 
     ParallelAnimation {
         id: indicatorAnim
@@ -372,5 +433,5 @@ Item {
             easing.type: "InOutCubic"
         }
     }
-    // , , , , , , , , , , , , ,
+    // , , , , , , , , , , , , , , , , , , , ,
 }
