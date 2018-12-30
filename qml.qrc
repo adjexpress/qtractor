@@ -33,5 +33,6 @@
         <file>PortsSetting.qml</file>
         <file>General.qml</file>
         <file>BridgesSetting.qml</file>
+        <file>Images/design.png</file>
     </qresource>
 </RCC>

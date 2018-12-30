@@ -52,8 +52,8 @@ Item {
 
         width: 35
         height: 35
-        anchors.right: parent.right
-        anchors.rightMargin: 140
+        anchors.left: parent.left
+        anchors.leftMargin: 30
         anchors.top: parent.top
         anchors.topMargin: 30
 
@@ -69,11 +69,11 @@ Item {
             id: countryPopup
 
             Material.theme: Material.Light
-            //x: -325
-            x: (-1) * (root.width / 2 - 75)
-            y: 0
+            //x: 0
+            x: root.width / 2 - 130
+            y: 30
             width: 200
-            height: 350
+            height: 540
             modal: true
             focus: true
             topPadding: 10
@@ -286,8 +286,8 @@ Item {
         //width: root.width - 200
         height: 17
         clip: true
-        anchors.top: bar.bottom
-        anchors.topMargin: 25
+        anchors.bottom: root.bottom
+        anchors.bottomMargin: 25
         anchors.horizontalCenter: root.horizontalCenter
         color: {
             if (text == "Tractor is not Connected." || text == "Tractor stopped" || text.includes("Reached timeout."))
@@ -318,16 +318,22 @@ Item {
         //onReadyReadStandardOutput: bootstrapText.text = readAll()
         onReadyReadStandardOutput: {
             str = readAll()
-            if (str.includes("Tractor"))
-                bootstrapText.text = str.slice(7, str.length - 5)
-            else {
+            if (str.includes("Tractor")) {
+                if (str.includes("Starting"))
+                    bootstrapText.text = "Starting Tractor"
+                else
+                    bootstrapText.text = str.slice(7, str.length - 5)
+            }
+            else if (str.includes("Bootstrapped")) {
+                bootstrapText.text = str.slice(str.indexOf("Bootstrapped") + 13, str.length - 5)
+                bar.value = parseInt(str.slice(str.indexOf("Bootstrapped") + 13, str.indexOf("%")))
+            } else {
                 bootstrapText.text = str.slice(5, str.length - 5)
-                if (str.includes("Bootstrapped")) {
-                    bar.value = parseInt(str.slice(str.indexOf("Bootstrapped") + 13, str.indexOf("%")))
-                } else if (str.includes("Reached timeout.")) {
+                if (str.includes("Reached timeout.")) {
                     bar.value = 0
                 }
             }
+
         }
     }
 

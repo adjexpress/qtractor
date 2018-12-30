@@ -22,8 +22,8 @@ Window {
 
 
     visible: true
-    width: 800
-    height: 400
+    width: 360
+    height: 640
     title: qsTr("Qtractor")
     //color: "black"
 
@@ -32,14 +32,14 @@ Window {
     Image {
         id: backgroundImage
 
-        source: "qrc:/Images/black.jpg"
+        source: "qrc:/Images/design.png"
         /*anchors.top: parent.top
         anchors.bottom: footer.top
         anchors.right: parent.right
         anchors.left: parent.left*/
         anchors.fill: parent
 
-        fillMode: Image.PreserveAspectCrop
+        fillMode: Image.Tile
         clip: false
     }
 
@@ -73,12 +73,14 @@ Window {
                     id: delegateText
 
                     text: model.title
+                    font.pointSize: 10
                     anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.horizontalCenterOffset: 10
                     anchors.verticalCenter: parent.verticalCenter
                     color: highlighted ? "#FF5722" : "#FAFAFA"
                 }
 
-                leftPadding: width / 5
+                //leftPadding: width / 3
 
                 highlighted: ListView.isCurrentItem
                 onClicked: {
