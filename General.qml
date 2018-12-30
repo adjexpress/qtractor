@@ -16,132 +16,159 @@ Item {
         return 0
     }
 
-    //color: "#0d0724"
-    Text {
-        id: countryName
 
-        //text: qsTr("Auto (Best)")
-        text: {
-            //console.log("debug started.")
-            var i = 0
-            for (i = 0; i < exitNodeModel.count; i++) {
-                //console.log(i + "\n")
-                if (exitNodeModel.get(i).code === exitNode)
-                    return exitNodeModel.get(i).title
-            }
-            return "Auto (Best)"
-        }
-        color: "#FAFAFA"
-        anchors.left: countryImage.right
-        anchors.leftMargin: 10
-        anchors.verticalCenter: countryImage.verticalCenter
-    }
 
-    Image {
-        id: countryImage
+    Rectangle {
+        id: header
 
-        //source: "qrc:/Icons/speed.png"
-        source: {
-            var i = 0
-            for (i = 0; i < exitNodeModel.count; i++) {
-                if (exitNodeModel.get(i).code === exitNode)
-                    return exitNodeModel.get(i).icon
-            }
-            return "qrc:/Icons/speed.png"
-        }
-
-        width: 35
-        height: 35
+        anchors.top: root.top
         anchors.left: parent.left
-        anchors.leftMargin: 30
-        anchors.top: parent.top
-        anchors.topMargin: 30
+        anchors.right: parent.right
+        height: 65
+        color: "#AA1DE9B6"
 
-
-        MouseArea {
-            id: countryImageMouse
-
+        ItemDelegate {
             anchors.fill: parent
-            onClicked: countryPopup.open()
-        }
-
-        Popup {
-            id: countryPopup
-
             Material.theme: Material.Light
-            //x: 0
-            x: root.width / 2 - 130
-            y: 30
-            width: 200
-            height: 540
-            modal: true
-            focus: true
-            topPadding: 10
-            bottomPadding: 10
-            leftPadding: 0
-            rightPadding: 0
-            /*background: Rectangle {
-                border.color: "#00C853"
-                color: "#00C853"
-            }*/
-            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
-            ListView {
-                id: countryList
+            Text {
+                id: connectTo
 
-                focus: true
-                anchors.fill: parent
-                clip: true
+                text: qsTr("Connect to")
+                font.pointSize: 10
+                anchors.top: countryImage.top
+                anchors.left: countryName.left
+                color: "black"
+            }
 
-                delegate: ItemDelegate {
-                    width: parent.width
-                    text: model.title
+            Text {
+                id: countryName
 
-                    Image {
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: 10
-                        width: 25
-                        height: 25
-                        source: model.icon
+                //text: qsTr("Optimal")
+                text: {
+                    //console.log("debug started.")
+                    var i = 0
+                    for (i = 0; i < exitNodeModel.count; i++) {
+                        //console.log(i + "\n")
+                        if (exitNodeModel.get(i).code === exitNode)
+                            return exitNodeModel.get(i).title
                     }
+                    return "Optimal"
+                }
+                color: "#FAFAFA"
+                font.pointSize: 12
+                font.bold: true
+                anchors.left: countryImage.right
+                anchors.leftMargin: 15
+                anchors.bottom: countryImage.bottom
+            }
 
-                    highlighted: ListView.isCurrentItem
+            Image {
+                id: countryImage
 
-                    onClicked: {
-                        countryList.currentIndex = index
-                        countryImage.source = model.icon
-                        countryName.text = model.title
-                        countryAnim.start()
-                        countryPopup.close()
-                        dconf.setStringValue("exit-node", model.code)
-                        root.exitNode = model.code
+                //source: "qrc:/Icons/speed.png"
+                source: {
+                    var i = 0
+                    for (i = 0; i < exitNodeModel.count; i++) {
+                        if (exitNodeModel.get(i).code === exitNode)
+                            return exitNodeModel.get(i).icon
                     }
+                    return "qrc:/Icons/speed.png"
                 }
 
-                model: ListModel {
-                    id: exitNodeModel
+                width: 35
+                height: 35
+                anchors.left: parent.left
+                anchors.leftMargin: 15
+                anchors.top: parent.top
+                anchors.topMargin: 15
 
-                    ListElement { title: "Auto (Best)"; icon: "qrc:/Icons/speed.png"; code: "ww"}
-                    ListElement { title: "Austria"; icon: "qrc:/Icons/austria.png"; code: "au"}
-                    ListElement { title: "Canada"; icon: "qrc:/Icons/canada.png"; code: "ca" }
-                    ListElement { title: "Finland"; icon: "qrc:/Icons/finland.png"; code: "fi" }
-                    ListElement { title: "France"; icon: "qrc:/Icons/france.png"; code: "fr" }
-                    ListElement { title: "Germany"; icon: "qrc:/Icons/germany.png"; code: "de" }
-                    ListElement { title: "Netherlands"; icon: "qrc:/Icons/netherlands.png"; code: "nl" }
-                    ListElement { title: "Norway"; icon: "qrc:/Icons/norway.png"; code: "no" }
-                    ListElement { title: "Poland"; icon: "qrc:/Icons/poland.png"; code: "pl" }
-                    ListElement { title: "Romania"; icon: "qrc:/Icons/romania.png"; code: "ro" }
-                    ListElement { title: "Spain"; icon: "qrc:/Icons/spain.png"; code: "es" }
-                    ListElement { title: "Sweden"; icon: "qrc:/Icons/sweden.png"; code: "se" }
-                    ListElement { title: "Switzerland"; icon: "qrc:/Icons/switzerland.png"; code: "ch" }
-                    ListElement { title: "Ukraine"; icon: "qrc:/Icons/ukraine.png"; code: "ua" }
-                    ListElement { title: "United Kingdom"; icon: "qrc:/Icons/united-kingdom.png"; code: "uk" }
+                Popup {
+                    id: countryPopup
+
+                    Material.theme: Material.Light
+                    //x: 0
+                    x: root.width / 2 - 115
+                    y: 30
+                    width: 200
+                    height: 540
+                    modal: true
+                    focus: true
+                    topPadding: 10
+                    bottomPadding: 10
+                    leftPadding: 0
+                    rightPadding: 0
+                    /*background: Rectangle {
+                        border.color: "#00C853"
+                        color: "#00C853"
+                    }*/
+                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+
+                    ListView {
+                        id: countryList
+
+                        focus: true
+                        anchors.fill: parent
+                        clip: true
+
+                        delegate: ItemDelegate {
+                            width: parent.width
+                            text: model.title
+
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.right: parent.right
+                                anchors.rightMargin: 10
+                                width: 25
+                                height: 25
+                                source: model.icon
+                            }
+
+                            highlighted: ListView.isCurrentItem
+
+                            onClicked: {
+                                countryList.currentIndex = index
+                                countryImage.source = model.icon
+                                countryName.text = model.title
+                                countryAnim.start()
+                                countryPopup.close()
+                                dconf.setStringValue("exit-node", model.code)
+                                root.exitNode = model.code
+                            }
+                        }
+
+                        model: ListModel {
+                            id: exitNodeModel
+
+                            ListElement { title: "Optimal"; icon: "qrc:/Icons/speed.png"; code: "ww"}
+                            ListElement { title: "Austria"; icon: "qrc:/Icons/austria.png"; code: "au"}
+                            ListElement { title: "Canada"; icon: "qrc:/Icons/canada.png"; code: "ca" }
+                            ListElement { title: "Finland"; icon: "qrc:/Icons/finland.png"; code: "fi" }
+                            ListElement { title: "France"; icon: "qrc:/Icons/france.png"; code: "fr" }
+                            ListElement { title: "Germany"; icon: "qrc:/Icons/germany.png"; code: "de" }
+                            ListElement { title: "Netherlands"; icon: "qrc:/Icons/netherlands.png"; code: "nl" }
+                            ListElement { title: "Norway"; icon: "qrc:/Icons/norway.png"; code: "no" }
+                            ListElement { title: "Poland"; icon: "qrc:/Icons/poland.png"; code: "pl" }
+                            ListElement { title: "Romania"; icon: "qrc:/Icons/romania.png"; code: "ro" }
+                            ListElement { title: "Spain"; icon: "qrc:/Icons/spain.png"; code: "es" }
+                            ListElement { title: "Sweden"; icon: "qrc:/Icons/sweden.png"; code: "se" }
+                            ListElement { title: "Switzerland"; icon: "qrc:/Icons/switzerland.png"; code: "ch" }
+                            ListElement { title: "Ukraine"; icon: "qrc:/Icons/ukraine.png"; code: "ua" }
+                            ListElement { title: "United Kingdom"; icon: "qrc:/Icons/united-kingdom.png"; code: "uk" }
+                        }
+                    }
                 }
             }
+
+            onClicked: {
+                onClicked: countryPopup.open()
+            }
         }
+
+
     }
 
+    // animated Rectangle
     Rectangle {
         id: indicatorCircle
 

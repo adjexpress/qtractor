@@ -67,6 +67,8 @@ Window {
                 height: parent.height
                 width: window.width / 3
                 icon.source: model.icon
+                icon.height: 20
+                icon.width: 20
                 icon.color: highlighted ? "#FF5722" : "#FAFAFA"
 
                 Text {
@@ -75,7 +77,7 @@ Window {
                     text: model.title
                     font.pointSize: 10
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.horizontalCenterOffset: 10
+                    anchors.horizontalCenterOffset: 5
                     anchors.verticalCenter: parent.verticalCenter
                     color: highlighted ? "#FF5722" : "#FAFAFA"
                 }
