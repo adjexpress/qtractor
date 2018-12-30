@@ -3,12 +3,16 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
 import CustomControls 1.0
 import Process 1.0
+import Gsettings 1.0
 
 Item {
     id: root
 
+    property string exitNode: "ww"
     property int func: {
         isRunning.start("tractor isrunning")
+        dconf.settingNew()
+        exitNode = dconf.getStringValue("exit-node")
         return 0
     }
 
@@ -16,7 +20,17 @@ Item {
     Text {
         id: countryName
 
-        text: qsTr("Auto (Best)")
+        //text: qsTr("Auto (Best)")
+        text: {
+            //console.log("debug started.")
+            var i = 0
+            for (i = 0; i < exitNodeModel.count; i++) {
+                //console.log(i + "\n")
+                if (exitNodeModel.get(i).code === exitNode)
+                    return exitNodeModel.get(i).title
+            }
+            return "Auto (Best)"
+        }
         color: "#FAFAFA"
         anchors.left: countryImage.right
         anchors.leftMargin: 10
@@ -26,7 +40,16 @@ Item {
     Image {
         id: countryImage
 
-        source: "qrc:/Icons/speed.png"
+        //source: "qrc:/Icons/speed.png"
+        source: {
+            var i = 0
+            for (i = 0; i < exitNodeModel.count; i++) {
+                if (exitNodeModel.get(i).code === exitNode)
+                    return exitNodeModel.get(i).icon
+            }
+            return "qrc:/Icons/speed.png"
+        }
+
         width: 35
         height: 35
         anchors.right: parent.right
@@ -91,10 +114,14 @@ Item {
                         countryName.text = model.title
                         countryAnim.start()
                         countryPopup.close()
+                        dconf.setStringValue("exit-node", model.code)
+                        root.exitNode = model.code
                     }
                 }
 
                 model: ListModel {
+                    id: exitNodeModel
+
                     ListElement { title: "Auto (Best)"; icon: "qrc:/Icons/speed.png"; code: "ww"}
                     ListElement { title: "Austria"; icon: "qrc:/Icons/austria.png"; code: "au"}
                     ListElement { title: "Canada"; icon: "qrc:/Icons/canada.png"; code: "ca" }
@@ -238,14 +265,16 @@ Item {
             onClicked: {
                 //progressAnim.enabled = true
                 if (parent.value == 0){
+                    enabled = false  // for animation
                     processStart.start("tractor start")
+
                     //parent.value = 100
 
                 } else {
+                    enabled = false
                     processStop.start("tractor stop")
                     //parent.value = 0
                 }
-                //progressAnim.enabled = false
             }
         }
     }
@@ -255,13 +284,13 @@ Item {
 
         //visible: false
         //width: root.width - 200
-        height: 15
+        height: 17
         clip: true
         anchors.top: bar.bottom
         anchors.topMargin: 25
         anchors.horizontalCenter: root.horizontalCenter
         color: {
-            if (text == "Tractor is not Connected." || text == "Tractor stopped")
+            if (text == "Tractor is not Connected." || text == "Tractor stopped" || text.includes("Reached timeout."))
                 return "#ff1744"
             else
                 return "#1DE9B6"
@@ -282,6 +311,7 @@ Item {
         }
 
         onFinished: {
+            barMouseArea.enabled = true
             progressAnim.enabled = false
         }
 
@@ -294,6 +324,8 @@ Item {
                 bootstrapText.text = str.slice(5, str.length - 5)
                 if (str.includes("Bootstrapped")) {
                     bar.value = parseInt(str.slice(str.indexOf("Bootstrapped") + 13, str.indexOf("%")))
+                } else if (str.includes("Reached timeout.")) {
+                    bar.value = 0
                 }
             }
         }
@@ -313,6 +345,7 @@ Item {
         }
 
         onFinished: {
+            barMouseArea.enabled = true
             if (bootstrapText.text == "Tractor stopped")
                 bar.value = 0
         }
@@ -333,9 +366,13 @@ Item {
         onReadyReadStandardOutput: bootstrapText.text = readAll()
     }
 
+    Qgsettings {
+        id: dconf
+
+        schema: "org.tractor"
+    }
 
     // - - - - stand alone animations - - - -
-
     ParallelAnimation {
         id: indicatorAnim
 

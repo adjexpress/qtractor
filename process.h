@@ -22,10 +22,14 @@ public:
         QProcess::start(program);
     }
 
-     Q_INVOKABLE void start() {
+    Q_INVOKABLE void start() {
         QProcess::start();
     }
     //, , , , , , , , , 
+
+    Q_INVOKABLE void kill() {
+        QProcess::kill();
+    }
 
     Q_INVOKABLE void setProgram(const QString &program) {
         QProcess::setProgram(program);

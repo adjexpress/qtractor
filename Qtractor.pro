@@ -32,4 +32,8 @@ DISTFILES +=
 
 HEADERS += \
     radialbar.h \
-    process.h
+    process.h \
+    gsettings.h
+
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += gio-2.0

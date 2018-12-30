@@ -2,10 +2,12 @@ import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
+import Gsettings 1.0
 
 Window {
     id: window
 
+    //property string exitNode: qsTr("de")
     // load fontawasome.
     FontLoader {
             id: fontAweSolid
@@ -16,6 +18,8 @@ Window {
         id: ubuntuFontMono
         source: "qrc:/Fonts/UbuntuMono-R.ttf"
     }
+
+
 
     visible: true
     width: 800
@@ -121,7 +125,8 @@ Window {
         x: 0
         width: window.width
         height: window.height - 50
-        anchors.top: parent.top
+        anchors.top: window.top
+        //exitNode: window.exitNode
 
         Behavior on x {
             id: xBehaviorGeneralPage
@@ -147,6 +152,4 @@ Window {
         anchors.top: parent.top
         anchors.left: protsSettingPage.right
     }
-
-
 }

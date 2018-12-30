@@ -3,6 +3,7 @@
 
 #include "radialbar.h"
 #include "process.h"
+#include "gsettings.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +12,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<RadialBar>("CustomControls", 1, 0, "RadialBar");
     qmlRegisterType<Process>("Process", 1, 0, "Process");
+    qmlRegisterType<Qgsettings>("Gsettings", 1, 0, "Qgsettings");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
