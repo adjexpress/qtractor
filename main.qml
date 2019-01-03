@@ -19,15 +19,10 @@ Window {
         source: "qrc:/Fonts/UbuntuMono-R.ttf"
     }
 
-
-
     visible: true
     width: 360
     height: 640
     title: qsTr("Qtractor")
-    //color: "black"
-
-
 
     Image {
         id: backgroundImage
@@ -43,117 +38,63 @@ Window {
         clip: false
     }
 
-    Rectangle {
+
+    TabBar {
         id: footer
 
         Material.theme: Material.Light
+        Material.background: "#30FAFAFA"
+        Material.foreground: "#FAFAFA"
+        Material.accent: "#FF5722"
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        color: "#30FAFAFA"
         height: 50
+        position: TabBar.Footer
+        currentIndex: view.currentIndex
 
-        ListView {
-            id: listView
-
-            focus: true
-            anchors.fill: parent
-            orientation: ListView.Horizontal
-            boundsBehavior: Flickable.StopAtBounds
-
-            delegate: ItemDelegate {
-                id: presentation
-
-                height: parent.height
-                width: window.width / 3
-                icon.source: model.icon
-                icon.height: 20
-                icon.width: 20
-                icon.color: highlighted ? "#FF5722" : "#FAFAFA"
-
-                Text {
-                    id: delegateText
-
-                    text: model.title
-                    font.pointSize: 10
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.horizontalCenterOffset: 5
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: highlighted ? "#FF5722" : "#FAFAFA"
-                }
-
-                //leftPadding: width / 3
-
-                highlighted: ListView.isCurrentItem
-                onClicked: {
-                    listView.currentIndex = index
-                    if (index == 0) {
-                        generalPage.x = 0
-                    } else if (index == 1) {
-                        generalPage.x = (-1) * window.width
-                    } else if (index == 2) {
-                        generalPage.x = (-2) * window.width
-                    }
-                }
-            }
-
-            highlight: Component {
-                Item {
-                    width: presentation.width
-                    height: footer.height
-
-                    Rectangle {
-                        width: parent.width
-                        height: 4.5
-                        anchors.top: parent.top
-                        color: "#FF5722"
-                    }
-                }
-            }
-
-            highlightMoveDuration: 100
-
-            model: ListModel {
-                ListElement { icon: "/Icons/general.png"; title: "General"; source: "qrc:/pages/general.qml" }
-                ListElement { icon: "/Icons/port.png"; title: "Ports"; source: "qrc:/pages/portsSetting.qml" }
-                ListElement { icon: "/Icons/bridge.png"; title: "Bridges"; source: "qrc:/pages/bridgesSetting.qml" }
-            }
-
-            ScrollIndicator.horizontal: ScrollIndicator { }
+        TabButton {
+            text: "General"
+            font.pointSize: 10
+            icon.source: "/Icons/general.png"
+            icon.height: 20
+            icon.width: 20
+        }
+        TabButton {
+            text: "Ports"
+            font.pointSize: 10
+            icon.source: "/Icons/port.png"
+            icon.height: 20
+            icon.width: 20
+        }
+        TabButton {
+            text: "Bridges"
+            font.pointSize: 10
+            icon.source: "/Icons/bridge.png"
+            icon.height: 20
+            icon.width: 20
         }
     }
 
-    General {
-        id: generalPage
 
-        x: 0
-        width: window.width
-        height: window.height - 50
+    SwipeView {
+        id: view
+
+        currentIndex: footer.currentIndex
         anchors.top: window.top
-        //exitNode: window.exitNode
+        width: window.width
+        height: window.height - 50
 
-        Behavior on x {
-            id: xBehaviorGeneralPage
-
-            NumberAnimation { duration: 100 }
+        General {
+            id: generalPage
         }
-    }
 
-    PortsSetting {
-        id: protsSettingPage
+        PortsSetting {
+            id: protsSettingPage
+        }
 
-        width: window.width
-        height: window.height - 50
-        anchors.top: parent.top
-        anchors.left: generalPage.right
-    }
-
-    BridgesSetting {
-        id: bridgesSettingPage
-
-        width: window.width
-        height: window.height - 50
-        anchors.top: parent.top
-        anchors.left: protsSettingPage.right
+        BridgesSetting {
+            id: bridgesSettingPage
+        }
     }
 }

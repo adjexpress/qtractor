@@ -25,7 +25,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 65
-        color: "#AA1DE9B6"
+        color: "#991DE9B6"
 
         ItemDelegate {
             anchors.fill: parent
@@ -130,9 +130,13 @@ Item {
                                 countryList.currentIndex = index
                                 countryImage.source = model.icon
                                 countryName.text = model.title
+                                dconf.setStringValue("exit-node", model.code)
+                                if (bootstrapText.text == "Tractor is connected.") {
+                                    processRestart.start(processRestart.command)
+                                }
                                 countryAnim.start()
                                 countryPopup.close()
-                                dconf.setStringValue("exit-node", model.code)
+
                                 root.exitNode = model.code
                             }
                         }
@@ -205,7 +209,7 @@ Item {
         minValue: 0
         maxValue: 100
         value: {
-            if (bootstrapText.text == "Tractor is Connected.")
+            if (bootstrapText.text == "Tractor is connected.")
                 return 100
             else
                 return 0
@@ -348,6 +352,8 @@ Item {
             if (str.includes("Tractor")) {
                 if (str.includes("Starting"))
                     bootstrapText.text = "Starting Tractor"
+                else if (str.includes("conneted"))
+                    bootstrapText.text = "Tractor is connected."
                 else
                     bootstrapText.text = str.slice(7, str.length - 5)
             }
@@ -390,13 +396,25 @@ Item {
         onFinished: {
             bootstrapText.opacity = 1
             if (bootstrapText.text.includes("True"))
-                bootstrapText.text = "Tractor is Connected."
+                bootstrapText.text = "Tractor is connected."
             else {
-                bootstrapText.text = "Tractor is not Connected."
+                bootstrapText.text = "Tractor is not connected."
             }
         }
 
         onReadyReadStandardOutput: bootstrapText.text = readAll()
+    }
+
+    Process {
+        id: processRestart
+
+        property string command: "tractor stop"
+        //onReadyReadStandardOutput: bootstrapText.text = readAll()
+
+        onFinished: {
+            bar.value = 0
+            processStart.start("tractor start")
+        }
     }
 
     Qgsettings {
