@@ -21,10 +21,25 @@ public:
         return  g_settings_set_string(gSettingInstance, key.data(), value.data());
     }
 
+    Q_INVOKABLE bool setBoolValue(QByteArray key, bool value) {
+        return  g_settings_set_value(gSettingInstance, key.data(), g_variant_new_boolean(value));
+    }
+
     Q_INVOKABLE QByteArray getStringValue(QByteArray key) {
         char* data = g_settings_get_string(gSettingInstance, key.data());
         return QByteArray::fromRawData(data, sizeof(data));
     }
+
+    Q_INVOKABLE bool getBoolValue(QByteArray key) {
+        GVariant* value = g_settings_get_value(gSettingInstance, key.data());
+        bool b;
+        if (g_variant_get_boolean(value) == TRUE)
+            b = true;
+        else
+            b = false;
+        return b;
+    }
+
 
     QByteArray schema() const {
         return q_schema_id;

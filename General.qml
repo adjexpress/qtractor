@@ -9,10 +9,11 @@ Item {
     id: root
 
     property string exitNode: "ww"
-    property int func: {
+    property int initial: {
         isRunning.start("tractor isrunning")
         dconf.settingNew()
         exitNode = dconf.getStringValue("exit-node")
+        acceptConnectionDelegate.checked = dconf.getBoolValue("accept-connection")
         return 0
     }
 
@@ -169,7 +170,33 @@ Item {
             }
         }
 
+    }
 
+    SwitchDelegate {
+        id: acceptConnectionDelegate
+
+        Material.accent: "#FF5722"
+        anchors.top: header.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 50
+        text: "<b>Accept connection</b>"
+
+        ToolTip {
+            text: qsTr("Whether or not allowing external devices <br> to use this network")
+            visible: parent.hovered
+            delay: 2000
+            timeout: 3000
+            font.pointSize: 10
+            font.weight: Font.Light
+        }
+
+        onClicked: {
+            if (checked)
+                dconf.setBoolValue("accept-connection", true)
+            else
+                dconf.setBoolValue("accept-connection", false)
+        }
     }
 
     // animated Rectangle
@@ -178,11 +205,11 @@ Item {
 
         color: "transparent"
         border.width: 2
-        border.color: "#33EEEEEE"
+        border.color: "#191a2f"
         anchors.centerIn: parent
-        width: 190
-        height: 190
-        radius: 190
+        width: 192
+        height: 192
+        radius: 192
         opacity: {
             if (bar.value == 0)
                 return 1
@@ -191,7 +218,18 @@ Item {
         }
     }
 
+    // - - - - circular bar - - - -
+    Rectangle {
+        id: barForground
 
+        color: "transparent"
+        border.width: 10
+        border.color: "#191a2f"
+        anchors.centerIn: parent
+        width: 195
+        height: 195
+        radius: 195
+    }
 
     RadialBar {
         id: bar
@@ -202,8 +240,8 @@ Item {
         penStyle: Qt.RoundCap
         dialType: RadialBar.FullDial
         progressColor: "#FF5722"
-        foregroundColor: "#191a2f"
-        dialWidth: 15
+        foregroundColor: "transparent"  // foreground declared seperatly.
+        dialWidth: 16
         startAngle: 0
         spanAngle: 70
         minValue: 0
@@ -309,6 +347,7 @@ Item {
             }
         }
     }
+    // , , , , , , , , , , , , , , ,
 
     Text {
         id: bootstrapText
@@ -444,7 +483,7 @@ Item {
             target: indicatorCircle
             property: "width"
             from: 190
-            to: 300
+            to: 260
             duration: 2000
             easing.type: "InQuint"
         }
@@ -453,7 +492,7 @@ Item {
             target: indicatorCircle
             property: "height"
             from: 190
-            to: 300
+            to: 260
             duration: 2000
             easing.type: "InQuint"
         }
@@ -461,7 +500,7 @@ Item {
         ColorAnimation {
             target: indicatorCircle
             property: "border.color"
-            from: "#55EEEEEE"
+            from: "#191a2f"
             to: "transparent"
             duration: 2000
             easing.type: "InExpo"
@@ -494,13 +533,13 @@ Item {
 
         onStarted: {
             barText.font.pointSize = 18
-            indicatorAnim.stop()
+            //indicatorAnim.stop()
         }
 
         onStopped: {
             barText.font.pointSize = 16
             barText.color = "#FAFAFA"
-            indicatorAnim.start()
+            //indicatorAnim.start()
         }
 
         ColorAnimation {
