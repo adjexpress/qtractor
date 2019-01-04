@@ -16,160 +16,159 @@ Item {
         acceptConnectionDelegate.checked = dconf.getBoolValue("accept-connection")
         return 0
     }
+    property Qgsettings tractorConf: dconf
 
-
+    //property alias conf: dconf
 
     Rectangle {
         id: header
 
+        Material.theme: Material.Light
         anchors.top: root.top
         anchors.left: parent.left
         anchors.right: parent.right
         height: 65
         color: "#991DE9B6"
 
-        ItemDelegate {
-            anchors.fill: parent
-            Material.theme: Material.Light
+        Text {
+            id: connectTo
 
-            Text {
-                id: connectTo
+            text: qsTr("Connect to")
+            font.pointSize: 10
+            anchors.top: countryImage.top
+            anchors.left: countryName.left
+            color: "black"
+        }
 
-                text: qsTr("Connect to")
-                font.pointSize: 10
-                anchors.top: countryImage.top
-                anchors.left: countryName.left
-                color: "black"
+        Text {
+            id: countryName
+
+            //text: qsTr("Optimal")
+            text: {
+                //console.log("debug started.")
+                var i = 0
+                for (i = 0; i < exitNodeModel.count; i++) {
+                    //console.log(i + "\n")
+                    if (exitNodeModel.get(i).code === exitNode)
+                        return exitNodeModel.get(i).title
+                }
+                return "Optimal"
+            }
+            color: "#FAFAFA"
+            font.pointSize: 12
+            font.bold: true
+            anchors.left: countryImage.right
+            anchors.leftMargin: 15
+            anchors.bottom: countryImage.bottom
+        }
+
+        Image {
+            id: countryImage
+
+            //source: "qrc:/Icons/speed.png"
+            source: {
+                var i = 0
+                for (i = 0; i < exitNodeModel.count; i++) {
+                    if (exitNodeModel.get(i).code === exitNode)
+                        return exitNodeModel.get(i).icon
+                }
+                return "qrc:/Icons/speed.png"
             }
 
-            Text {
-                id: countryName
+            width: 35
+            height: 35
+            anchors.left: parent.left
+            anchors.leftMargin: 15
+            anchors.top: parent.top
+            anchors.topMargin: 15
 
-                //text: qsTr("Optimal")
-                text: {
-                    //console.log("debug started.")
-                    var i = 0
-                    for (i = 0; i < exitNodeModel.count; i++) {
-                        //console.log(i + "\n")
-                        if (exitNodeModel.get(i).code === exitNode)
-                            return exitNodeModel.get(i).title
-                    }
-                    return "Optimal"
-                }
-                color: "#FAFAFA"
-                font.pointSize: 12
-                font.bold: true
-                anchors.left: countryImage.right
-                anchors.leftMargin: 15
-                anchors.bottom: countryImage.bottom
-            }
+            Popup {
+                id: countryPopup
 
-            Image {
-                id: countryImage
+                Material.theme: Material.Light
+                //x: 0
+                x: root.width / 2 - 145  // center : root.width / 2 - 115
+                y: 30
+                width: 200
+                height: 500
+                modal: true
+                focus: true
+                topPadding: 10
+                bottomPadding: 10
+                leftPadding: 0
+                rightPadding: 0
+                /*background: Rectangle {
+                    border.color: "#00C853"
+                    color: "#00C853"
+                }*/
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
-                //source: "qrc:/Icons/speed.png"
-                source: {
-                    var i = 0
-                    for (i = 0; i < exitNodeModel.count; i++) {
-                        if (exitNodeModel.get(i).code === exitNode)
-                            return exitNodeModel.get(i).icon
-                    }
-                    return "qrc:/Icons/speed.png"
-                }
+                ListView {
+                    id: countryList
 
-                width: 35
-                height: 35
-                anchors.left: parent.left
-                anchors.leftMargin: 15
-                anchors.top: parent.top
-                anchors.topMargin: 15
-
-                Popup {
-                    id: countryPopup
-
-                    Material.theme: Material.Light
-                    //x: 0
-                    x: root.width / 2 - 115
-                    y: 30
-                    width: 200
-                    height: 540
-                    modal: true
                     focus: true
-                    topPadding: 10
-                    bottomPadding: 10
-                    leftPadding: 0
-                    rightPadding: 0
-                    /*background: Rectangle {
-                        border.color: "#00C853"
-                        color: "#00C853"
-                    }*/
-                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                    anchors.fill: parent
+                    clip: true
 
-                    ListView {
-                        id: countryList
+                    delegate: ItemDelegate {
+                        width: parent.width
+                        text: model.title
 
-                        focus: true
-                        anchors.fill: parent
-                        clip: true
-
-                        delegate: ItemDelegate {
-                            width: parent.width
-                            text: model.title
-
-                            Image {
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.right: parent.right
-                                anchors.rightMargin: 10
-                                width: 25
-                                height: 25
-                                source: model.icon
-                            }
-
-                            highlighted: ListView.isCurrentItem
-
-                            onClicked: {
-                                countryList.currentIndex = index
-                                countryImage.source = model.icon
-                                countryName.text = model.title
-                                dconf.setStringValue("exit-node", model.code)
-                                if (bootstrapText.text == "Tractor is connected.") {
-                                    processRestart.start(processRestart.command)
-                                }
-                                countryAnim.start()
-                                countryPopup.close()
-
-                                root.exitNode = model.code
-                            }
+                        Image {
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            anchors.rightMargin: 10
+                            width: 25
+                            height: 25
+                            source: model.icon
                         }
 
-                        model: ListModel {
-                            id: exitNodeModel
+                        highlighted: ListView.isCurrentItem
 
-                            ListElement { title: "Optimal"; icon: "qrc:/Icons/speed.png"; code: "ww"}
-                            ListElement { title: "Austria"; icon: "qrc:/Icons/austria.png"; code: "au"}
-                            ListElement { title: "Canada"; icon: "qrc:/Icons/canada.png"; code: "ca" }
-                            ListElement { title: "Finland"; icon: "qrc:/Icons/finland.png"; code: "fi" }
-                            ListElement { title: "France"; icon: "qrc:/Icons/france.png"; code: "fr" }
-                            ListElement { title: "Germany"; icon: "qrc:/Icons/germany.png"; code: "de" }
-                            ListElement { title: "Netherlands"; icon: "qrc:/Icons/netherlands.png"; code: "nl" }
-                            ListElement { title: "Norway"; icon: "qrc:/Icons/norway.png"; code: "no" }
-                            ListElement { title: "Poland"; icon: "qrc:/Icons/poland.png"; code: "pl" }
-                            ListElement { title: "Romania"; icon: "qrc:/Icons/romania.png"; code: "ro" }
-                            ListElement { title: "Spain"; icon: "qrc:/Icons/spain.png"; code: "es" }
-                            ListElement { title: "Sweden"; icon: "qrc:/Icons/sweden.png"; code: "se" }
-                            ListElement { title: "Switzerland"; icon: "qrc:/Icons/switzerland.png"; code: "ch" }
-                            ListElement { title: "Ukraine"; icon: "qrc:/Icons/ukraine.png"; code: "ua" }
-                            ListElement { title: "United Kingdom"; icon: "qrc:/Icons/united-kingdom.png"; code: "uk" }
+                        onClicked: {
+                            countryList.currentIndex = index
+                            countryImage.source = model.icon
+                            countryName.text = model.title
+                            dconf.setStringValue("exit-node", model.code)
+                            if (bootstrapText.text == "Tractor is connected.") {
+                                processRestart.start(processRestart.command)
+                            }
+                            countryAnim.start()
+                            countryPopup.close()
+
+                            root.exitNode = model.code
                         }
+                    }
+
+                    model: ListModel {
+                        id: exitNodeModel
+
+                        ListElement { title: "Optimal"; icon: "qrc:/Icons/speed.png"; code: "ww"}
+                        ListElement { title: "Austria"; icon: "qrc:/Icons/austria.png"; code: "au"}
+                        ListElement { title: "Canada"; icon: "qrc:/Icons/canada.png"; code: "ca" }
+                        ListElement { title: "Finland"; icon: "qrc:/Icons/finland.png"; code: "fi" }
+                        ListElement { title: "France"; icon: "qrc:/Icons/france.png"; code: "fr" }
+                        ListElement { title: "Germany"; icon: "qrc:/Icons/germany.png"; code: "de" }
+                        ListElement { title: "Netherlands"; icon: "qrc:/Icons/netherlands.png"; code: "nl" }
+                        ListElement { title: "Norway"; icon: "qrc:/Icons/norway.png"; code: "no" }
+                        ListElement { title: "Poland"; icon: "qrc:/Icons/poland.png"; code: "pl" }
+                        ListElement { title: "Romania"; icon: "qrc:/Icons/romania.png"; code: "ro" }
+                        ListElement { title: "Spain"; icon: "qrc:/Icons/spain.png"; code: "es" }
+                        ListElement { title: "Sweden"; icon: "qrc:/Icons/sweden.png"; code: "se" }
+                        ListElement { title: "Switzerland"; icon: "qrc:/Icons/switzerland.png"; code: "ch" }
+                        ListElement { title: "Ukraine"; icon: "qrc:/Icons/ukraine.png"; code: "ua" }
+                        ListElement { title: "United Kingdom"; icon: "qrc:/Icons/united-kingdom.png"; code: "uk" }
                     }
                 }
             }
+        }
 
+        MouseArea {
+            anchors.fill: parent
             onClicked: {
                 onClicked: countryPopup.open()
             }
         }
-
     }
 
     SwitchDelegate {
@@ -180,7 +179,8 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 50
-        text: "<b>Accept connection</b>"
+        text: "Accept connection"
+        font.bold: true
 
         ToolTip {
             text: qsTr("Whether or not allowing external devices <br> to use this network")

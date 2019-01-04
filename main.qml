@@ -7,7 +7,6 @@ import Gsettings 1.0
 Window {
     id: window
 
-    //property string exitNode: qsTr("de")
     // load fontawasome.
     FontLoader {
             id: fontAweSolid
