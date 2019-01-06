@@ -27,7 +27,7 @@ Item {
         anchors.top: root.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 65
+        height: 55
         color: "#991DE9B6"
 
         Text {
@@ -80,7 +80,7 @@ Item {
             anchors.left: parent.left
             anchors.leftMargin: 15
             anchors.top: parent.top
-            anchors.topMargin: 15
+            anchors.topMargin: 10
 
             Popup {
                 id: countryPopup
@@ -174,7 +174,7 @@ Item {
     SwitchDelegate {
         id: acceptConnectionDelegate
 
-        Material.accent: "#FF5722"
+        Material.accent: "#F50057"
         anchors.top: header.bottom
         anchors.left: parent.left
         anchors.right: parent.right
