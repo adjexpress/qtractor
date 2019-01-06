@@ -27,7 +27,7 @@ Item {
         anchors.top: root.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 55
+        height: 50
         color: "#991DE9B6"
 
         Text {
@@ -80,7 +80,7 @@ Item {
             anchors.left: parent.left
             anchors.leftMargin: 15
             anchors.top: parent.top
-            anchors.topMargin: 10
+            anchors.topMargin: 7.5
 
             Popup {
                 id: countryPopup
