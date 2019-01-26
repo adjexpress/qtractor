@@ -28,7 +28,10 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 50
-        color: "#991DE9B6"
+//        color: "#991DE9B6"
+        color : "#009688"
+//        color: Material.Teal
+
 
         Text {
             id: connectTo
@@ -56,7 +59,7 @@ Item {
             }
             color: "#FAFAFA"
             font.pointSize: 12
-            font.bold: true
+            //font.bold: true
             anchors.left: countryImage.right
             anchors.leftMargin: 15
             anchors.bottom: countryImage.bottom
@@ -86,11 +89,10 @@ Item {
                 id: countryPopup
 
                 Material.theme: Material.Light
-                //x: 0
-                x: root.width / 2 - 145  // center : root.width / 2 - 115
+                x: 35  // center : root.width / 2 - 115
                 y: 30
                 width: 200
-                height: 500
+                height: (root.height / 4) * 3
                 modal: true
                 focus: true
                 topPadding: 10
@@ -334,16 +336,16 @@ Item {
             onClicked: {
                 //progressAnim.enabled = true
                 if (parent.value == 0){
-                    enabled = false  // for animation
+                    //focus = false  // for animation
                     processStart.start("tractor start")
 
                     //parent.value = 100
 
-                } else {
-                    enabled = false
+                } else if (parent.value == 100) {
+                    //focus = false
                     processStop.start("tractor stop")
                     //parent.value = 0
-                }
+                } else { }
             }
         }
     }
@@ -360,8 +362,9 @@ Item {
         anchors.bottomMargin: 25
         anchors.horizontalCenter: root.horizontalCenter
         color: {
-            if (text == "Tractor is not Connected." || text == "Tractor stopped" || text.includes("Reached timeout."))
-                return "#ff1744"
+            if (text == "Tractor is not Connected." || text == "Tractor stopped" ||
+                    text.includes("Reached timeout.") || text == "Tractor is not connected.")
+                return "#E91E63"
             else
                 return "#1DE9B6"
         }
@@ -381,7 +384,7 @@ Item {
         }
 
         onFinished: {
-            barMouseArea.enabled = true
+            //barMouseArea.focus = true
             progressAnim.enabled = false
         }
 
@@ -423,7 +426,7 @@ Item {
         }
 
         onFinished: {
-            barMouseArea.enabled = true
+            //barMouseArea.focus = true
             if (bootstrapText.text == "Tractor stopped")
                 bar.value = 0
         }
@@ -545,8 +548,8 @@ Item {
         ColorAnimation {
             target: barText
             property: "color"
-            from: "#673AB7"
-            to: "#FF5722"
+            from: "#E91E63"
+            to: "#242542"
             duration: 800
             easing.type: "InOutCubic"
         }
@@ -554,8 +557,8 @@ Item {
         ColorAnimation {
             target: barText
             property: "color"
-            from: "#FF5722"
-            to: "#673AB7"
+            from: "#242542"
+            to: "#E91E63"
             duration: 800
             easing.type: "InOutCubic"
         }

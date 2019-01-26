@@ -7,6 +7,11 @@ import Gsettings 1.0
 Window {
     id: window
 
+
+    FontLoader {
+        id: ubuntu
+        source: "qrc:/Fonts/Ubuntu-R.ttf"
+    }
     // load fontawasome.
     FontLoader {
             id: fontAweSolid
@@ -21,7 +26,7 @@ Window {
     visible: true
     width: 360
     height: 640
-    title: qsTr("Qtractor")
+    title: qsTr("qtractor")
 
     Image {
         id: backgroundImage
@@ -42,7 +47,7 @@ Window {
         id: footer
 
         Material.theme: Material.Light
-        Material.background: "#30FAFAFA"
+        Material.background: "#25FAFAFA"
         Material.foreground: "#FAFAFA"
         Material.accent: "#FF5722"
         anchors.right: parent.right
