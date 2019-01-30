@@ -4,7 +4,6 @@ import QtQuick.Controls.Material 2.3
 import Process 1.0
 import Gsettings 1.0
 import QmlFile 1.0
-import QtQuick.Dialogs 1.2
 
 Item {
     id: root
@@ -85,12 +84,13 @@ Item {
         Button {
             id: saveBtn
 
-            Material.theme: Material.Light
-            Material.background: "#FF5722"
+            Material.theme: Material.Dark
+            Material.background: "transparent"
+            Material.foreground: "#FF5722"
             anchors.right: parent.right
             anchors.rightMargin: 15
             anchors.verticalCenter: bridges.verticalCenter
-            text: "Save"
+            text: "<b>Save</b>"
             property int charCunt: 0
 
             onClicked: {
@@ -135,8 +135,10 @@ Item {
     Dialog {
         id: saveDialog
 
+        Material.theme: Material.Light
+        anchors.centerIn: root
         visible: false
-        standardButtons: StandardButton.Close
+        standardButtons: Dialog.Close
         title: "Saved"
 
         Text {
