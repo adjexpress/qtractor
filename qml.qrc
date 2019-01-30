@@ -34,5 +34,11 @@
         <file>General.qml</file>
         <file>BridgesSetting.qml</file>
         <file>Images/design.png</file>
+        <file>Icons/czech-republic.png</file>
+        <file>Icons/ireland.png</file>
+        <file>Icons/moldova.png</file>
+        <file>Icons/seychelles.png</file>
+        <file>Icons/united-states.png</file>
+        <file>Icons/singapore.png</file>
     </qresource>
 </RCC>

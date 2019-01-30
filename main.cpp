@@ -4,6 +4,7 @@
 #include "radialbar.h"
 #include "process.h"
 #include "gsettings.h"
+#include "qfile.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<RadialBar>("CustomControls", 1, 0, "RadialBar");
     qmlRegisterType<Process>("Process", 1, 0, "Process");
     qmlRegisterType<Qgsettings>("Gsettings", 1, 0, "Qgsettings");
+    qmlRegisterType<QmlFile>("QmlFile", 1, 0, "QmlFile");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

@@ -28,10 +28,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 50
-//        color: "#991DE9B6"
         color : "#009688"
-//        color: Material.Teal
-
 
         Text {
             id: connectTo
@@ -148,18 +145,26 @@ Item {
                         ListElement { title: "Optimal"; icon: "qrc:/Icons/speed.png"; code: "ww"}
                         ListElement { title: "Austria"; icon: "qrc:/Icons/austria.png"; code: "au"}
                         ListElement { title: "Canada"; icon: "qrc:/Icons/canada.png"; code: "ca" }
+                        ListElement { title: "Czech"; icon: "qrc:/Icons/czech-republic.png"; code: "cz" }
                         ListElement { title: "Finland"; icon: "qrc:/Icons/finland.png"; code: "fi" }
                         ListElement { title: "France"; icon: "qrc:/Icons/france.png"; code: "fr" }
-                        ListElement { title: "Germany"; icon: "qrc:/Icons/germany.png"; code: "de" }
+                        ListElement { title: "Germany"; icon: "qrc:/Icons/germany.png"; code: "de" }                        
+                        ListElement { title: "Ireland"; icon: "qrc:/Icons/ireland.png"; code: "ie" }
+                        ListElement { title: "Moldova"; icon: "qrc:/Icons/moldova.png"; code: "md" }
                         ListElement { title: "Netherlands"; icon: "qrc:/Icons/netherlands.png"; code: "nl" }
                         ListElement { title: "Norway"; icon: "qrc:/Icons/norway.png"; code: "no" }
                         ListElement { title: "Poland"; icon: "qrc:/Icons/poland.png"; code: "pl" }
                         ListElement { title: "Romania"; icon: "qrc:/Icons/romania.png"; code: "ro" }
+                        ListElement { title: "Russia"; icon: "qrc:/Icons/russia.png"; code: "su" }
+                        ListElement { title: "Seychelles"; icon: "qrc:/Icons/seychelles.png"; code: "sc" }
+                        ListElement { title: "Singapore"; icon: "qrc:/Icons/singapore.png"; code: "sg" }
                         ListElement { title: "Spain"; icon: "qrc:/Icons/spain.png"; code: "es" }
                         ListElement { title: "Sweden"; icon: "qrc:/Icons/sweden.png"; code: "se" }
                         ListElement { title: "Switzerland"; icon: "qrc:/Icons/switzerland.png"; code: "ch" }
                         ListElement { title: "Ukraine"; icon: "qrc:/Icons/ukraine.png"; code: "ua" }
                         ListElement { title: "United Kingdom"; icon: "qrc:/Icons/united-kingdom.png"; code: "uk" }
+                        ListElement { title: "United States"; icon: "qrc:/Icons/united-states.png"; code: "us" }
+
                     }
                 }
             }

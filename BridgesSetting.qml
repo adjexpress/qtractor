@@ -3,17 +3,23 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
 import Process 1.0
 import Gsettings 1.0
+import QmlFile 1.0
+import QtQuick.Dialogs 1.2
 
 Item {
     id: root
 
+    QmlFile {
+        id: bridgesFile
+
+        name: ".config/tractor/Bridges"
+        homeDir: true
+    }
+
     property int initial: {
         dconf.settingNew()
         useBridgesDelegate.checked = dconf.getBoolValue("use-bridges")
-//        process.setProgram("cat")
-//        process.setArguments()
-//        process.start("cat /etc/tor/torrc")
-        birdgesWhereis.start("tractor bridgesfile")
+        bridgesText.text = bridgesFile.readAll()
         return 0
     }
 
@@ -23,26 +29,6 @@ Item {
         id: dconf
 
         schema: "org.tractor"
-    }
-
-    Process {
-        id: birdgesWhereis
-
-        onReadyReadStandardOutput: {
-            bridgesPath = readAll()
-        }
-
-        onFinished: {
-            echoToBridgesText.start("cat " + bridgesPath)
-        }
-    }
-
-    Process {
-        id: echoToBridgesText
-
-        onReadyReadStandardOutput: {
-            bridgesText.text = readAll()
-        }
     }
 
     SwitchDelegate {
@@ -77,11 +63,11 @@ Item {
         id: bridgesDelegate
 
         Material.accent: "#FF5722"
-        //text: "Bridges"
         anchors.top: useBridgesDelegate.bottom
         anchors.left: root.left
         anchors.right: root.right
-        height: root.height / 2
+        height: root.height / 3 * 2
+
 
         Text {
             id: bridges
@@ -96,23 +82,66 @@ Item {
             anchors.topMargin: 25
         }
 
+        Button {
+            id: saveBtn
+
+            Material.theme: Material.Light
+            Material.background: "#FF5722"
+            anchors.right: parent.right
+            anchors.rightMargin: 15
+            anchors.verticalCenter: bridges.verticalCenter
+            text: "Save"
+            property int charCunt: 0
+
+            onClicked: {
+                charCunt = bridgesFile.write(bridgesText.text)
+                saveDialog.open()
+            }
+
+        }
+
         ScrollView {
             id: bridgesScroll
 
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.top: bridges.bottom
             anchors.right: parent.right
-            anchors.rightMargin: 15
+            anchors.left: parent.left
+            anchors.margins: 15
             width: parent.width - 95
-            height: parent.height - 40
+            height: parent.height - 80
             clip: true
 
             TextArea {
                 id: bridgesText
 
+                Material.theme: Material.Light
+                Material.foreground: "white"
                 wrapMode: "WrapAnywhere"
                 selectByMouse: true
                 font.pointSize: 12
             }
+        }
+
+        ToolTip {
+            text: qsTr("Example: Bridge obfs4 194.13 . . .")
+            visible: parent.hovered
+            delay: 2000
+            timeout: 3000
+            font.pointSize: 10
+            font.weight: Font.Light
+        }
+    }
+
+    Dialog {
+        id: saveDialog
+
+        visible: false
+        standardButtons: StandardButton.Close
+        title: "Saved"
+
+        Text {
+            text: saveBtn.charCunt + " charecter saved."
+            anchors.centerIn: parent
         }
     }
 
