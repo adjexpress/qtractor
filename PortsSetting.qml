@@ -33,7 +33,7 @@ Item {
         SpinBox {
             id: socksBox
 
-            Material.accent: "#FF5722"
+            Material.accent: "#E91E63"
             from: 1
             to: 9999
             //value: 9052
@@ -60,7 +60,7 @@ Item {
         SpinBox {
             id: dnsBox
 
-            Material.accent: "#FF5722"
+            Material.accent: "#E91E63"
             from: 1
             to: 9999
             //value: 9053

@@ -40,5 +40,7 @@
         <file>Icons/seychelles.png</file>
         <file>Icons/united-states.png</file>
         <file>Icons/singapore.png</file>
+        <file>Icons/right_arrow.png</file>
+        <file>Icons/right.png</file>
     </qresource>
 </RCC>

@@ -27,17 +27,27 @@ Item {
         anchors.top: root.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 50
-        color : "#009688"
+        height: 60
+//        color : "#009688"
+        color: "transparent"
+
+        Rectangle {
+            height: 0.5
+            width: parent.width - 30
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: "#509E9E9E"
+        }
 
         Text {
-            id: connectTo
-
-            text: qsTr("Connect to")
-            font.pointSize: 10
-            anchors.top: countryImage.top
-            anchors.left: countryName.left
-            color: "black"
+            text: qsTr("Exit node:")
+            font.pointSize: 13
+            font.weight: Font.Medium
+//            anchors.top: countryImage.top
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: countryImage.right
+            anchors.leftMargin: 10
+            color: "#9E9E9E"
         }
 
         Text {
@@ -55,11 +65,15 @@ Item {
                 return "Optimal"
             }
             color: "#FAFAFA"
-            font.pointSize: 12
+            font.pointSize: 13
+            font.weight: Font.Medium
             //font.bold: true
-            anchors.left: countryImage.right
-            anchors.leftMargin: 15
-            anchors.bottom: countryImage.bottom
+//            anchors.left: countryImage.right
+            anchors.right: parent.right
+//            anchors.leftMargin: 15
+            anchors.rightMargin: 15
+//            anchors.bottom: countryImage.bottom
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         Image {
@@ -79,8 +93,9 @@ Item {
             height: 35
             anchors.left: parent.left
             anchors.leftMargin: 15
-            anchors.top: parent.top
-            anchors.topMargin: 7.5
+//            anchors.top: parent.top
+//            anchors.topMargin: 7.5
+            anchors.verticalCenter: parent.verticalCenter
 
             Popup {
                 id: countryPopup
@@ -129,7 +144,7 @@ Item {
                             countryImage.source = model.icon
                             countryName.text = model.title
                             dconf.setStringValue("exit-node", model.code)
-                            if (bootstrapText.text == "Tractor is connected.") {
+                            if (tractorCondition.text == "Tractor is connected.") {
                                 processRestart.start(processRestart.command)
                             }
                             countryAnim.start()
@@ -168,14 +183,16 @@ Item {
                     }
                 }
             }
-        }
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                onClicked: countryPopup.open()
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    onClicked: countryPopup.open()
+                }
             }
         }
+
+
     }
 
     SwitchDelegate {
@@ -190,6 +207,7 @@ Item {
         font.bold: true
 
         ToolTip {
+            Material.theme: Material.Light
             text: qsTr("Whether or not allowing external devices <br> to use this network")
             visible: parent.hovered
             delay: 2000
@@ -206,158 +224,355 @@ Item {
         }
     }
 
-    // animated Rectangle
     Rectangle {
-        id: indicatorCircle
+        id: barContainer
 
+        anchors.top: acceptConnectionDelegate.bottom
+        anchors.right: parent.right
+        anchors.bottom: logTxtRec.top
+        anchors.left: parent.left
         color: "transparent"
-        border.width: 2
-        border.color: "#191a2f"
-        anchors.centerIn: parent
-        width: 192
-        height: 192
-        radius: 192
-        opacity: {
-            if (bar.value == 0)
-                return 1
-            else
-                return 0
-        }
-    }
 
-    // - - - - circular bar - - - -
-    Rectangle {
-        id: barForground
+        // animated Rectangle
+        Rectangle {
+            id: indicatorCircle
 
-        color: "transparent"
-        border.width: 10
-        border.color: "#191a2f"
-        anchors.centerIn: parent
-        width: 195
-        height: 195
-        radius: 195
-    }
-
-    RadialBar {
-        id: bar
-
-        anchors.centerIn: parent
-        width: 200
-        height: 200
-        penStyle: Qt.RoundCap
-        dialType: RadialBar.FullDial
-        progressColor: "#FF5722"
-        foregroundColor: "transparent"  // foreground declared seperatly.
-        dialWidth: 16
-        startAngle: 0
-        spanAngle: 70
-        minValue: 0
-        maxValue: 100
-        value: {
-            if (bootstrapText.text == "Tractor is connected.")
-                return 100
-            else
-                return 0
-        }
-
-        textFont {
-            family: "Halvetica"
-            italic: false
-            pointSize: 16
-        }
-        suffixText: "%"
-        //textColor: "#00FAFAFA"
-        textColor: {
-            if (value == 100 || value == 0)
-                return "#00FAFAFA"
-            else
-                return "#FFFAFAFA"
-        }
-
-        Behavior on value {
-            id: progressAnim
-
-            NumberAnimation {
-                duration: 500
-            }
-
-            enabled: false
-        }
-
-        Text {
-            id: barText
-
-            anchors.centerIn: parent
-
-            text: {
-                if (parent.value == 100)
-                    return "CONNECTED"
-                else
-                    return "CONNECT"
-            }
-
-            color: "#FAFAFA"
-
+            color: "transparent"
+            border.width: 1
+            border.color: "#E91E63"
+            anchors.centerIn: bar
+            width: 192
+            height: 192
+            radius: 192
             opacity: {
-                if (parent.value == 100 || parent.value == 0)
+                if (bar.value == 0)
                     return 1
                 else
                     return 0
             }
+        }
 
-            font.pointSize: 16
-            font.bold: true
+        // - - - - circular bar - - - -
+        RadialBar {
+            id: bar
 
-            Behavior on font.pointSize {
+            anchors.centerIn: parent
+            width: 190
+            height: 190
+            penStyle: Qt.RoundCap
+            dialType: RadialBar.FullDial
+    //        progressColor: "#FF5722"
+            progressColor: "#E91E63"
+            foregroundColor: "#191a2f"  // foreground declared seperatly.
+            dialWidth: 10
+            startAngle: 0
+            spanAngle: 70
+            minValue: 0
+            maxValue: 100
+            value: {
+                if (tractorCondition.text == "Tractor is connected.")
+                    return 100
+                else
+                    return 0
+            }
+            textFont {
+                family: "Halvetica"
+                italic: false
+                pointSize: 16
+
+            }
+            suffixText: "%"
+//            textColor: "#00FAFAFA"
+
+            textColor: {
+                if (value == 100 || value == 0)
+                    return "#00FAFAFA"
+                else
+                    return "#FFFAFAFA"
+            }
+//            BusyIndicator {
+//                Material.accent: "white"
+//                running: {
+//                    if (parent.value == 100 || parent.value == 0)
+//                        return false
+//                    else
+//                        return true
+//                }
+//                anchors.left: barText.right
+//                anchors.verticalCenter: barText.verticalCenter
+//                width: 40
+//                height: 40
+//            }
+
+            Behavior on value {
+                id: progressAnim
+
                 NumberAnimation {
-                    duration: 400
-                    easing.type: "OutElastic"
+                    duration: 500
+                }
+
+                enabled: false
+            }
+
+            Text {
+                id: barText
+
+                anchors.centerIn: parent
+
+                text: {
+                    if (parent.value == 100) {
+                        return "Stop"
+                    } else {
+                        return "Connect"
+                    }
+                }
+                anchors.verticalCenterOffset: {
+                    if (parent.value == 100)
+                        return 25
+                    else
+                        return 0
+                }
+    //            color: "#FAFAFA"
+                color: {
+                    if (parent.value == 100)
+                        return "#E91E63"
+                    else
+                        return "#FAFAFA"
+                }
+
+                opacity: {
+                    if (parent.value == 100 || parent.value == 0)
+                        return 1
+                    else
+                        return 0
+                }
+
+                font.pointSize: 16
+                font.bold: true
+
+                Behavior on font.pointSize {
+                    NumberAnimation {
+                        duration: 400
+                        easing.type: "OutElastic"
+                    }
+                }
+            }
+
+            Text {
+                id: timerText
+
+                visible: {
+                    if (bar.value == 100) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+
+                onVisibleChanged: {
+                    s = ss = m = mm = h = hh = 0
+                }
+
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset: -15
+                property int s: 0
+                property int ss: 0
+                property int m: 0
+                property int mm: 0
+                property int h: 0
+                property int hh: 0
+                text: hh.toString() + h + ":" + mm + m + ":" + ss + s
+                color: "white"
+                font.weight: Font.Medium
+                font.pointSize: 18
+                onSChanged: {
+                    if (s == 10) {
+                        s = 0
+                        ss++
+                    }
+                }
+                onSsChanged: {
+                    if (ss == 6) {
+                        ss = 0
+                        m++
+                    }
+                }
+                onMChanged: {
+                    if (m == 10) {
+                        m = 0
+                        mm++
+                    }
+                }
+                onMmChanged: {
+                    if (mm == 6) {
+                        mm = 0
+                        h++
+                    }
+                }
+                onHChanged: {
+                    if (h == 10) {
+                        h = 0
+                        hh++
+                    }
+                }
+
+                Timer {
+                    id: timer
+
+                    repeat: true
+                    running: {
+                        if (bar.value == 100) {
+                            return true
+                        }
+                        else {
+                            return false
+                        }
+                    }
+
+                    onTriggered: {
+                        parent.s++
+                    }
+                }
+            }
+
+    //        Text {
+    //            id: disconnectText
+
+    //            anchors.centerIn: parent
+    //            anchors.verticalCenterOffset: 30
+    //            color: "#FAFAFA"
+    //            text: "Click To Disconnect"
+    //            font.pointSize: 10
+    //            opacity: {
+    //                if (parent.value == 100)
+    //                    return 1
+    //                else
+    //                    return 0
+    //            }
+    //        }
+
+            MouseArea {
+                id: barMouseArea
+                anchors.fill: parent
+
+                hoverEnabled: true
+
+                onClicked: {
+                    //progressAnim.enabled = true
+                    if (parent.value == 0){
+                        //focus = false  // for animation
+                        processStart.start("tractor start")
+
+                        //parent.value = 100
+
+                    } else if (parent.value == 100) {
+                        //focus = false
+                        processStop.start("tractor stop")
+                        //parent.value = 0
+                    } else { }
+                }
+            }
+        }
+        // , , , , , , , , , , , , , , ,
+
+    }
+
+    Rectangle {
+        id: logTxtRec
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 170
+        anchors.left: parent.left
+        anchors.leftMargin: 15
+        width: logTxt.width + arrow.width
+        height: arrow.width
+        color: "transparent"
+
+        Text {
+            id: logTxt
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            text: "Log"
+            font.family: ubuntuFontMono.name
+            font.pointSize: 18
+            color: "white"
+        }
+
+        Image {
+            id: arrow
+
+            source: "/Icons/right.png"
+            anchors.left: logTxt.right
+            anchors.leftMargin: 5
+            anchors.verticalCenter: logTxt.verticalCenter
+            width: 20
+            height: 20
+
+            Behavior on rotation {
+                NumberAnimation {
+                    duration: 200
                 }
             }
         }
 
-        Text {
-            id: disconnectText
-
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: 30
-            color: "#FAFAFA"
-            text: "Click To Disconnect"
-            font.pointSize: 10
-            opacity: {
-                if (parent.value == 100)
-                    return 1
-                else
-                    return 0
-            }
-        }
-
         MouseArea {
-            id: barMouseArea
             anchors.fill: parent
-
-            hoverEnabled: true
-
             onClicked: {
-                //progressAnim.enabled = true
-                if (parent.value == 0){
-                    //focus = false  // for animation
-                    processStart.start("tractor start")
-
-                    //parent.value = 100
-
-                } else if (parent.value == 100) {
-                    //focus = false
-                    processStop.start("tractor stop")
-                    //parent.value = 0
-                } else { }
+                if (arrow.rotation == 0) {
+                    arrow.rotation += 90
+                    bootstrapTextContainer.height = 150
+                } else {
+                    arrow.rotation = 0
+                    bootstrapTextContainer.height = 0
+                }
             }
         }
     }
-    // , , , , , , , , , , , , , , ,
+
+    Rectangle {
+        id: bootstrapTextContainer
+
+        anchors.top: logTxtRec.bottom
+        anchors.topMargin: 5
+        anchors.left: parent.left
+        anchors.leftMargin: 15
+        anchors.right: parent.right
+        anchors.rightMargin: 15
+//        anchors.bottom: parent.bottom
+//        anchors.bottomMargin: 15
+        height: 0
+        color: "#FFFDE7"
+        radius: 2
+
+        Behavior on height {
+            NumberAnimation {
+                duration: 200
+            }
+        }
+
+        ScrollView {
+            anchors.fill: parent
+//            anchors.margins: 1
+            clip: true
+
+            TextArea {
+                id: bootstrapText
+
+                Material.theme: Material.Dark
+                Material.foreground: "#212121"
+                Material.accent: "transparent"
+                font.pointSize: 12
+                font.family: ubuntuFontMono.name
+                readOnly: true
+                wrapMode: "WrapAnywhere"
+                cursorPosition: length - 5
+            }
+        }
+    }
 
     Text {
-        id: bootstrapText
+        id: tractorCondition
 
         //visible: false
         //width: root.width - 200
@@ -371,12 +586,12 @@ Item {
                     text.includes("Reached timeout.") || text == "Tractor is not connected.")
                 return "#E91E63"
             else
-                return "#1DE9B6"
+                return "#64FFDA"
         }
-
         text: ""
         font.family: ubuntuFontMono.name
         font.pointSize: 12
+        visible: false
     }
 
     Process {
@@ -393,27 +608,28 @@ Item {
             progressAnim.enabled = false
         }
 
-        //onReadyReadStandardOutput: bootstrapText.text = readAll()
+        //onReadyReadStandardOutput: tractorCondition.text = readAll()
         onReadyReadStandardOutput: {
             str = readAll()
             if (str.includes("Tractor")) {
-                if (str.includes("Starting"))
-                    bootstrapText.text = "Starting Tractor"
-                else if (str.includes("conneted"))
-                    bootstrapText.text = "Tractor is connected."
-                else
-                    bootstrapText.text = str.slice(7, str.length - 5)
+                if (str.includes("Starting")) {
+                    tractorCondition.text = "Starting Tractor"
+                } else if (str.includes("conneted")) {
+                    tractorCondition.text = "Tractor is connected."
+                } else {
+                    tractorCondition.text = str.slice(7, str.length - 5)
+                }
             }
             else if (str.includes("Bootstrapped")) {
-                bootstrapText.text = str.slice(str.indexOf("Bootstrapped") + 13, str.length - 5)
+                tractorCondition.text = str.slice(str.indexOf("Bootstrapped") + 13, str.length - 5)
                 bar.value = parseInt(str.slice(str.indexOf("Bootstrapped") + 13, str.indexOf("%")))
             } else {
-                bootstrapText.text = str.slice(5, str.length - 5)
+                tractorCondition.text = str.slice(5, str.length - 5)
                 if (str.includes("Reached timeout.")) {
                     bar.value = 0
                 }
             }
-
+            bootstrapText.text += tractorCondition.text + "\n"
         }
     }
 
@@ -421,18 +637,18 @@ Item {
         id: processStop
 
         property string str: ""
-        //onReadyReadStandardOutput: bootstrapText.text = readAll()
+        //onReadyReadStandardOutput: tractorCondition.text = readAll()
         onReadyReadStandardOutput: {
             str = readAll()
             if (str.includes("Tractor"))
-                bootstrapText.text = str.slice(7, str.length - 5)
+                tractorCondition.text = str.slice(7, str.length - 5)
             else
-                bootstrapText.text = str.slice(5, str.length - 5)
+                tractorCondition.text = str.slice(5, str.length - 5)
+            bootstrapText.text += tractorCondition.text + "\n"
         }
-
         onFinished: {
             //barMouseArea.focus = true
-            if (bootstrapText.text == "Tractor stopped")
+            if (tractorCondition.text == "Tractor stopped")
                 bar.value = 0
         }
     }
@@ -441,22 +657,25 @@ Item {
         id: isRunning
 
         onFinished: {
-            bootstrapText.opacity = 1
-            if (bootstrapText.text.includes("True"))
-                bootstrapText.text = "Tractor is connected."
+//            tractorCondition.opacity = 1
+            if (tractorCondition.text.includes("True"))
+                tractorCondition.text = "Tractor is connected."
             else {
-                bootstrapText.text = "Tractor is not connected."
+                tractorCondition.text = "Tractor is not connected."
             }
+            bootstrapText.text += tractorCondition.text + "\n"
         }
 
-        onReadyReadStandardOutput: bootstrapText.text = readAll()
+        onReadyReadStandardOutput: {
+            tractorCondition.text = readAll()
+        }
     }
 
     Process {
         id: processRestart
 
         property string command: "tractor stop"
-        //onReadyReadStandardOutput: bootstrapText.text = readAll()
+        //onReadyReadStandardOutput: tractorCondition.text = readAll()
 
         onFinished: {
             bar.value = 0
@@ -490,7 +709,7 @@ Item {
         NumberAnimation {
             target: indicatorCircle
             property: "width"
-            from: 190
+            from: 180
             to: 260
             duration: 2000
             easing.type: "InQuint"
@@ -499,7 +718,7 @@ Item {
         NumberAnimation {
             target: indicatorCircle
             property: "height"
-            from: 190
+            from: 180
             to: 260
             duration: 2000
             easing.type: "InQuint"
@@ -508,7 +727,7 @@ Item {
         ColorAnimation {
             target: indicatorCircle
             property: "border.color"
-            from: "#191a2f"
+            from: "#455A64"
             to: "transparent"
             duration: 2000
             easing.type: "InExpo"
@@ -527,46 +746,46 @@ Item {
         easing.type: "OutElastic"
     }
 
-    SequentialAnimation {
-        id: barTextColorAnim
+//    SequentialAnimation {
+//        id: barTextColorAnim
 
-        running: {
-            if (bar.value == 0 && barMouseArea.containsMouse)
-                return true
-            else
-                return false
-        }
+//        running: {
+//            if (bar.value == 0 && barMouseArea.containsMouse)
+//                return true
+//            else
+//                return false
+//        }
 
-        loops: Animation.Infinite
+//        loops: Animation.Infinite
 
-        onStarted: {
-            barText.font.pointSize = 18
-            //indicatorAnim.stop()
-        }
+//        onStarted: {
+//            barText.font.pointSize = 18
+//            //indicatorAnim.stop()
+//        }
 
-        onStopped: {
-            barText.font.pointSize = 16
-            barText.color = "#FAFAFA"
-            //indicatorAnim.start()
-        }
+//        onStopped: {
+//            barText.font.pointSize = 16
+//            barText.color = "#FAFAFA"
+//            //indicatorAnim.start()
+//        }
 
-        ColorAnimation {
-            target: barText
-            property: "color"
-            from: "#E91E63"
-            to: "#242542"
-            duration: 800
-            easing.type: "InOutCubic"
-        }
+//        ColorAnimation {
+//            target: barText
+//            property: "color"
+//            from: "#E91E63"
+//            to: "#242542"
+//            duration: 800
+//            easing.type: "InOutCubic"
+//        }
 
-        ColorAnimation {
-            target: barText
-            property: "color"
-            from: "#242542"
-            to: "#E91E63"
-            duration: 800
-            easing.type: "InOutCubic"
-        }
-    }
+//        ColorAnimation {
+//            target: barText
+//            property: "color"
+//            from: "#242542"
+//            to: "#E91E63"
+//            duration: 800
+//            easing.type: "InOutCubic"
+//        }
+//    }
     // , , , , , , , , , , , , , , , , , , , ,
 }

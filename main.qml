@@ -32,10 +32,6 @@ Window {
         id: backgroundImage
 
         source: "qrc:/Images/design.png"
-        /*anchors.top: parent.top
-        anchors.bottom: footer.top
-        anchors.right: parent.right
-        anchors.left: parent.left*/
         anchors.fill: parent
 
         fillMode: Image.Tile
@@ -47,9 +43,9 @@ Window {
         id: footer
 
         Material.theme: Material.Light
-        Material.background: "#25FAFAFA"
+        Material.background: "#20FAFAFA"
         Material.foreground: "#FAFAFA"
-        Material.accent: "#FF5722"
+//        Material.accent: "#FF5722"
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.left: parent.left

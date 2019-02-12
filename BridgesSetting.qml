@@ -61,7 +61,7 @@ Item {
     ItemDelegate {
         id: bridgesDelegate
 
-        Material.accent: "#FF5722"
+        Material.accent: "#E91E63"
         anchors.top: useBridgesDelegate.bottom
         anchors.left: root.left
         anchors.right: root.right
@@ -86,7 +86,7 @@ Item {
 
             Material.theme: Material.Dark
             Material.background: "transparent"
-            Material.foreground: "#FF5722"
+            Material.foreground: "#E91E63"
             anchors.right: parent.right
             anchors.rightMargin: 15
             anchors.verticalCenter: bridges.verticalCenter
@@ -123,6 +123,7 @@ Item {
         }
 
         ToolTip {
+            Material.theme: Material.Light
             text: qsTr("Example: Bridge obfs4 194.13 . . .")
             visible: parent.hovered
             delay: 2000
@@ -140,6 +141,8 @@ Item {
         visible: false
         standardButtons: Dialog.Close
         title: "Saved"
+        width: 200
+        height: 150
 
         Text {
             text: saveBtn.charCunt + " charecter saved."
