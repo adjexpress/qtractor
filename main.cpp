@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QFont>
+#include <QFontDatabase>
 #include "radialbar.h"
 #include "process.h"
 #include "gsettings.h"
@@ -11,7 +12,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    app.setFont(QFont("Ubuntu"));
+    int fontId = QFontDatabase::addApplicationFont(":/Fonts/Ubuntu-R.ttf");
+    if (fontId != -1) {
+        QFont ubuntuFont("Ubuntu");
+        app.setFont(ubuntuFont);
+    }
 
     qmlRegisterType<RadialBar>("CustomControls", 1, 0, "RadialBar");
     qmlRegisterType<Process>("Process", 1, 0, "Process");
