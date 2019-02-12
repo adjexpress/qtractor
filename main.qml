@@ -26,7 +26,7 @@ Window {
     visible: true
     width: 360
     height: 640
-    title: qsTr("qtractor")
+    title: qsTr("traqtor")
 
     Image {
         id: backgroundImage
