@@ -27,17 +27,19 @@ Item {
         anchors.top: root.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 60
-//        color : "#009688"
-        color: "transparent"
+        anchors.margins: 5
+        height: 46
+        color : "#20FFFFFF"
+        radius: 22
+//        color: "transparent"
 
-        Rectangle {
-            height: 0.5
-            width: parent.width - 30
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: "#509E9E9E"
-        }
+//        Rectangle {
+//            height: 0.5
+//            width: parent.width - 30
+//            anchors.bottom: parent.bottom
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            color: "#509E9E9E"
+//        }
 
         Text {
             text: qsTr("Exit node:")
@@ -89,8 +91,8 @@ Item {
                 return "qrc:/Icons/speed.png"
             }
 
-            width: 35
-            height: 35
+            width: 30
+            height: 30
             anchors.left: parent.left
             anchors.leftMargin: 15
 //            anchors.top: parent.top
@@ -200,6 +202,7 @@ Item {
 
         Material.accent: "#F50057"
         anchors.top: header.bottom
+        anchors.topMargin: 5
         anchors.left: parent.left
         anchors.right: parent.right
         height: 50
@@ -227,10 +230,9 @@ Item {
     Rectangle {
         id: barContainer
 
-        anchors.top: acceptConnectionDelegate.bottom
-        anchors.right: parent.right
-        anchors.bottom: logTxtRec.top
-        anchors.left: parent.left
+        width: 195
+        height: 195
+        anchors.centerIn: parent
         color: "transparent"
 
         // animated Rectangle
@@ -252,19 +254,31 @@ Item {
             }
         }
 
+        Rectangle {
+            id: barForground
+
+            width: 190
+            height: 190
+            radius: 190
+            border.width: 8
+            border.color: "#191a2f"
+            color: "transparent"
+            anchors.centerIn: parent
+        }
+
         // - - - - circular bar - - - -
         RadialBar {
             id: bar
 
             anchors.centerIn: parent
-            width: 190
-            height: 190
+            width: 195
+            height: 195
             penStyle: Qt.RoundCap
             dialType: RadialBar.FullDial
     //        progressColor: "#FF5722"
             progressColor: "#E91E63"
-            foregroundColor: "#191a2f"  // foreground declared seperatly.
-            dialWidth: 10
+            foregroundColor: "transparent"  // foreground declared seperatly.
+            dialWidth: 13
             startAngle: 0
             spanAngle: 70
             minValue: 0
@@ -495,7 +509,7 @@ Item {
             anchors.left: parent.left
             text: "Log"
             font.family: ubuntuFontMono.name
-            font.pointSize: 18
+            font.pointSize: 14
             color: "white"
         }
 
@@ -506,8 +520,8 @@ Item {
             anchors.left: logTxt.right
             anchors.leftMargin: 5
             anchors.verticalCenter: logTxt.verticalCenter
-            width: 20
-            height: 20
+            width: 16
+            height: 16
 
             Behavior on rotation {
                 NumberAnimation {
@@ -555,6 +569,12 @@ Item {
             anchors.fill: parent
 //            anchors.margins: 1
             clip: true
+
+            Behavior on height {
+                NumberAnimation {
+                    duration: 200
+                }
+            }
 
             TextArea {
                 id: bootstrapText

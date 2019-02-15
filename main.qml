@@ -43,9 +43,9 @@ Window {
         id: footer
 
         Material.theme: Material.Light
-        Material.background: "#20FAFAFA"
+        Material.background: "#00FFFFFF"
         Material.foreground: "#FAFAFA"
-//        Material.accent: "#FF5722"
+//        Material.accent: "#2196F3"
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.left: parent.left
