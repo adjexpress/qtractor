@@ -29,7 +29,7 @@ Item {
         anchors.right: parent.right
         anchors.margins: 5
         height: 46
-        color : "#20FFFFFF"
+        color : "#25FFFFFF"
         radius: 22
 //        color: "transparent"
 
