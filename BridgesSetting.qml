@@ -137,7 +137,9 @@ Item {
         id: saveDialog
 
         Material.theme: Material.Light
-        anchors.centerIn: root
+//        anchors.centerIn: root
+        x: (root.width - width) / 2
+        y: (root.height - height) / 2
         visible: false
         standardButtons: Dialog.Close
         title: "Saved"

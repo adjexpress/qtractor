@@ -27,10 +27,10 @@ Item {
         anchors.top: root.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: 5
-        height: 46
-        color : "#25FFFFFF"
-        radius: 22
+        anchors.margins: 6
+        height: 40
+        color : "#30FFFFFF"
+        radius: 19
 //        color: "transparent"
 
 //        Rectangle {
@@ -41,6 +41,13 @@ Item {
 //            color: "#509E9E9E"
 //        }
 
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: parent.color = "#40FFFFFF"
+            onExited: parent.color = "#30FFFFFF"
+        }
+
         Text {
             text: qsTr("Exit node:")
             font.pointSize: 13
@@ -49,7 +56,8 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: countryImage.right
             anchors.leftMargin: 10
-            color: "#9E9E9E"
+//            color: "#9E9E9E"
+            color: "black"
         }
 
         Text {
@@ -94,7 +102,7 @@ Item {
             width: 30
             height: 30
             anchors.left: parent.left
-            anchors.leftMargin: 15
+            anchors.leftMargin: 8
 //            anchors.top: parent.top
 //            anchors.topMargin: 7.5
             anchors.verticalCenter: parent.verticalCenter
@@ -191,6 +199,7 @@ Item {
                 onClicked: {
                     onClicked: countryPopup.open()
                 }
+
             }
         }
 
@@ -296,7 +305,6 @@ Item {
 
             }
             suffixText: "%"
-//            textColor: "#00FAFAFA"
 
             textColor: {
                 if (value == 100 || value == 0)
@@ -449,22 +457,6 @@ Item {
                 }
             }
 
-    //        Text {
-    //            id: disconnectText
-
-    //            anchors.centerIn: parent
-    //            anchors.verticalCenterOffset: 30
-    //            color: "#FAFAFA"
-    //            text: "Click To Disconnect"
-    //            font.pointSize: 10
-    //            opacity: {
-    //                if (parent.value == 100)
-    //                    return 1
-    //                else
-    //                    return 0
-    //            }
-    //        }
-
             MouseArea {
                 id: barMouseArea
                 anchors.fill: parent
@@ -485,6 +477,14 @@ Item {
                         //parent.value = 0
                     } else { }
                 }
+
+                cursorShape: {
+                    if (parent.value == 0 || parent.value == 100) {
+                        return Qt.PointingHandCursor
+                    } else {
+                        return Qt.WaitCursor
+                    }
+                }
             }
         }
         // , , , , , , , , , , , , , , ,
@@ -495,7 +495,7 @@ Item {
         id: logTxtRec
 
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 170
+        anchors.bottomMargin: 150
         anchors.left: parent.left
         anchors.leftMargin: 15
         width: logTxt.width + arrow.width
@@ -535,7 +535,7 @@ Item {
             onClicked: {
                 if (arrow.rotation == 0) {
                     arrow.rotation += 90
-                    bootstrapTextContainer.height = 150
+                    bootstrapTextContainer.height = 130
                 } else {
                     arrow.rotation = 0
                     bootstrapTextContainer.height = 0
@@ -550,14 +550,15 @@ Item {
         anchors.top: logTxtRec.bottom
         anchors.topMargin: 5
         anchors.left: parent.left
-        anchors.leftMargin: 15
+//        anchors.leftMargin: 15
         anchors.right: parent.right
-        anchors.rightMargin: 15
+//        anchors.rightMargin: 15
+
 //        anchors.bottom: parent.bottom
 //        anchors.bottomMargin: 15
         height: 0
-        color: "#FFFDE7"
-        radius: 2
+        color: "#FFF9C4"
+//        radius: 2
 
         Behavior on height {
             NumberAnimation {
@@ -567,7 +568,8 @@ Item {
 
         ScrollView {
             anchors.fill: parent
-//            anchors.margins: 1
+            anchors.leftMargin: 15
+            anchors.rightMargin: 15
             clip: true
 
             Behavior on height {
@@ -581,6 +583,7 @@ Item {
 
                 Material.theme: Material.Dark
                 Material.foreground: "#212121"
+//                Material.foreground: "black"
                 Material.accent: "transparent"
                 font.pointSize: 12
                 font.family: ubuntuFontMono.name

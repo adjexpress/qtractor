@@ -25,7 +25,11 @@ Window {
 
     visible: true
     width: 360
+    maximumWidth: 360
+    minimumWidth: 360
     height: 640
+    maximumHeight: 640
+    minimumHeight: 640
     title: qsTr("traqtor")
 
     Image {
