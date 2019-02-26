@@ -19,6 +19,16 @@ Window {
     }
 
     FontLoader {
+        id: ubuntuMedium
+        source: "qrc:/Fonts/Ubuntu-M.ttf"
+    }
+
+    FontLoader {
+        id: ubuntuBold
+        source: "qrc:/Fonts/Ubuntu-B.ttf"
+    }
+
+    FontLoader {
         id: ubuntuFontMono
         source: "qrc:/Fonts/UbuntuMono-R.ttf"
     }
@@ -46,6 +56,7 @@ Window {
     TabBar {
         id: footer
 
+        font.family: ubuntuMedium.name
         Material.theme: Material.Light
         Material.background: "#00FFFFFF"
         Material.foreground: "#FAFAFA"

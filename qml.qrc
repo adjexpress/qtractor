@@ -42,5 +42,7 @@
         <file>Icons/singapore.png</file>
         <file>Icons/right_arrow.png</file>
         <file>Icons/right.png</file>
+        <file>Fonts/Ubuntu-M.ttf</file>
+        <file>Fonts/Ubuntu-B.ttf</file>
     </qresource>
 </RCC>

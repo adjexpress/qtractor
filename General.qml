@@ -30,7 +30,7 @@ Item {
         anchors.margins: 6
         height: 40
         color : "#30FFFFFF"
-        radius: 19
+        radius: 15
 //        color: "transparent"
 
 //        Rectangle {
@@ -51,7 +51,7 @@ Item {
         Text {
             text: qsTr("Exit node:")
             font.pointSize: 13
-            font.weight: Font.Medium
+//            font.weight: Font.Medium
 //            anchors.top: countryImage.top
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: countryImage.right
@@ -102,7 +102,7 @@ Item {
             width: 30
             height: 30
             anchors.left: parent.left
-            anchors.leftMargin: 8
+            anchors.leftMargin: 16
 //            anchors.top: parent.top
 //            anchors.topMargin: 7.5
             anchors.verticalCenter: parent.verticalCenter
@@ -492,130 +492,51 @@ Item {
     }
 
     Rectangle {
-        id: logTxtRec
+        id: conditionContainer
 
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 150
-        anchors.left: parent.left
-        anchors.leftMargin: 15
-        width: logTxt.width + arrow.width
-        height: arrow.width
-        color: "transparent"
-
-        Text {
-            id: logTxt
-
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            text: "Log"
-            font.family: ubuntuFontMono.name
-            font.pointSize: 14
-            color: "white"
-        }
-
-        Image {
-            id: arrow
-
-            source: "/Icons/right.png"
-            anchors.left: logTxt.right
-            anchors.leftMargin: 5
-            anchors.verticalCenter: logTxt.verticalCenter
-            width: 16
-            height: 16
-
-            Behavior on rotation {
-                NumberAnimation {
-                    duration: 200
-                }
-            }
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                if (arrow.rotation == 0) {
-                    arrow.rotation += 90
-                    bootstrapTextContainer.height = 130
-                } else {
-                    arrow.rotation = 0
-                    bootstrapTextContainer.height = 0
-                }
-            }
-        }
-    }
-
-    Rectangle {
-        id: bootstrapTextContainer
-
-        anchors.top: logTxtRec.bottom
-        anchors.topMargin: 5
-        anchors.left: parent.left
-//        anchors.leftMargin: 15
-        anchors.right: parent.right
-//        anchors.rightMargin: 15
-
-//        anchors.bottom: parent.bottom
-//        anchors.bottomMargin: 15
-        height: 0
-        color: "#FFF9C4"
-//        radius: 2
-
-        Behavior on height {
-            NumberAnimation {
-                duration: 200
-            }
-        }
-
-        ScrollView {
-            anchors.fill: parent
-            anchors.leftMargin: 15
-            anchors.rightMargin: 15
-            clip: true
-
-            Behavior on height {
-                NumberAnimation {
-                    duration: 200
-                }
-            }
-
-            TextArea {
-                id: bootstrapText
-
-                Material.theme: Material.Dark
-                Material.foreground: "#212121"
-//                Material.foreground: "black"
-                Material.accent: "transparent"
-                font.pointSize: 12
-                font.family: ubuntuFontMono.name
-                readOnly: true
-                wrapMode: "WrapAnywhere"
-                cursorPosition: length - 5
-            }
-        }
-    }
-
-    Text {
-        id: tractorCondition
-
-        //visible: false
-        //width: root.width - 200
-        height: 17
-        clip: true
         anchors.bottom: root.bottom
         anchors.bottomMargin: 25
         anchors.horizontalCenter: root.horizontalCenter
+        height: 19
+        width: tractorCondition.width + 12
+        radius: 7
+
         color: {
-            if (text == "Tractor is not Connected." || text == "Tractor stopped" ||
-                    text.includes("Reached timeout.") || text == "Tractor is not connected.")
+            if (tractorCondition.text == "Tractor is not Connected." ||
+                    tractorCondition.text == "Tractor stopped" ||
+                    tractorCondition.text.includes("Reached timeout.") ||
+                    tractorCondition.text == "Tractor is not connected.")
                 return "#E91E63"
             else
-                return "#64FFDA"
+                return "#1de99f"
         }
-        text: ""
-        font.family: ubuntuFontMono.name
-        font.pointSize: 12
-        visible: false
+
+        Text {
+            id: tractorCondition
+
+            //visible: false
+            //width: root.width - 200
+            height: 17
+            clip: true
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+//            color: {
+//                if (text == "Tractor is not Connected." || text == "Tractor stopped" ||
+//                        text.includes("Reached timeout.") || text == "Tractor is not connected.")
+//                    return "#E91E63"
+//                else
+//                    return "#64FFDA"
+//            }
+
+            color: "black"
+
+            text: ""
+            font.family: ubuntuFontMono.name
+            font.pointSize: 12
+        }
+
     }
+
 
     Process {
         id: processStart
@@ -652,7 +573,6 @@ Item {
                     bar.value = 0
                 }
             }
-            bootstrapText.text += tractorCondition.text + "\n"
         }
     }
 
@@ -667,7 +587,6 @@ Item {
                 tractorCondition.text = str.slice(7, str.length - 5)
             else
                 tractorCondition.text = str.slice(5, str.length - 5)
-            bootstrapText.text += tractorCondition.text + "\n"
         }
         onFinished: {
             //barMouseArea.focus = true
@@ -686,7 +605,6 @@ Item {
             else {
                 tractorCondition.text = "Tractor is not connected."
             }
-            bootstrapText.text += tractorCondition.text + "\n"
         }
 
         onReadyReadStandardOutput: {
@@ -769,46 +687,5 @@ Item {
         easing.type: "OutElastic"
     }
 
-//    SequentialAnimation {
-//        id: barTextColorAnim
-
-//        running: {
-//            if (bar.value == 0 && barMouseArea.containsMouse)
-//                return true
-//            else
-//                return false
-//        }
-
-//        loops: Animation.Infinite
-
-//        onStarted: {
-//            barText.font.pointSize = 18
-//            //indicatorAnim.stop()
-//        }
-
-//        onStopped: {
-//            barText.font.pointSize = 16
-//            barText.color = "#FAFAFA"
-//            //indicatorAnim.start()
-//        }
-
-//        ColorAnimation {
-//            target: barText
-//            property: "color"
-//            from: "#E91E63"
-//            to: "#242542"
-//            duration: 800
-//            easing.type: "InOutCubic"
-//        }
-
-//        ColorAnimation {
-//            target: barText
-//            property: "color"
-//            from: "#242542"
-//            to: "#E91E63"
-//            duration: 800
-//            easing.type: "InOutCubic"
-//        }
-//    }
     // , , , , , , , , , , , , , , , , , , , ,
 }
