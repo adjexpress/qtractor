@@ -1,0 +1,6 @@
+traqtor for Debian
+
+This is an GUI for tractor script , in c++ and Qt framework.
+tractor source code and description is here: https://gitlab.com/tractor-team/tractor
+
+ -- Mohsen Nezammolmolki <thelight.mn@gmail.com>  Tue, 26 Feb 2019 22:59:43 +0330
