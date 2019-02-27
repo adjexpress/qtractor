@@ -1,0 +1,18 @@
+Source: traqtor
+Section: net
+Priority: optional
+Maintainer: Mohsen Nezammolmolki <thelight.mn@gmail.com>
+Build-Depends: debhelper (>=9)
+Standards-Version: 3.9.8
+Homepage: <insert the upstream URL, if relevant>
+
+Package: traqtor
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}, tractor (>=2.2-0~)
+Description: Settings app for Tractor
+ This package is a graphical settings for tractor
+ which is an app using Python stem to provide
+ a connection through the onion proxy and sets up
+ proxy in user session, so you don't have to mess
+ up with TOR on your system anymore.
