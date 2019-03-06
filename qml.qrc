@@ -44,5 +44,7 @@
         <file>Icons/right.png</file>
         <file>Fonts/Ubuntu-M.ttf</file>
         <file>Fonts/Ubuntu-B.ttf</file>
+        <file>Images/global.png</file>
+        <file>Images/dot.png</file>
     </qresource>
 </RCC>

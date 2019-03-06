@@ -9,13 +9,13 @@ Item {
     id: root
 
     property string exitNode: "ww"
-    property int initial: {
+    Component.onCompleted: {
         isRunning.start("tractor isrunning")
         dconf.settingNew()
         exitNode = dconf.getStringValue("exit-node")
         acceptConnectionDelegate.checked = dconf.getBoolValue("accept-connection")
-        return 0
     }
+
     property Qgsettings tractorConf: dconf
 
     //property alias conf: dconf
@@ -27,10 +27,11 @@ Item {
         anchors.top: root.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: 6
-        height: 40
-        color : "#30FFFFFF"
-        radius: 15
+//        anchors.margins: 6
+        height: 50
+        color : "#191a2f"
+//        color: "#191a2f"
+//        radius: 15
 //        color: "transparent"
 
 //        Rectangle {
@@ -41,12 +42,15 @@ Item {
 //            color: "#509E9E9E"
 //        }
 
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            onEntered: parent.color = "#40FFFFFF"
-            onExited: parent.color = "#30FFFFFF"
-        }
+//        MouseArea {
+//            anchors.fill: parent
+//            hoverEnabled: true
+//            onEntered: parent.color = "#40FFFFFF"
+//            onExited: parent.color = "#30FFFFFF"
+//            onClicked: {
+//                onClicked: countryPopup.open()
+//            }
+//        }
 
         Text {
             text: qsTr("Exit node:")
@@ -57,7 +61,7 @@ Item {
             anchors.left: countryImage.right
             anchors.leftMargin: 10
 //            color: "#9E9E9E"
-            color: "black"
+            color: "#9E9E9E"
         }
 
         Text {
@@ -107,6 +111,16 @@ Item {
 //            anchors.topMargin: 7.5
             anchors.verticalCenter: parent.verticalCenter
 
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+
+                onClicked: {
+                    onClicked: countryPopup.open()
+                }
+            }
+
             Popup {
                 id: countryPopup
 
@@ -154,7 +168,7 @@ Item {
                             countryImage.source = model.icon
                             countryName.text = model.title
                             dconf.setStringValue("exit-node", model.code)
-                            if (tractorCondition.text == "Tractor is connected.") {
+                            if (bar.value == 100) {
                                 processRestart.start(processRestart.command)
                             }
                             countryAnim.start()
@@ -193,14 +207,6 @@ Item {
                     }
                 }
             }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    onClicked: countryPopup.open()
-                }
-
-            }
         }
 
 
@@ -211,7 +217,7 @@ Item {
 
         Material.accent: "#F50057"
         anchors.top: header.bottom
-        anchors.topMargin: 5
+//        anchors.topMargin: 5
         anchors.left: parent.left
         anchors.right: parent.right
         height: 50
@@ -239,9 +245,12 @@ Item {
     Rectangle {
         id: barContainer
 
-        width: 195
-        height: 195
-        anchors.centerIn: parent
+//        width: 195
+        anchors.top: acceptConnectionDelegate.bottom
+        anchors.bottom: globalContainer.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+//        anchors.centerIn: parent
         color: "transparent"
 
         // animated Rectangle
@@ -252,9 +261,9 @@ Item {
             border.width: 1
             border.color: "#E91E63"
             anchors.centerIn: bar
-            width: 192
-            height: 192
-            radius: 192
+            width: 152
+            height: 152
+            radius: 152
             opacity: {
                 if (bar.value == 0)
                     return 1
@@ -266,13 +275,43 @@ Item {
         Rectangle {
             id: barForground
 
-            width: 190
-            height: 190
-            radius: 190
-            border.width: 8
+            width: 160
+            height: 160
+            radius: 160
+            border.width: 6
             border.color: "#191a2f"
             color: "transparent"
             anchors.centerIn: parent
+
+            MouseArea {
+                id: barMouseArea
+                anchors.fill: barForground
+
+                hoverEnabled: true
+
+                onClicked: {
+                    //progressAnim.enabled = true
+                    if (bar.value == 0){
+                        //focus = false  // for animation
+                        processStart.start("tractor start")
+
+                        //parent.value = 100
+
+                    } else if (bar.value == 100) {
+                        //focus = false
+                        processStop.start("tractor stop")
+                        //parent.value = 0
+                    } else { }
+                }
+
+                cursorShape: {
+                    if (bar.value == 0 || bar.value == 100) {
+                        return Qt.PointingHandCursor
+                    } else {
+                        return Qt.WaitCursor
+                    }
+                }
+            }
         }
 
         // - - - - circular bar - - - -
@@ -280,20 +319,20 @@ Item {
             id: bar
 
             anchors.centerIn: parent
-            width: 195
-            height: 195
+            width: 165
+            height: 165
             penStyle: Qt.RoundCap
             dialType: RadialBar.FullDial
     //        progressColor: "#FF5722"
             progressColor: "#E91E63"
             foregroundColor: "transparent"  // foreground declared seperatly.
-            dialWidth: 13
-            startAngle: 0
+            dialWidth: 11
+            startAngle: 180
             spanAngle: 70
             minValue: 0
             maxValue: 100
             value: {
-                if (tractorCondition.text == "Tractor is connected.")
+                if (tractorCondition.text == "Tractor is connected")
                     return 100
                 else
                     return 0
@@ -457,38 +496,39 @@ Item {
                 }
             }
 
-            MouseArea {
-                id: barMouseArea
-                anchors.fill: parent
 
-                hoverEnabled: true
-
-                onClicked: {
-                    //progressAnim.enabled = true
-                    if (parent.value == 0){
-                        //focus = false  // for animation
-                        processStart.start("tractor start")
-
-                        //parent.value = 100
-
-                    } else if (parent.value == 100) {
-                        //focus = false
-                        processStop.start("tractor stop")
-                        //parent.value = 0
-                    } else { }
-                }
-
-                cursorShape: {
-                    if (parent.value == 0 || parent.value == 100) {
-                        return Qt.PointingHandCursor
-                    } else {
-                        return Qt.WaitCursor
-                    }
-                }
-            }
         }
         // , , , , , , , , , , , , , , ,
 
+    }
+
+    Rectangle {
+        id: globalContainer
+
+        anchors.bottom: conditionContainer.top
+        anchors.bottomMargin: 20
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "transparent"
+        width: 340
+        height: 170
+        Image {
+            id: global
+
+            source: "qrc:/Images/global.png"
+            anchors.fill: parent
+            opacity: 0.1
+        }
+
+        Image {
+            id: dotIndicator
+
+            source: "qrc:/Images/dot.png"
+            width: 20
+            height: 20
+            x: 200
+            y: 30
+            visible: false
+        }
     }
 
     Rectangle {
@@ -498,17 +538,69 @@ Item {
         anchors.bottomMargin: 25
         anchors.horizontalCenter: root.horizontalCenter
         height: 19
-        width: tractorCondition.width + 12
-        radius: 7
+        width: tractorCondition.width
+        Behavior on width {
+            NumberAnimation {
+//                duration: 500
+                easing.type: Easing.Linear
+            }
+        }
+
+        // - - - - template - - - -
+        Rectangle {
+            anchors.right: parent.left
+            anchors.bottom: parent.bottom
+            height: 10
+            width: 10
+            color: parent.color
+        }
+
+        Rectangle {
+            anchors.right: parent.left
+            anchors.rightMargin: -6
+            anchors.verticalCenter: parent.verticalCenter
+            height: 13.5
+            width: 13.5
+            rotation: 45
+            color: parent.color
+        }
+
+        Rectangle {
+            anchors.left: parent.right
+            anchors.top: parent.top
+            height: 10
+            width: 10
+            color: parent.color
+        }
+
+        Rectangle {
+            anchors.left: parent.right
+            anchors.leftMargin: -6
+            anchors.verticalCenter: parent.verticalCenter
+            height: 13.5
+            width: 13.5
+            rotation: 45
+            color: parent.color
+        }
+
+        // , , , , , , , , , , , , ,
+
+//        color: {
+//            if (tractorCondition.text == "Tractor is not Connected." ||
+//                    tractorCondition.text == "Tractor stopped" ||
+//                    tractorCondition.text.includes("Reached timeout.") ||
+//                    tractorCondition.text == "Tractor is not connected.")
+//                return "#191a2f"
+//            else
+//                return "#E91E63"
+//        }
 
         color: {
-            if (tractorCondition.text == "Tractor is not Connected." ||
-                    tractorCondition.text == "Tractor stopped" ||
-                    tractorCondition.text.includes("Reached timeout.") ||
-                    tractorCondition.text == "Tractor is not connected.")
+            if (bar.value == 100) {
                 return "#E91E63"
-            else
-                return "#1de99f"
+            } else {
+                return "#191a2f"
+            }
         }
 
         Text {
@@ -523,14 +615,48 @@ Item {
 //            color: {
 //                if (text == "Tractor is not Connected." || text == "Tractor stopped" ||
 //                        text.includes("Reached timeout.") || text == "Tractor is not connected.")
-//                    return "#E91E63"
+//                    return "#BDBDBD"
 //                else
-//                    return "#64FFDA"
+//                    return "black"
 //            }
-
-            color: "black"
+            visible: {
+                if (bar.value == 100)
+                    return false
+                else
+                    return true
+            }
 
             text: ""
+
+            Behavior on text {
+                ColorAnimation {
+                    target: tractorCondition
+                    property: "color"
+                    from: "transparent"
+                    to: "#BDBDBD"
+
+                    easing.type: Easing.Linear
+                }
+            }
+
+            font.family: ubuntuFontMono.name
+            font.pointSize: 12
+        }
+
+        Text {
+            height: 17
+            clip: true
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: "black"
+            visible: {
+                if (bar.value == 100)
+                    return true
+                else
+                    return false
+            }
+
+            text: tractorCondition.text
             font.family: ubuntuFontMono.name
             font.pointSize: 12
         }
@@ -559,7 +685,7 @@ Item {
                 if (str.includes("Starting")) {
                     tractorCondition.text = "Starting Tractor"
                 } else if (str.includes("conneted")) {
-                    tractorCondition.text = "Tractor is connected."
+                    tractorCondition.text = "Tractor is connected"
                 } else {
                     tractorCondition.text = str.slice(7, str.length - 5)
                 }
@@ -601,9 +727,9 @@ Item {
         onFinished: {
 //            tractorCondition.opacity = 1
             if (tractorCondition.text.includes("True"))
-                tractorCondition.text = "Tractor is connected."
+                tractorCondition.text = "Tractor is connected"
             else {
-                tractorCondition.text = "Tractor is not connected."
+                tractorCondition.text = "Tractor is not connected"
             }
         }
 
@@ -643,25 +769,25 @@ Item {
         loops: Animation.Infinite
 
         onStopped: {
-            indicatorCircle.width = 190
-            indicatorCircle.height = 190
+            indicatorCircle.width = 164
+            indicatorCircle.height = 164
         }
 
         NumberAnimation {
             target: indicatorCircle
             property: "width"
-            from: 180
-            to: 260
-            duration: 2000
+            from: 154
+            to: 250
+            duration: 1700
             easing.type: "InQuint"
         }
 
         NumberAnimation {
             target: indicatorCircle
             property: "height"
-            from: 180
-            to: 260
-            duration: 2000
+            from: 154
+            to: 240
+            duration: 1700
             easing.type: "InQuint"
         }
 
@@ -670,7 +796,7 @@ Item {
             property: "border.color"
             from: "#455A64"
             to: "transparent"
-            duration: 2000
+            duration: 1700
             easing.type: "InExpo"
         }
 
