@@ -45,6 +45,9 @@
         <file>Fonts/Ubuntu-M.ttf</file>
         <file>Fonts/Ubuntu-B.ttf</file>
         <file>Images/global.png</file>
-        <file>Images/dot.png</file>
+        <file>Icons/help.png</file>
+        <file>Icons/support.png</file>
+        <file>Images/edgePink.png</file>
+        <file>Images/edgeGray.png</file>
     </qresource>
 </RCC>

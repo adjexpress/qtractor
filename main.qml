@@ -60,35 +60,74 @@ Window {
         Material.theme: Material.Light
         Material.background: "#00FFFFFF"
         Material.foreground: "#FAFAFA"
-//        Material.accent: "#2196F3"
+        Material.accent: "transparent"
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        height: 50
+        height: 60
         position: TabBar.Footer
         currentIndex: view.currentIndex
 
         TabButton {
-            text: "General"
-            font.pointSize: 10
+//            text: "General"
+//            font.pointSize: 10
             icon.source: "/Icons/general.png"
             icon.height: 20
             icon.width: 20
+            icon.color: {
+                if (view.currentIndex == 0)
+                    return "#E91E63"
+                else
+                    return "#FAFAFA"
+            }
+
         }
+
         TabButton {
-            text: "Ports"
-            font.pointSize: 10
+//            text: "Ports"
+//            font.pointSize: 10
             icon.source: "/Icons/port.png"
             icon.height: 20
             icon.width: 20
+            icon.color: {
+                if (view.currentIndex == 1)
+                    return "#E91E63"
+                else
+                    return "#FAFAFA"
+            }
+
         }
+
         TabButton {
-            text: "Bridges"
-            font.pointSize: 10
+//            text: "Bridges"
+//            font.pointSize: 10
             icon.source: "/Icons/bridge.png"
             icon.height: 20
             icon.width: 20
+            icon.color: {
+                if (view.currentIndex == 2)
+                    return "#E91E63"
+                else
+                    return "#FAFAFA"
+            }
+
         }
+
+        TabButton {
+//            text: "Bridges"
+//            font.pointSize: 10
+            icon.source: "/Icons/support.png"
+            icon.height: 20
+            icon.width: 20
+            icon.color: {
+                if (view.currentIndex == 3)
+                    return "#E91E63"
+                else
+                    return "#FAFAFA"
+            }
+
+        }
+
     }
 
 
