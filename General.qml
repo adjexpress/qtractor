@@ -26,20 +26,13 @@ Item {
         Rectangle {
             id: bottomHeader
 
-            anchors.top : header.bottom
+            anchors.top : header.top
             anchors.left: header.left
-            width: header.width - 20
+            anchors.right: header.right
             height: 20
             color: parent.color
             z: -1
-            Rectangle {
-                anchors.horizontalCenter: parent.right
-                anchors.verticalCenter: parent.top
-                height: 40
-                width: 40
-                radius: 20
-                color: parent.color
-            }
+
         }
 
         Material.theme: Material.Light
@@ -47,22 +40,21 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
 //        anchors.margins: 6
-        height: 30
+        height: 50
         color : "#29292c"
-//        radius: 10
+        radius: 10
 //        color: "transparent"
 
         Text {
             text: qsTr("Exit node:")
             font.pointSize: 13
-//            font.weight: Font.Medium
+            font.weight: Font.Medium
 //            anchors.top: countryImage.top
             anchors.verticalCenter: parent.verticalCenter
-            anchors.verticalCenterOffset: bottomHeader.height / 2
             anchors.left: countryImage.right
             anchors.leftMargin: 10
-//            color: "black"
-            color: "white"
+            color: "black"
+//            color: "white"
         }
 
         Text {
@@ -89,7 +81,6 @@ Item {
             anchors.rightMargin: 15
 //            anchors.bottom: countryImage.bottom
             anchors.verticalCenter: parent.verticalCenter
-            anchors.verticalCenterOffset: bottomHeader.height / 2
         }
 
         Image {
@@ -112,7 +103,6 @@ Item {
 //            anchors.top: parent.top
 //            anchors.topMargin: 7.5
             anchors.verticalCenter: parent.verticalCenter
-            anchors.verticalCenterOffset: bottomHeader.height / 2
 
             MouseArea {
                 anchors.fill: parent
@@ -220,7 +210,7 @@ Item {
 
         Material.accent: "#F50057"
         anchors.top: header.bottom
-        anchors.topMargin: 21
+        anchors.topMargin: 1
         anchors.left: parent.left
         anchors.right: parent.right
         height: 50
@@ -250,9 +240,29 @@ Item {
 
 //        width: 195
         anchors.top: acceptConnectionDelegate.bottom
-        anchors.bottom: globalContainer.top
+//        anchors.bottom: globalContainer.top
         anchors.left: parent.left
         anchors.right: parent.right
+        height: {
+            if (bar.value == 100) {
+                return root.height - header.height -
+                acceptConnectionDelegate.height -
+                globalContainer.height - conditionContainer.height -
+                80  // to be beautifull
+            } else {
+                return root.height - header.height -
+                acceptConnectionDelegate.height -
+                conditionContainer.height - 80  // to be beautifull
+            }
+        }
+
+        Behavior on height {
+            NumberAnimation {
+                duration: 300
+                easing.type: Easing.OutQuad
+            }
+        }
+
 //        anchors.centerIn: parent
         color: "transparent"
 
@@ -509,12 +519,26 @@ Item {
     Rectangle {
         id: globalContainer
 
-        anchors.bottom: conditionContainer.top
-        anchors.bottomMargin: 20
+        anchors.bottom: root.bottom
+        anchors.bottomMargin: 75
         anchors.horizontalCenter: parent.horizontalCenter
         color: "transparent"
         width: 340
         height: 180
+        opacity: {
+            if (bar.value == 100)
+                return 1
+            else
+                return 0
+        }
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 300
+                easing.type: Easing.Linear
+            }
+        }
+
         Image {
             id: global
 
@@ -560,83 +584,8 @@ Item {
             }
         }
 
-        // - - - - template - - - -
-//        Rectangle {
-//            anchors.right: parent.left
-//            anchors.bottom: parent.bottom
-//            height: 10
-//            width: 10
-//            color: parent.color
-//        }
-
-//        Rectangle {
-//            anchors.horizontalCenter: parent.left
-//            anchors.verticalCenter: parent.verticalCenter
-//            height: 20
-//            width: 20
-//            radius: 20
-////            rotation: 45
-//            color: parent.color
-//        }
-
-//        Rectangle {
-//            anchors.left: parent.right
-//            anchors.top: parent.top
-//            height: 10
-//            width: 10
-//            color: parent.color
-//        }
-
-//        Rectangle {
-//            anchors.horizontalCenter: parent.right
-//            anchors.verticalCenter: parent.verticalCenter
-//            height: 20
-//            width: 20
-//            radius: 20
-//            color: parent.color
-//        }
-
-//        Image {
-//            source: "qrc:/Images/edgePink.png"
-//            height: 20
-//            width: 20
-//            anchors.left: parent.right
-//            anchors.verticalCenter: parent.verticalCenter
-//        }
-
-//        Image {
-//            source: "qrc:/Images/edgeGray.png"
-//            height: 20
-//            width: 20
-//            anchors.right: parent.left
-//            anchors.verticalCenter: parent.verticalCenter
-//        }
-
-//        Image {
-//            source: "qrc:/Images/edgePink.png"
-//            height: 20
-//            width: 20
-//            anchors.right: parent.left
-//            anchors.verticalCenter: parent.verticalCenter
-//            visible: {
-//                if (bar.value == 100)
-//                    return true
-//                else
-//                    return false
-//            }
-//        }
-
         // , , , , , , , , , , , , ,
 
-//        color: {
-//            if (tractorCondition.text == "Tractor is not Connected." ||
-//                    tractorCondition.text == "Tractor stopped" ||
-//                    tractorCondition.text.includes("Reached timeout.") ||
-//                    tractorCondition.text == "Tractor is not connected.")
-//                return "#29292c"
-//            else
-//                return "#E91E63"
-//        }
 
         Rectangle {
             width: tractorCondition.width * 2 / 3
@@ -662,13 +611,7 @@ Item {
 
         }
 
-//        color: {
-//            if (bar.value == 100) {
-//                return "#E91E63"
-//            } else {
-//                return "#191a2f"
-//            }
-//        }
+
         color: "transparent"
 
         Text {
@@ -882,6 +825,25 @@ Item {
             easing.type: "InExpo"
         }
 
+    }
+
+
+    NumberAnimation {
+        id: conditionAnim
+
+        running: {
+            if (bar.value == 100)
+                return true
+            else
+                return false
+        }
+
+        target: conditionContainer
+        property: "anchors.bottomMargin"
+        from: 40
+        to: 25
+        duration: 1000
+        easing.type: "OutElastic"
     }
 
     // animation for county flags when select.
