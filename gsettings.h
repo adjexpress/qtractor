@@ -1,9 +1,6 @@
 #include <QVariant>
-
 #undef signals
-
 #include <gio/gio.h>
-
 
 
 class Qgsettings : public QObject{
@@ -50,11 +47,20 @@ public:
         if (q_schema_id != str) {  // guard
             q_schema_id = str;
             m_schema_id = q_schema_id.data();
+//            emit schemaChanged();
         }
     }
+
+
+//signals:
+//    void schemaChanged();
 
 private:
     QByteArray q_schema_id;
     char* m_schema_id;
     GSettings* gSettingInstance;
 };
+
+#undef signals
+
+#include <gio/gio.h>

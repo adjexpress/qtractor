@@ -10,7 +10,6 @@
         <file>Images/black.jpg</file>
         <file>Images/blue.jpg</file>
         <file>Images/design.jpg</file>
-        <file>Images/water.jpg</file>
         <file>Icons/austria.png</file>
         <file>Icons/belgium.png</file>
         <file>Icons/canada.png</file>
@@ -47,7 +46,30 @@
         <file>Images/global.png</file>
         <file>Icons/help.png</file>
         <file>Icons/support.png</file>
-        <file>Images/edgePink.png</file>
-        <file>Images/edgeGray.png</file>
+        <file>Images/austria_map.png</file>
+        <file>Images/canada_map.png</file>
+        <file>Images/czech_map.png</file>
+        <file>Images/finland_map.png</file>
+        <file>Images/germany_map.png</file>
+        <file>Images/ireland_map.png</file>
+        <file>Images/moldova_map.png</file>
+        <file>Images/netherlands_map.png</file>
+        <file>Images/norway_map.png</file>
+        <file>Images/other_map.png</file>
+        <file>Images/poland_map.png</file>
+        <file>Images/romania_map.png</file>
+        <file>Images/romania_map.svg</file>
+        <file>Images/russia_map.png</file>
+        <file>Images/seychelles_map.png</file>
+        <file>Images/singapore_mag.png</file>
+        <file>Images/spain_map.png</file>
+        <file>Images/sweden_map.png</file>
+        <file>Images/switzerland_map.png</file>
+        <file>Images/ukraine_map.png</file>
+        <file>Images/unitedKingdom_map.png</file>
+        <file>Images/unitedStates_map.png</file>
+        <file>Images/france_map.png</file>
+        <file>Fonts/Ubuntu-C.ttf</file>
+        <file>Icons/torLogo.png</file>
     </qresource>
 </RCC>

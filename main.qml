@@ -33,6 +33,11 @@ Window {
         source: "qrc:/Fonts/UbuntuMono-R.ttf"
     }
 
+    FontLoader {
+        id: ubuntuFontCondensed
+        source: "qrc:/Fonts/Ubuntu-C.ttf"
+    }
+
     visible: true
     width: 360
     maximumWidth: 360

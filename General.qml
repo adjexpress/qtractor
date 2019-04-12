@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.3
+//import QtQuick.Controls.
 import CustomControls 1.0
 import Process 1.0
 import Gsettings 1.0
@@ -41,20 +42,22 @@ Item {
         anchors.right: parent.right
 //        anchors.margins: 6
         height: 50
-        color : "#29292c"
-        radius: 10
+//        color : "#29292c"
+        color: "#212121"
+//        radius: 5
 //        color: "transparent"
 
         Text {
             text: qsTr("Exit node:")
-            font.pointSize: 13
-            font.weight: Font.Medium
+            font.pointSize: 12
+//            font.weight: Font.Medium
+            font.weight: Font.Light
 //            anchors.top: countryImage.top
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: countryImage.right
             anchors.leftMargin: 10
-            color: "black"
-//            color: "white"
+//            color: "black"
+            color: "#EEEEEE"
         }
 
         Text {
@@ -128,10 +131,6 @@ Item {
                 bottomPadding: 10
                 leftPadding: 0
                 rightPadding: 0
-                /*background: Rectangle {
-                    border.color: "#00C853"
-                    color: "#00C853"
-                }*/
                 closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
                 ListView {
@@ -140,6 +139,7 @@ Item {
                     focus: true
                     anchors.fill: parent
                     clip: true
+                    currentIndex: -1
 
                     delegate: ItemDelegate {
                         width: parent.width
@@ -208,7 +208,7 @@ Item {
     SwitchDelegate {
         id: acceptConnectionDelegate
 
-        Material.accent: "#F50057"
+        Material.accent: "#E91E63"
         anchors.top: header.bottom
         anchors.topMargin: 1
         anchors.left: parent.left
@@ -247,7 +247,7 @@ Item {
             if (bar.value == 100) {
                 return root.height - header.height -
                 acceptConnectionDelegate.height -
-                globalContainer.height - conditionContainer.height -
+                conditionContainer.height - 180 -
                 80  // to be beautifull
             } else {
                 return root.height - header.height -
@@ -265,83 +265,86 @@ Item {
 
 //        anchors.centerIn: parent
         color: "transparent"
+        property real barScale: 150
 
         // animated Rectangle
-        Rectangle {
-            id: indicatorCircle
+//        Rectangle {
+//            id: indicatorCircle
 
-            color: "transparent"
-            border.width: 1
-            border.color: "#E91E63"
-            anchors.centerIn: bar
-            width: 152
-            height: 152
-            radius: 152
-            opacity: {
-                if (bar.value == 0)
-                    return 1
-                else
-                    return 0
-            }
-        }
+//            color: "transparent"
+//            border.width: 1
+//            border.color: "#E91E63"
+//            anchors.centerIn: bar
+//            width: 152
+//            height: 152
+//            radius: 152
+//            opacity: {
+//                if (bar.value == 0)
+//                    return 1
+//                else
+//                    return 0
+//            }
+//        }
 
-        Rectangle {
-            id: barForground
+//        Rectangle {
+//            id: barForground
 
-            width: 150
-            height: 150
-            radius: 150
-            border.width: 6
-            border.color: "#191a2f"
-            color: "transparent"
-            anchors.centerIn: parent
+//            width: parent.barScale
+//            height: parent.barScale
+//            radius: parent.barScale
+//            border.width: 6
+//            border.color: "#191a2f"
+//            color: "transparent"
+//            anchors.centerIn: parent
 
-            MouseArea {
-                id: barMouseArea
-                anchors.fill: barForground
+////            MouseArea {
+////                id: barMouseArea
+////                anchors.fill: barForground
 
-                hoverEnabled: true
+////                hoverEnabled: true
 
-                onClicked: {
-                    //progressAnim.enabled = true
-                    if (bar.value == 0){
-                        //focus = false  // for animation
-                        processStart.start("tractor start")
+////                onClicked: {
+////                    //progressAnim.enabled = true
+////                    if (bar.value == 0){
+////                        //focus = false  // for animation
+//////                        barClickedAnim.start()
+////                        processStart.start("tractor start")
 
-                        //parent.value = 100
+////                        //parent.value = 100
 
-                    } else if (bar.value == 100) {
-                        //focus = false
-                        processStop.start("tractor stop")
-                        //parent.value = 0
-                    } else { }
-                }
+////                    } else if (bar.value == 100) {
+////                        //focus = false
+////                        processStop.start("tractor stop")
+////                        //parent.value = 0
+////                    } else { }
+////                }
 
-                cursorShape: {
-                    if (bar.value == 0 || bar.value == 100) {
-                        return Qt.PointingHandCursor
-                    } else {
-                        return Qt.WaitCursor
-                    }
-                }
-            }
-        }
+////                cursorShape: {
+////                    if (bar.value == 0 || bar.value == 100) {
+////                        return Qt.PointingHandCursor
+////                    } else {
+////                        return Qt.WaitCursor
+////                    }
+////                }
+////            }
+//        }
 
         // - - - - circular bar - - - -
         RadialBar {
             id: bar
 
             anchors.centerIn: parent
-            width: 155
-            height: 155
+            width: parent.barScale + 5
+            height: parent.barScale + 5
             penStyle: Qt.RoundCap
-            dialType: RadialBar.FullDial
+//            dialType: RadialBar.FullDial
     //        progressColor: "#FF5722"
             progressColor: "#E91E63"
-            foregroundColor: "transparent"  // foreground declared seperatly.
-            dialWidth: 11
-            startAngle: 180
-            spanAngle: 70
+            foregroundColor: "#191a2f"  // foreground declared seperatly.
+            dialWidth: 8
+//            startAngle: 200
+            startAngle: 190
+            spanAngle: 340
             minValue: 0
             maxValue: 100
             value: {
@@ -351,9 +354,10 @@ Item {
                     return 0
             }
             textFont {
-                family: "Halvetica"
+//                family: "Halvetica"
+                family: ubuntuFontCondensed.name
                 italic: false
-                pointSize: 16
+                pointSize: 20
 
             }
             suffixText: "%"
@@ -388,6 +392,38 @@ Item {
                 enabled: false
             }
 
+            MouseArea {
+                id: barMouseArea
+                anchors.fill: barText
+
+                hoverEnabled: true
+
+                onClicked: {
+                    //progressAnim.enabled = true
+                    if (bar.value == 0){
+                        //focus = false  // for animation
+//                        barClickedAnim.start()
+                        processStart.start("tractor start")
+
+                        //parent.value = 100
+
+                    } else if (bar.value == 100) {
+                        //focus = false
+                        processStop.start("tractor stop")
+                        //parent.value = 0
+                    } else { }
+                }
+
+                cursorShape: {
+                    if (bar.value == 0 || bar.value == 100) {
+                        return Qt.PointingHandCursor
+                    } else {
+                        return Qt.WaitCursor
+                    }
+                }
+
+            }
+
             Text {
                 id: barText
 
@@ -408,10 +444,10 @@ Item {
                 }
     //            color: "#FAFAFA"
                 color: {
-                    if (parent.value == 100)
+                    if (barMouseArea.containsMouse)
                         return "#E91E63"
                     else
-                        return "#FAFAFA"
+                        return "white"
                 }
 
                 opacity: {
@@ -421,8 +457,15 @@ Item {
                         return 0
                 }
 
-                font.pointSize: 16
-                font.bold: true
+                font.family: ubuntuFontCondensed.name
+//                font.pointSize: 14
+//                font.bold: true
+                font.pointSize: {
+                    if (bar.value == 100)
+                        return 14
+                    else
+                        return 18
+                }
 
                 Behavior on font.pointSize {
                     NumberAnimation {
@@ -430,6 +473,7 @@ Item {
                         easing.type: "OutElastic"
                     }
                 }
+
             }
 
             Text {
@@ -448,7 +492,7 @@ Item {
                 }
 
                 anchors.centerIn: parent
-                anchors.verticalCenterOffset: -15
+                anchors.verticalCenterOffset: -20
                 property int s: 0
                 property int ss: 0
                 property int m: 0
@@ -456,9 +500,11 @@ Item {
                 property int h: 0
                 property int hh: 0
                 text: hh.toString() + h + ":" + mm + m + ":" + ss + s
-                color: "white"
+//                color: "white"
+                color: "#E0E0E0"
+                font.family: ubuntuFontCondensed.name
                 font.weight: Font.Medium
-                font.pointSize: 18
+                font.pointSize: 22
                 onSChanged: {
                     if (s == 10) {
                         s = 0
@@ -514,6 +560,7 @@ Item {
         }
         // , , , , , , , , , , , , , , ,
 
+
     }
 
     Rectangle {
@@ -522,9 +569,25 @@ Item {
         anchors.bottom: root.bottom
         anchors.bottomMargin: 75
         anchors.horizontalCenter: parent.horizontalCenter
+        property real offmapOpacity: 0.125
+        property real onmapOpacity: 0.4
         color: "transparent"
         width: 340
-        height: 180
+//        height: 180
+        height: {
+            if (bar.value == 100)
+                return 180
+            else
+                return 120
+        }
+
+        Behavior on height {
+            NumberAnimation {
+                duration: 500
+                easing.type: Easing.InOutQuad
+            }
+        }
+
         opacity: {
             if (bar.value == 100)
                 return 1
@@ -534,38 +597,391 @@ Item {
 
         Behavior on opacity {
             NumberAnimation {
-                duration: 300
-                easing.type: Easing.Linear
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
+        }
+
+//        Image {
+//            id: global
+
+//            source: "qrc:/Images/global.png"
+////            anchors.fill: parent
+//            anchors.top: parent.top
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            height: 180
+//            opacity: 0.1
+//        }
+
+        Image {
+            id: otherMap
+
+            source: "qrc:/Images/other_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: parent.offmapOpacity
+        }
+
+        Image {
+            id: austria_map
+
+            source: "qrc:/Images/austria_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "au")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
             }
         }
 
         Image {
-            id: global
+            id: canadaMap
 
-            source: "qrc:/Images/global.png"
-            anchors.fill: parent
-            opacity: 0.1
+            source: "qrc:/Images/canada_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "ca")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
         }
 
-//        Rectangle {
-//            id: dotIndicator
+        Image {
+            id: czechMap
 
-//            width: 10
-//            height: 10
-//            radius: 10
-//            x: 200
-//            y: 30
-//            color: "black"
-//            Rectangle {
-//                width: 8
-//                height: 8
-//                radius: 8
-//                anchors.centerIn: parent
-////                color: "#009688"
-//                color: "#64FFDA"
-//            }
+            source: "qrc:/Images/czech_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "cz")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
 
+        Image {
+            id: finlandMap
+
+            source: "qrc:/Images/finland_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "fi")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: franceMap
+
+            source: "qrc:/Images/france_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "fr")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: germanyMap
+
+            source: "qrc:/Images/germany_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "de")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: irelandMap
+
+            source: "qrc:/Images/ireland_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "ie")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: moldovaMap
+
+            source: "qrc:/Images/moldova_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "md")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: netherlandsMap
+
+            source: "qrc:/Images/netherlands_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "nl")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: norwayMap
+
+            source: "qrc:/Images/norway_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "no")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: polandMap
+
+            source: "qrc:/Images/poland_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "pl")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: romaniaMap
+
+            source: "qrc:/Images/romania_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "ro")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: russiaMap
+
+            source: "qrc:/Images/russia_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "su")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: seychellesMap
+
+            source: "qrc:/Images/seychelles_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "sc")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+//        Image {
+//            id: singaporeMap
+
+//            source: "qrc:/Images/singapore_map.png"
+////            anchors.fill: parent
+//            anchors.top: parent.top
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            height: 180
+//            opacity: {
+//        if (bar.value == 100 && exitNode === "sg")
+//            return 0.4
+//        else
+//            return 0.1
+//    }
 //        }
+
+        Image {
+            id: spainMap
+
+            source: "qrc:/Images/spain_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "es")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: swedenMap
+
+            source: "qrc:/Images/sweden_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "se")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: switzerlandMap
+
+            source: "qrc:/Images/switzerland_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "ch")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: ukraineMap
+
+            source: "qrc:/Images/ukraine_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "ua")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: unitedKingdomMap
+
+            source: "qrc:/Images/unitedKingdom_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "uk")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
+
+        Image {
+            id: unitedStatesMap
+
+            source: "qrc:/Images/unitedStates_map.png"
+//            anchors.fill: parent
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 180
+            opacity: {
+                if (bar.value == 100 && exitNode === "us")
+                    return parent.onmapOpacity
+                else
+                    return parent.offmapOpacity
+            }
+        }
 
     }
 
@@ -588,12 +1004,12 @@ Item {
 
 
         Rectangle {
-            width: tractorCondition.width * 2 / 3
-            height: 6
+            width: tractorCondition.width / 2
+            height: 5
             anchors.horizontalCenter: tractorCondition.horizontalCenter
-            radius: 6
+            radius: 4
             anchors.top: tractorCondition.bottom
-            anchors.topMargin: 10
+            anchors.topMargin: 12
             Behavior on width {
                 NumberAnimation {
     //                duration: 500
@@ -782,50 +1198,61 @@ Item {
 
 
     // - - - - stand alone animations - - - -
-    ParallelAnimation {
-        id: indicatorAnim
+//    ParallelAnimation {
+//        id: indicatorAnim
 
-        running: {
-            if (bar.value == 0)
-                return true
-            else
-                return false
-        }
-        loops: Animation.Infinite
+//        running: {
+//            if (bar.value == 0)
+//                return true
+//            else
+//                return false
+//        }
+//        loops: Animation.Infinite
 
-        onStopped: {
-            indicatorCircle.width = 164
-            indicatorCircle.height = 164
-        }
+//        onStopped: {
+//            indicatorCircle.width = 164
+//            indicatorCircle.height = 164
+//        }
 
-        NumberAnimation {
-            target: indicatorCircle
-            property: "width"
-            from: 144
-            to: 230
-            duration: 1700
-            easing.type: "InQuint"
-        }
+//        NumberAnimation {
+//            target: indicatorCircle
+//            property: "width"
+//            from: 149
+//            to: 230
+//            duration: 1500
+//            easing.type: "InQuint"
+//        }
 
-        NumberAnimation {
-            target: indicatorCircle
-            property: "height"
-            from: 144
-            to: 230
-            duration: 1700
-            easing.type: "InQuint"
-        }
+//        NumberAnimation {
+//            target: indicatorCircle
+//            property: "height"
+//            from: 149
+//            to: 230
+//            duration: 1500
+//            easing.type: "InQuint"
+//        }
 
-        ColorAnimation {
-            target: indicatorCircle
-            property: "border.color"
-            from: "#191a2f"
-            to: "#55191a2f"
-            duration: 1700
-            easing.type: "InExpo"
-        }
+//        ColorAnimation {
+//            target: indicatorCircle
+//            property: "border.color"
+//            from: "#191a2f"
+//            to: "#55191a2f"
+//            duration: 1500
+//            easing.type: "InExpo"
+//        }
 
-    }
+//    }
+
+//    NumberAnimation {
+//        id: barClickedAnim
+
+//        target: barContainer
+//        property: "barScale"
+//        from: 165
+//        to: 150
+//        duration: 2000
+//        easing.type: "OutElastic"
+//    }
 
 
     NumberAnimation {

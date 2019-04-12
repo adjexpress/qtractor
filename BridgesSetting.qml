@@ -33,7 +33,7 @@ Item {
     SwitchDelegate {
         id: useBridgesDelegate
 
-        Material.accent: "#F50057"
+        Material.accent: "#E91E63"
         anchors.top: root.top
         anchors.left: parent.left
         anchors.right: parent.right
