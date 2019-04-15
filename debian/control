@@ -2,9 +2,9 @@ Source: traqtor
 Section: net
 Priority: optional
 Maintainer: Mohsen Nezammolmolki <thelight.mn@gmail.com>
-Build-Depends: debhelper (>=9)
+Build-Depends: debhelper (>=9), qml-module-qtquick-controls2, qt5-default, qt5-qmake
 Standards-Version: 3.9.8
-Homepage: <insert the upstream URL, if relevant>
+Homepage: https://gitlab.com/tractor-team/qtractor
 
 Package: traqtor
 Architecture: all
