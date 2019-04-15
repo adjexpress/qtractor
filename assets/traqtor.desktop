@@ -1,0 +1,18 @@
+[Desktop Entry]
+Version=1.1
+Name=traqtor
+Name[fa]=تراکیوتور
+Comment=Settings for Tractor
+Comment[fa]=تنظیمات تراکتور
+Exec=traqtor
+Terminal=false
+Type=Application
+Icon=traqtor
+Actions=new-id;
+Keywords=Tor;Tractor;traqtor
+Categories=Network;
+
+[Desktop Action new-id]
+Name=New ID
+Name[fa]=هویت جدید
+Exec=tractor newid

@@ -6,4 +6,5 @@ moc_*
 qrc_*
 traqtor
 debian/files
-debian/traqtor*
+debian/traqtor.debhelper.log
+debian/traqtor.substvars
