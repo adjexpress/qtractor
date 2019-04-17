@@ -1,7 +1,6 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.3
-//import QtQuick.Controls.
+import QtQuick 2.0
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import CustomControls 1.0
 import Process 1.0
 import Gsettings 1.0
@@ -49,7 +48,7 @@ Item {
 
         Text {
             text: qsTr("Exit node:")
-            font.pointSize: 12
+            font.pointSize: 10
 //            font.weight: Font.Medium
             font.weight: Font.Light
 //            anchors.top: countryImage.top
@@ -75,7 +74,7 @@ Item {
                 return "Optimal"
             }
             color: "#FAFAFA"
-            font.pointSize: 13
+            font.pointSize: 12
             font.weight: Font.Medium
             //font.bold: true
 //            anchors.left: countryImage.right

@@ -1,6 +1,6 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.3
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import Process 1.0
 import Gsettings 1.0
 import QmlFile 1.0

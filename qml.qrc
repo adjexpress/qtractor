@@ -71,5 +71,7 @@
         <file>Images/france_map.png</file>
         <file>Fonts/Ubuntu-C.ttf</file>
         <file>Icons/torLogo.png</file>
+        <file>About.qml</file>
+        <file>Icons/bug.png</file>
     </qresource>
 </RCC>

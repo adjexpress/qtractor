@@ -1,7 +1,7 @@
-import QtQuick 2.9
+import QtQuick 2.0
 import QtQuick.Window 2.2
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.3
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import Gsettings 1.0
 
 Window {
@@ -121,7 +121,7 @@ Window {
         TabButton {
 //            text: "Bridges"
 //            font.pointSize: 10
-            icon.source: "/Icons/support.png"
+            icon.source: "/Icons/bug.png"
             icon.height: 20
             icon.width: 20
             icon.color: {
@@ -155,5 +155,10 @@ Window {
         BridgesSetting {
             id: bridgesSettingPage
         }
+
+        About {
+            id: aboutPage
+        }
+
     }
 }
