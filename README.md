@@ -2,6 +2,7 @@
 
 This is a graphical settings app for tractor which is a package uses Python stem library to provide a connection through the onion proxy and sets up proxy in user session, so you don't have to mess up with TOR on your system anymore.
 
+![traqtorPoster](/uploads/b06f001c6bf186f15da12fdd62c2749e/traqtorPoster.png)
 ## Requirements
 
 pkg-config
