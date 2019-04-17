@@ -1,2 +1,10 @@
-#dependences
-traqtor.pro.usr
+traqtor.pro.user*
+.qmake.stash
+*.o
+Makefile
+moc_*
+qrc_*
+traqtor
+debian/files
+debian/traqtor.debhelper.log
+debian/traqtor.substvars

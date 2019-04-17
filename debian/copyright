@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: traqtor
 Source: https://gitlab.com/tractor-team/qtractor
+=======
+traqtor - Graphical User Interface for Tractor
+Copyright 2019 Mohsen Nezammolmolki <thelight.mn@gmail.com>
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: https://gitlab.com/tractor-team/traqtor
+>>>>>>> 1b2a99efa8e0a33d9ebadaba55956788dfff5527
 License: GPL-3
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
