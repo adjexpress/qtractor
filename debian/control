@@ -2,14 +2,14 @@ Source: traqtor
 Section: net
 Priority: optional
 Maintainer: Mohsen Nezammolmolki <thelight.mn@gmail.com>
-Build-Depends: debhelper (>=9), libglib2.0-dev, qml-module-qtquick-controls2, qt5-default, qt5-qmake, qtdeclarative5-dev
+Build-Depends: debhelper (>=9), libglib2.0-dev, qt5-default, qt5-qmake, qtdeclarative5-dev
 Standards-Version: 3.9.8
 Homepage: https://gitlab.com/tractor-team/qtractor
 
 Package: traqtor
 Architecture: any
 Multi-Arch: foreign
-Depends: ${misc:Depends}, ${shlibs:Depends}, qml-module-qtquick2, qml-module-qtquick-window2, tractor (>=2.2-0~)
+Depends: ${misc:Depends}, ${shlibs:Depends}, qml-module-qtquick2, qml-module-qtquick-controls2, qml-module-qtquick-window2, tractor (>=2.2-0~)
 Description: Settings app for Tractor
  This package is a graphical settings for tractor
  which is an app using Python stem to provide
