@@ -186,7 +186,7 @@ Item {
                         ListElement { title: "Norway"; icon: "qrc:/Icons/norway.png"; code: "no" }
                         ListElement { title: "Poland"; icon: "qrc:/Icons/poland.png"; code: "pl" }
                         ListElement { title: "Romania"; icon: "qrc:/Icons/romania.png"; code: "ro" }
-                        ListElement { title: "Russia"; icon: "qrc:/Icons/russia.png"; code: "su" }
+                        ListElement { title: "Russia"; icon: "qrc:/Icons/russia.png"; code: "ru" }
                         ListElement { title: "Seychelles"; icon: "qrc:/Icons/seychelles.png"; code: "sc" }
                         ListElement { title: "Singapore"; icon: "qrc:/Icons/singapore.png"; code: "sg" }
                         ListElement { title: "Spain"; icon: "qrc:/Icons/spain.png"; code: "es" }
@@ -839,7 +839,7 @@ Item {
             anchors.right: parent.right
             height: 180
             opacity: {
-                if (bar.value == 100 && exitNode === "su")
+                if (bar.value == 100 && exitNode === "ru")
                     return parent.onmapOpacity
                 else
                     return parent.offmapOpacity
