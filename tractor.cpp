@@ -137,7 +137,7 @@ void Tractor::handleOutput()
       setProgress(data.mid(data.indexOf("Bootstrapped") + 13,
                            data.indexOf("%") - data.indexOf("Bootstrapped") - 13).toInt());
     } else {
-      setStatusMessage(data.mid(7, data.count() - 12));
+      setStatusMessage(data.mid(5, data.count() - 12));
       if (data.contains("Reached timeout.")) {
         setProgress(0);
         setStatus(STOPED);
