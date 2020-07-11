@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>PortsPage.qml</file>
+        <file>GeneralPage.qml</file>
+        <file>BridgesPage.qml</file>
+    </qresource>
+</RCC>

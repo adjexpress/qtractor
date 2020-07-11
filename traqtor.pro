@@ -13,9 +13,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp radialbar.cpp
+        main.cpp radialbar.cpp \
+        qgsettings.cpp \
+        tractor.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += \
+  app.qrc \
+  component.qrc \
+  other.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -31,11 +36,9 @@ else: unix:!android: target.path = /usr/bin
 DISTFILES +=
 
 HEADERS += \
+    qgsettings.h \
     radialbar.h \
-    process.h \
-    gsettings.h \
-    qfile.h \
-    qgio.h
+    tractor.h
 
-#unix: CONFIG += link_pkgconfig
+unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += gio-2.0

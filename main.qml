@@ -1,164 +1,197 @@
-import QtQuick 2.0
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
-import Gsettings 1.0
+import QtQuick                    2.4
+import QtQuick.Controls           2.4
+import QtQuick.Controls.Material  2.4
+import app.tractor                1.0
 
-Window {
-    id: window
+import "./components" as C
 
+ApplicationWindow {
+  id: window
 
-    FontLoader {
-        id: ubuntu
-        source: "qrc:/Fonts/Ubuntu-R.ttf"
-    }
-    // load fontawasome.
-    FontLoader {
-            id: fontAweSolid
-            source: "/Fonts/Font Awesome 5 Free-Solid-900.otf"
-    }
+  property bool minimalMode: width < 1000
 
-    FontLoader {
-        id: ubuntuMedium
-        source: "qrc:/Fonts/Ubuntu-M.ttf"
-    }
+  Material.theme: Material.Dark
+  Material.background: uiParams.backgroundColor
+  Material.accent: uiParams.accentColor
 
-    FontLoader {
-        id: ubuntuBold
-        source: "qrc:/Fonts/Ubuntu-B.ttf"
-    }
+//  overlay.modal: Rectangle {
+//    color: "black"//"#DD000000"
+//    Behavior on opacity { NumberAnimation {  duration: 150 } }
+//  }
 
-    FontLoader {
-        id: ubuntuFontMono
-        source: "qrc:/Fonts/UbuntuMono-R.ttf"
-    }
+//  overlay.modeless: Rectangle {
+//    color: "black"//"#DD000000"
+//    Behavior on opacity { NumberAnimation { duration: 150 } }
+//  }
 
-    FontLoader {
-        id: ubuntuFontCondensed
-        source: "qrc:/Fonts/Ubuntu-C.ttf"
-    }
+  visible: true
+  title: qsTr("traqtor")
 
-    visible: true
-    width: 360
-    maximumWidth: 360
-    minimumWidth: 360
-    height: 640
-    maximumHeight: 640
-    minimumHeight: 640
-    title: qsTr("traqtor")
+  width: 360
+  height: 640
+  minimumWidth: 360
+  minimumHeight: 640
 
-    Image {
-        id: backgroundImage
+  C.UIParameters { id: uiParams }
 
-        source: "qrc:/Images/design.png"
-        anchors.fill: parent
+  Tractor { id: trc }
 
-        fillMode: Image.Tile
-        clip: false
-    }
+  // left bar
+  Rectangle {
+    id: leftBar
+    anchors.left: parent.left
 
+    height: parent.height
+    width: window.minimalMode ? 0 : 128
+    clip: true
 
-    TabBar {
-        id: footer
+    color: "#222222"
 
-        font.family: ubuntuMedium.name
-        Material.theme: Material.Light
-        Material.background: "#00FFFFFF"
-        Material.foreground: "#FAFAFA"
-        Material.accent: "transparent"
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        height: 60
-        position: TabBar.Footer
-        currentIndex: view.currentIndex
+    ListView {
+      id: wLv
 
-        TabButton {
-//            text: "General"
-//            font.pointSize: 10
-            icon.source: "/Icons/general.png"
-            icon.height: 20
-            icon.width: 20
-            icon.color: {
-                if (view.currentIndex == 0)
-                    return "#E91E63"
-                else
-                    return "#FAFAFA"
-            }
+      anchors.fill: parent
 
+      interactive: false
+      currentIndex: view.currentIndex
+
+      model: [
+        { name: "General",  icon: "qrc:/icons/general.svg"  },
+        { name: "Ports",    icon: "qrc:/icons/port.svg"     },
+        { name: "Bridges",  icon: "qrc:/icons/bridge.svg"   }
+      ]
+
+      delegate: Button {
+        width: wLv.width
+        height: 128
+
+        text: modelData.name
+
+        icon.source: modelData.icon
+        icon.width: 28
+        icon.height: 28
+        display: "TextUnderIcon"
+        font.weight: Font.Normal
+        font.pixelSize: 20
+
+        topInset: 0
+        bottomInset: 0
+
+        Material.foreground: wLv.currentIndex === index ? "#222222" : "white"
+        Material.background: wLv.currentIndex === index ? "#00C853" : "#222222"
+        Material.elevation: 0
+
+        onClicked: { view.currentIndex = index }
+
+        Rectangle {
+            anchors.bottom: parent.bottom
+            width: parent.width
+            height: 1
+            color: uiParams.splitColor
         }
+      }
+    }
+  }
 
-        TabButton {
-//            text: "Ports"
-//            font.pointSize: 10
-            icon.source: "/Icons/port.png"
-            icon.height: 20
-            icon.width: 20
-            icon.color: {
-                if (view.currentIndex == 1)
-                    return "#E91E63"
-                else
-                    return "#FAFAFA"
-            }
+  // content swipe
+  StackView {
+    id: view
 
-        }
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: leftBar.right
 
-        TabButton {
-//            text: "Bridges"
-//            font.pointSize: 10
-            icon.source: "/Icons/bridge.png"
-            icon.height: 20
-            icon.width: 20
-            icon.color: {
-                if (view.currentIndex == 2)
-                    return "#E91E63"
-                else
-                    return "#FAFAFA"
-            }
+    clip: true
 
-        }
+    initialItem: generalPage
 
-        TabButton {
-//            text: "Bridges"
-//            font.pointSize: 10
-            icon.source: "/Icons/bug.png"
-            icon.height: 20
-            icon.width: 20
-            icon.color: {
-                if (view.currentIndex == 3)
-                    return "#E91E63"
-                else
-                    return "#FAFAFA"
-            }
+    property int currentIndex: 0
 
-        }
-
+    onCurrentIndexChanged: {
+      switch (currentIndex) {
+      case 0:
+        replace(generalPage)
+        break
+      case 1:
+        replace(protsSettingPage)
+        break
+      case 2:
+        replace(bridgesSettingPage)
+        break
+      default:
+        //NOTHING
+      }
     }
 
+    GeneralPage {
+      id: generalPage
 
-    SwipeView {
-        id: view
-
-        currentIndex: footer.currentIndex
-        anchors.top: window.top
-        width: window.width
-        height: window.height - 50
-
-        General {
-            id: generalPage
-        }
-
-        PortsSetting {
-            id: protsSettingPage
-        }
-
-        BridgesSetting {
-            id: bridgesSettingPage
-        }
-
-        About {
-            id: aboutPage
-        }
-
+      clip: true
+      visible: false
+      tractor: trc
     }
+
+    PortsPage {
+      id: protsSettingPage
+
+      clip: true
+      visible: false
+      tractor: trc
+    }
+
+    BridgesPage {
+      id: bridgesSettingPage
+
+      clip: true
+      visible: false
+      tractor: trc
+    }
+  }
+
+  footer: TabBar {
+    id: footer
+
+    Material.background: "#00FFFFFF"
+    Material.foreground: "#FAFAFA"
+    Material.accent: "transparent"
+
+    font.weight: Font.Medium
+    height: window.minimalMode ? 60 : 0
+    position: TabBar.Footer
+    currentIndex: view.currentIndex
+
+    // tab buttons
+    Repeater {
+      anchors.fill: parent
+      model: [
+        "/icons/general.svg",
+        "/icons/port.svg",
+        "/icons/bridge.svg"
+      ]
+
+      delegate: TabButton {
+        icon.source: modelData
+        icon.height: 20
+        icon.width: 20
+        icon.color: footer.currentIndex === index ? uiParams.accentColor : uiParams.foregroundColor
+
+        height: parent.height
+
+        onClicked: { view.currentIndex = index }
+
+        // indicator
+        Rectangle {
+          anchors.top: parent.top
+          anchors.topMargin: 4
+          anchors.horizontalCenter: parent.horizontalCenter
+          width: 5
+          height: 5
+          radius: 5
+          color: uiParams.accentColor
+          visible: footer.currentIndex === index
+        }
+      }
+    }
+  }
 }

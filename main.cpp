@@ -3,25 +3,21 @@
 #include <QFont>
 #include <QFontDatabase>
 #include "radialbar.h"
-#include "process.h"
-#include "gsettings.h"
-#include "qfile.h"
+#include "tractor.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    int fontId = QFontDatabase::addApplicationFont(":/Fonts/Ubuntu-R.ttf");
+    int fontId = QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");
     if (fontId != -1) {
         QFont ubuntuFont("Ubuntu");
         app.setFont(ubuntuFont);
     }
 
-    qmlRegisterType<RadialBar>("CustomControls", 1, 0, "RadialBar");
-    qmlRegisterType<Process>("Process", 1, 0, "Process");
-    qmlRegisterType<Qgsettings>("Gsettings", 1, 0, "Qgsettings");
-    qmlRegisterType<QmlFile>("QmlFile", 1, 0, "QmlFile");
+    qmlRegisterType<Tractor>("app.tractor", 1, 0, "Tractor");
+    qmlRegisterType<RadialBar>("app.customControls", 1, 0, "RadialBar");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
