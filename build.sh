@@ -8,6 +8,7 @@ if [[ $1 == 'debug' || $1 == 'release' ]]; then
     if [[ $? -eq 0 ]]; then
         echo -e "\n---> Output built in `pwd`"
     fi
+    cd ../..
 elif [[ $1 == 'clean' ]]; then
     if [[ -e build/debug ]]; then
         cd build/debug
@@ -15,6 +16,7 @@ elif [[ $1 == 'clean' ]]; then
         if [[ $? -eq 0 ]]; then
             echo -e "\n---> Clean done."
         fi
+        cd ../..
     else
         echo "---> There's no debug dir."
     fi
@@ -26,5 +28,14 @@ elif [[ $1 == 'run' ]]; then
     fi
 else
     echo "---> Inappropriate commands!"
-    echo "---> Available commands: debug | release | clean | run"
+    echo "---> Available commands: debug | release | clean | run | debug run | release run"
+fi
+
+
+if [[ $1 == 'debug' || $1 == 'release' && $2 == 'run' ]]; then
+    if [[ -e build/$1/traqtor/traqtor ]]; then
+        "./build/$1/traqtor/traqtor"
+    else
+        echo "---> There isn't file (./build/$1/traqtor/traqtor) to run"
+    fi
 fi
