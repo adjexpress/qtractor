@@ -8,3 +8,4 @@ debian/files
 debian/traqtor.debhelper.log
 debian/traqtor.substvars
 debian/debhelper*
+build/*
