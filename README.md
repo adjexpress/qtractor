@@ -19,11 +19,17 @@ sudo apt install traqtor
 
 ### Requirements
 
+qt5-default
+
+qtdeclarative5-dev
+
 pkg-config
 
 libglib2.0-dev
 
-Qt -> minimal version 5.11.2
+NOTE: Use your system package manager to install these requirements (like apt on ubuntu)
+NOTE: Minimal require Qt version is 5.11 (you can see the installed version with command: `qmake -v`)
+NOTE: These requirements are tested on ubuntu
 
 ### Compilation
 
