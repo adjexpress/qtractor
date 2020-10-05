@@ -4,7 +4,6 @@ traqtor.pro.user*
 Makefile
 moc_*
 qrc_*
-traqtor
 debian/files
 debian/traqtor.debhelper.log
 debian/traqtor.substvars
