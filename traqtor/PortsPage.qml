@@ -28,81 +28,120 @@ Page {
         }
     }
 
-    ItemDelegate {
-        id: socksPort
-
+    Column {
         anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
+        width: parent.width
 
-        font.weight: Font.Light
-        height: 50
-        text: "SOCKS PORT"
-        enabled: tractor.status === Tractor.STOPED
+        ItemDelegate {
+            id: httpPort
 
-        C.SpinBox {
-            id: socksBox
-
-            from: 1
-            to: 9999
-
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            editable: true
-            value: tractor.settings.socksPort
-
-            onValueModified: { tractor.settings.socksPort = value }
-        }
-
-        // top splite
-        Rectangle {
-            anchors.top: parent.top
+            font.weight: Font.Light
+            /*height: 50*/
             width: parent.width
-            height: 1
-            color: uiParams.splitColor
+            text: "HTTP TUNNEL PORT"
+            enabled: tractor.status === Tractor.STOPED
+
+            C.SpinBox {
+                id: httpBox
+
+                from: 1
+                to: 9999
+
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                editable: true
+                value: tractor.settings.httpPort
+
+                onValueModified: { tractor.settings.httpPort = value }
+            }
+
+            // top splite
+            Rectangle {
+                anchors.top: parent.top
+                width: parent.width
+                height: 1
+                color: uiParams.splitColor
+            }
+
+            // bottom splite
+            Rectangle {
+                anchors.bottom: parent.bottom
+                width: parent.width
+                height: 1
+                color: uiParams.splitColor
+            }
         }
 
-        // bottom splite
-        Rectangle {
-            anchors.bottom: parent.bottom
+        ItemDelegate {
+            id: socksPort
+
+            font.weight: Font.Light
+            /*height: 50*/
             width: parent.width
-            height: 1
-            color: uiParams.splitColor
+            text: "SOCKS PORT"
+            enabled: tractor.status === Tractor.STOPED
+
+            C.SpinBox {
+                id: socksBox
+
+                from: 1
+                to: 9999
+
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                editable: true
+                value: tractor.settings.socksPort
+
+                onValueModified: { tractor.settings.socksPort = value }
+            }
+
+            // top splite
+            Rectangle {
+                anchors.top: parent.top
+                width: parent.width
+                height: 1
+                color: uiParams.splitColor
+            }
+
+            // bottom splite
+            Rectangle {
+                anchors.bottom: parent.bottom
+                width: parent.width
+                height: 1
+                color: uiParams.splitColor
+            }
         }
-    }
 
-    ItemDelegate {
-        id: dnsPort
+        ItemDelegate {
+            id: dnsPort
 
-        anchors.top: socksPort.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-
-        font.family: uiParams.fonts.paragraph.family
-        font.weight: Font.Light
-        height: 50
-        text: "DNS PORT"
-        enabled: tractor.status === Tractor.STOPED
-
-        C.SpinBox {
-            id: dnsBox
-
-            from: 1
-            to: 9999
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            editable: true
-            value: tractor.settings.dnsPort
-
-            onValueModified: { tractor.settings.dnsPort = value }
-        }
-
-        // bottom splite
-        Rectangle {
-            anchors.bottom: parent.bottom
+            font.family: uiParams.fonts.paragraph.family
+            font.weight: Font.Light
+            /*height: 50*/
             width: parent.width
-            height: 1
-            color: uiParams.splitColor
+            text: "DNS PORT"
+            enabled: tractor.status === Tractor.STOPED
+
+            C.SpinBox {
+                id: dnsBox
+
+                from: 1
+                to: 9999
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                editable: true
+                value: tractor.settings.dnsPort
+
+                onValueModified: { tractor.settings.dnsPort = value }
+            }
+
+            // bottom splite
+            Rectangle {
+                anchors.bottom: parent.bottom
+                width: parent.width
+                height: 1
+                color: uiParams.splitColor
+            }
         }
     }
 }

@@ -825,7 +825,7 @@ Page {
             focus: true
             clip: true
             currentIndex: -1
-            width: 256
+            width: aboutDialog.contentWidth
             height: Math.min(contentHeight, root.height / 2)
 
             ScrollBar.vertical: ScrollBar {
@@ -899,7 +899,7 @@ Page {
         title: "About"
 
         Column {
-            width: 256
+            width: aboutDialog.contentWidth
             spacing: 2
 
             // logo
