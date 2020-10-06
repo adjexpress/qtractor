@@ -14,15 +14,15 @@ ApplicationWindow {
   Material.background: uiParams.backgroundColor
   Material.accent: uiParams.accentColor
 
-//  overlay.modal: Rectangle {
-//    color: "black"//"#DD000000"
-//    Behavior on opacity { NumberAnimation {  duration: 150 } }
-//  }
+  /*overlay.modal: Rectangle {*/
+    /*color: "black"//"#DD000000"*/
+    /*Behavior on opacity { NumberAnimation {  duration: 150 } }*/
+  /*}*/
 
-//  overlay.modeless: Rectangle {
-//    color: "black"//"#DD000000"
-//    Behavior on opacity { NumberAnimation { duration: 150 } }
-//  }
+  /*overlay.modeless: Rectangle {*/
+    /*color: "black"//"#DD000000"*/
+    /*Behavior on opacity { NumberAnimation { duration: 150 } }*/
+  /*}*/
 
   visible: true
   title: qsTr("traqtor")

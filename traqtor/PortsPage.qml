@@ -37,7 +37,7 @@ Page {
 
         font.weight: Font.Light
         height: 50
-        text: "Socks Port"
+        text: "SOCKS PORT"
         enabled: tractor.status === Tractor.STOPED
 
         C.SpinBox {
@@ -69,7 +69,6 @@ Page {
             height: 1
             color: uiParams.splitColor
         }
-
     }
 
     ItemDelegate {
@@ -79,9 +78,10 @@ Page {
         anchors.left: parent.left
         anchors.right: parent.right
 
+        font.family: uiParams.fonts.paragraph.family
         font.weight: Font.Light
         height: 50
-        text: "DNS Port"
+        text: "DNS PORT"
         enabled: tractor.status === Tractor.STOPED
 
         C.SpinBox {

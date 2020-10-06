@@ -88,7 +88,7 @@ Page {
                 textColor: "#00FAFAFA"
                 suffixText: ""
 
-                textFont.family: uiParams.fonts.headingCondensed.family
+                textFont.family: uiParams.fonts.paragraph.family
                 textFont.italic: false
                 textFont.pixelSize: 26
 
@@ -112,7 +112,6 @@ Page {
 
                     enabled: tractor.status !== Tractor.CONNECTING
                     font.family: uiParams.fonts.paragraph.family
-                    /*font.family: "Nunito Sans Regular"*/
                     font.pixelSize: bar.width * 26 / 174
                     font.capitalization: Font.AllUppercase
                     font.bold: true
@@ -125,83 +124,83 @@ Page {
                     }
                 }
 
-                Text {
-                    id: timerText
+                /*Text {*/
+                    /*id: timerText*/
 
                     /*visible: {*/
-                            /*if (tractor.status === Tractor.CONNECTED) {*/
-                                    /*return true*/
-                            /*} else {*/
-                                    /*return false*/
-                            /*}*/
+                        /*if (tractor.status === Tractor.CONNECTED) {*/
+                            /*return true*/
+                        /*} else {*/
+                            /*return false*/
+                        /*}*/
                     /*}*/
 
-                    visible: false
+                    /*visible: false*/
 
-                    onVisibleChanged: { s = ss = m = mm = h = hh = 0 }
+                    /*onVisibleChanged: { s = ss = m = mm = h = hh = 0 }*/
 
-                    anchors.centerIn: parent
-                    anchors.verticalCenterOffset: -20
-                    property int s: 0
-                    property int ss: 0
-                    property int m: 0
-                    property int mm: 0
-                    property int h: 0
-                    property int hh: 0
-                    text: hh.toString() + h + ":" + mm + m + ":" + ss + s
-                    color: "#E0E0E0"
-                    font.family: uiParams.fonts.headingCondensed.family
-                    font.weight: Font.Medium
-                    font.pointSize: 22
-                    onSChanged: {
-                        if (s == 10) {
-                            s = 0
-                            ss++
-                        }
-                    }
-                    onSsChanged: {
-                        if (ss == 6) {
-                            ss = 0
-                            m++
-                        }
-                    }
-                    onMChanged: {
-                        if (m == 10) {
-                            m = 0
-                            mm++
-                        }
-                    }
-                    onMmChanged: {
-                        if (mm == 6) {
-                            mm = 0
-                            h++
-                        }
-                    }
-                    onHChanged: {
-                        if (h == 10) {
-                            h = 0
-                            hh++
-                        }
-                    }
+                    /*anchors.centerIn: parent*/
+                    /*anchors.verticalCenterOffset: -20*/
+                    /*property int s: 0*/
+                    /*property int ss: 0*/
+                    /*property int m: 0*/
+                    /*property int mm: 0*/
+                    /*property int h: 0*/
+                    /*property int hh: 0*/
+                    /*text: hh.toString() + h + ":" + mm + m + ":" + ss + s*/
+                    /*color: "#E0E0E0"*/
+                    /*font.family: uiParams.fonts.headingCondensed.family*/
+                    /*font.weight: Font.Medium*/
+                    /*font.pointSize: 22*/
+                    /*onSChanged: {*/
+                        /*if (s == 10) {*/
+                            /*s = 0*/
+                            /*ss++*/
+                        /*}*/
+                    /*}*/
+                    /*onSsChanged: {*/
+                        /*if (ss == 6) {*/
+                            /*ss = 0*/
+                            /*m++*/
+                        /*}*/
+                    /*}*/
+                    /*onMChanged: {*/
+                        /*if (m == 10) {*/
+                            /*m = 0*/
+                            /*mm++*/
+                        /*}*/
+                    /*}*/
+                    /*onMmChanged: {*/
+                        /*if (mm == 6) {*/
+                            /*mm = 0*/
+                            /*h++*/
+                        /*}*/
+                    /*}*/
+                    /*onHChanged: {*/
+                        /*if (h == 10) {*/
+                            /*h = 0*/
+                            /*hh++*/
+                        /*}*/
+                    /*}*/
 
-                    Timer {
-                        id: timer
+                    /*Timer {*/
+                        /*id: timer*/
 
-                        repeat: true
-                        running: {
-                            if (tractor.status === Tractor.CONNECTED) {
-                                return true
-                            }
-                            else {
-                                return false
-                            }
-                        }
+                        /*repeat: true*/
+                        /*running: {*/
+                            /*if (tractor.status === Tractor.CONNECTED) {*/
+                                /*return true*/
+                            /*}*/
+                            /*else {*/
+                                /*return false*/
+                            /*}*/
+                        /*}*/
 
-                        onTriggered: {
-                            parent.s++
-                        }
-                    }
-                }
+                        /*onTriggered: {*/
+                            /*parent.s++*/
+                        /*}*/
+                    /*}*/
+                /*}*/
 
                 MouseArea {
                     id: barMouseArea
@@ -244,10 +243,9 @@ Page {
                     id: acceptConnectionDelegate
 
                     width: parent.width
-                    text: "Accept connection"
-                    /*font: uiParams.fonts.paragraph*/
-                    font.weight: Font.Light
-                    font.capitalization: Font.AllUppercase
+                    text: "ACCEPT CONNECTION"
+                    /*font.weight: Font.Light*/
+                    font: uiParams.fonts.paragraph
                     enabled: tractor.status === Tractor.STOPED
 
                     checked: tractor.settings.acceptConnection
@@ -285,6 +283,7 @@ Page {
                 ItemDelegate {
                     width: parent.width
                     font: uiParams.fonts.paragraph
+                    /*text: "EXIT NODE:"*/
                     text: "EXIT NODE:"
                     enabled: tractor.status !== Tractor.CONNECTING
 
@@ -810,10 +809,6 @@ Page {
                 }
 
                 font: uiParams.fonts.paragraph
-                /*font.family: uiParams.fonts.paragraph.family*/
-                /*font.family: "Nunito Sans Regular"*/
-                /*font.weight: font.Light*/
-                /*font.pixelSize: 16*/
             }
         }
     }
