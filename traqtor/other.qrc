@@ -59,5 +59,20 @@
         <file>icons/bridge.svg</file>
         <file>icons/rightarrow.svg</file>
         <file>icons/leftarrow.svg</file>
+
+        <file>fonts/Nunito_Sans/NunitoSans-Black.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-BlackItalic.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-Bold.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-BoldItalic.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-ExtraBold.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-ExtraBoldItalic.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-ExtraLight.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-ExtraLightItalic.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-Italic.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-Light.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-LightItalic.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-Regular.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-SemiBold.ttf</file>
+        <file>fonts/Nunito_Sans/NunitoSans-SemiBoldItalic.ttf</file>
     </qresource>
 </RCC>

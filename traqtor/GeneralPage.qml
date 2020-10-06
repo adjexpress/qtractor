@@ -77,10 +77,11 @@ Page {
                 height: root.height * 9 / 32 - 4
                 penStyle: Qt.RoundCap
                 progressColor: uiParams.accentColor//"#E91E63"
-                foregroundColor: "#191a2f"  // foreground declared seperatly.
-                dialWidth: 8
-                startAngle: 190
-                spanAngle: 340
+                /*foregroundColor: "#191a2f"  // foreground declared seperatly.*/
+                foregroundColor: "transparent"  // foreground declared seperatly.
+                dialWidth: 10
+                startAngle: 195
+                spanAngle: 330
                 minValue: 0
                 maxValue: 100
                 value: tractor.progress
@@ -100,17 +101,21 @@ Page {
                     id: barText
 
                     anchors.centerIn: parent
-                        /*anchors.verticalCenterOffset: bar.value === 100 ? 25 : 0*/
+                    /*anchors.verticalCenterOffset: bar.value === 100 ? 25 : 0*/
 
-                    text: tractor.status === Tractor.CONNECTED ?
-                                        "Stop" : tractor.status === Tractor.STOPED ?
-                                                "Connect" : Math.round(bar.value) + " %"
+                    text: tractor.status === Tractor.CONNECTED ? "STOP" : 
+                    tractor.status === Tractor.STOPED ? "CONNECT" : 
+                    Math.round(bar.value) + " %"
 
-                    color: barMouseArea.containsMouse &&
-                                 tractor.status !== Tractor.CONNECTING ? "#E91E63" : "white"
+                    color: barMouseArea.containsMouse && 
+                    tractor.status !== Tractor.CONNECTING ? "#E91E63" : "white"
+
                     enabled: tractor.status !== Tractor.CONNECTING
-                    font.family: uiParams.fonts.headingCondensed.family
+                    font.family: uiParams.fonts.paragraph.family
+                    /*font.family: "Nunito Sans Regular"*/
                     font.pixelSize: bar.width * 26 / 174
+                    font.capitalization: Font.AllUppercase
+                    font.bold: true
 
                     Behavior on font.pixelSize {
                         NumberAnimation {
@@ -123,13 +128,13 @@ Page {
                 Text {
                     id: timerText
 
-                                /*visible: {*/
-                                        /*if (tractor.status === Tractor.CONNECTED) {*/
-                                                /*return true*/
-                                        /*} else {*/
-                                                /*return false*/
-                                        /*}*/
-                                /*}*/
+                    /*visible: {*/
+                            /*if (tractor.status === Tractor.CONNECTED) {*/
+                                    /*return true*/
+                            /*} else {*/
+                                    /*return false*/
+                            /*}*/
+                    /*}*/
 
                     visible: false
 
@@ -206,8 +211,7 @@ Page {
                     height: parent.height
                     hoverEnabled: true
                     cursorShape: tractor.status === Tractor.STOPED ||
-                                             tractor.status === Tractor.CONNECTED ? Qt.PointingHandCursor
-                                                                                                                        : Qt.WaitCursor
+                    tractor.status === Tractor.CONNECTED ? Qt.PointingHandCursor : Qt.WaitCursor
 
                     onClicked: {
                         if (tractor.status === Tractor.STOPED){
@@ -243,6 +247,7 @@ Page {
                     text: "Accept connection"
                     /*font: uiParams.fonts.paragraph*/
                     font.weight: Font.Light
+                    font.capitalization: Font.AllUppercase
                     enabled: tractor.status === Tractor.STOPED
 
                     checked: tractor.settings.acceptConnection
@@ -280,14 +285,14 @@ Page {
                 ItemDelegate {
                     width: parent.width
                     font: uiParams.fonts.paragraph
-                    text: "Exit node:"
+                    text: "EXIT NODE:"
                     enabled: tractor.status !== Tractor.CONNECTING
 
                     Label {
                         id: eNodeName
 
                         anchors.left: eNImg.right
-                        anchors.leftMargin: 4
+                        anchors.leftMargin: 8
                         anchors.verticalCenter: parent.verticalCenter
 
                         font: uiParams.fonts.paragraph
@@ -307,7 +312,7 @@ Page {
 
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
-                        anchors.leftMargin: 100
+                        anchors.leftMargin: 110
 
                         width: 25
                         height: 25
@@ -742,71 +747,74 @@ Page {
 
         // status bar
         Rectangle {
-                id: cdnCtr
+            id: cdnCtr
 
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 25
-                anchors.horizontalCenter: parent.horizontalCenter
-                height: 30
-                width: tractorCondition.width
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 25
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: 30
+            width: tractorCondition.width
 
+            Behavior on width {
+                NumberAnimation {
+                    easing.type: Easing.Linear
+                }
+            }
+
+            Rectangle {
+                width: Math.min(tractorCondition.contentWidth, tractorCondition.width) / 2
+                height: 5
+                anchors.horizontalCenter: tractorCondition.horizontalCenter
+                radius: 4
+                anchors.top: tractorCondition.bottom
+                anchors.topMargin: 12
                 Behavior on width {
-                        NumberAnimation {
-                                easing.type: Easing.Linear
-                        }
+                    NumberAnimation {
+                        /*duration: 500*/
+                        easing.type: Easing.Linear
+                    }
                 }
 
-                Rectangle {
-                        width: Math.min(tractorCondition.contentWidth, tractorCondition.width) / 2
-                        height: 5
-                        anchors.horizontalCenter: tractorCondition.horizontalCenter
-                        radius: 4
-                        anchors.top: tractorCondition.bottom
-                        anchors.topMargin: 12
-                        Behavior on width {
-                                NumberAnimation {
-                                        /*duration: 500*/
-                                        easing.type: Easing.Linear
-                                }
-                        }
+                color: {
+                    if (tractor.status === Tractor.CONNECTED) {
+                        return "#E91E63"
+                    } else {
+                        return "#191a2f"
+                    }
+                }
+            }
 
-                        color: {
-                                if (tractor.status === Tractor.CONNECTED) {
-                                        return "#E91E63"
-                                } else {
-                                        return "#191a2f"
-                                }
-                        }
+            color: "transparent"
 
+            Label {
+                id: tractorCondition
+
+                height: 17
+                clip: true
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: tractor.statusMessage
+                width: root.width - 16
+                horizontalAlignment: Label.AlignHCenter
+                elide: Label.ElideRight
+
+                Behavior on text {
+                    ColorAnimation {
+                        target: tractorCondition
+                        property: "color"
+                        from: "transparent"
+                        to: "#BDBDBD"
+
+                        easing.type: Easing.Linear
+                    }
                 }
 
-                color: "transparent"
-
-                Label {
-                        id: tractorCondition
-
-                        height: 17
-                        clip: true
-                        anchors.top: parent.top
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: tractor.statusMessage
-                        width: root.width - 16
-                        horizontalAlignment: Label.AlignHCenter
-                        elide: Label.ElideRight
-
-                        Behavior on text {
-                                ColorAnimation {
-                                        target: tractorCondition
-                                        property: "color"
-                                        from: "transparent"
-                                        to: "#BDBDBD"
-
-                                        easing.type: Easing.Linear
-                                }
-                        }
-
-                        font: uiParams.fonts.codeblock
-                }
+                font: uiParams.fonts.paragraph
+                /*font.family: uiParams.fonts.paragraph.family*/
+                /*font.family: "Nunito Sans Regular"*/
+                /*font.weight: font.Light*/
+                /*font.pixelSize: 16*/
+            }
         }
     }
 
