@@ -31,6 +31,8 @@ ApplicationWindow {
     height: 640
     minimumWidth: 360
     minimumHeight: 640
+    maximumWidth: 360
+    maximumHeight: 640
 
     C.UIParameters { id: uiParams }
 
@@ -106,7 +108,7 @@ ApplicationWindow {
 
         initialItem: generalPage
 
-        property int currentIndex: 0
+        property int currentIndex: footer.currentIndex
 
         onCurrentIndexChanged: {
             switch (currentIndex) {
@@ -152,6 +154,7 @@ ApplicationWindow {
     footer: TabBar {
         id: footer
 
+        Material.theme: Material.Light
         Material.background: "#00FFFFFF"
         Material.foreground: "#FAFAFA"
         Material.accent: "transparent"
@@ -159,11 +162,13 @@ ApplicationWindow {
         font.weight: Font.Medium
         height: window.minimalMode ? 60 : 0
         position: TabBar.Footer
-        currentIndex: view.currentIndex
+        currentIndex: 0 //view.currentIndex
 
+        
         // tab buttons
         Repeater {
             anchors.fill: parent
+
             model: [
                 "/icons/general.svg",
                 "/icons/port.svg",
@@ -178,7 +183,7 @@ ApplicationWindow {
 
                 height: parent.height
 
-                onClicked: { view.currentIndex = index }
+                onClicked: { footer.currentIndex = index }
 
                 // indicator
                 Rectangle {
