@@ -46,5 +46,10 @@ Dialog {
         rightPadding: dlg.rightPadding
         font: uiPrm.fonts.headingTwo
     }
+
+    background: Rectangle {
+        radius: 0
+        color: uiPrm.backgroundColor
+    }
 }
 

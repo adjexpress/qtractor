@@ -3,6 +3,7 @@ import QtQuick 2.4
 Item {
     readonly property string foregroundColor: "#fafafa"
     readonly property string backgroundColor: "#191919"
+    readonly property string sbColor: "#202020"
     readonly property string accentColor: "#E91E63"
     readonly property string splitColor: "#303030"
     readonly property string overlayColor: "#99000000"
@@ -46,7 +47,7 @@ Item {
             small.family = nunitoSans.name
             small.weight = Font.Light
             small.capitalization = Font.MixedCase
-            small.pixelSize = 12
+            small.pixelSize = 15
 
             codeblock.family = ubuntuFontMono.name
             codeblock.capitalization = Font.MixedCase
