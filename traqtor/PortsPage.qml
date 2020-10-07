@@ -22,7 +22,7 @@ Page {
             anchors.margins: 16
             anchors.verticalCenter: parent.verticalCenter
 
-            text: qsTr("Ports")
+            text: qsTr("Network")
             font.pixelSize: 24
             font.weight: Font.Light
         }
@@ -32,11 +32,16 @@ Page {
         anchors.top: parent.top
         width: parent.width
 
+        C.GroupHeader {
+            text: qsTr("Ports")
+            C.SLine { anchors.top: parent.top }
+        }
+
+        // Http Port
         ItemDelegate {
             id: httpPort
 
-            font.weight: Font.Light
-            /*height: 50*/
+            font: uiParams.fonts.small
             width: parent.width
             text: "HTTP TUNNEL PORT"
             enabled: tractor.status === Tractor.STOPED
@@ -55,28 +60,14 @@ Page {
                 onValueModified: { tractor.settings.httpPort = value }
             }
 
-            // top splite
-            Rectangle {
-                anchors.top: parent.top
-                width: parent.width
-                height: 1
-                color: uiParams.splitColor
-            }
-
-            // bottom splite
-            Rectangle {
-                anchors.bottom: parent.bottom
-                width: parent.width
-                height: 1
-                color: uiParams.splitColor
-            }
+            C.SLine { anchors.bottom: parent.bottom }
         }
 
+        // Socks Port
         ItemDelegate {
             id: socksPort
 
-            font.weight: Font.Light
-            /*height: 50*/
+            font: uiParams.fonts.small
             width: parent.width
             text: "SOCKS PORT"
             enabled: tractor.status === Tractor.STOPED
@@ -95,29 +86,14 @@ Page {
                 onValueModified: { tractor.settings.socksPort = value }
             }
 
-            // top splite
-            Rectangle {
-                anchors.top: parent.top
-                width: parent.width
-                height: 1
-                color: uiParams.splitColor
-            }
-
-            // bottom splite
-            Rectangle {
-                anchors.bottom: parent.bottom
-                width: parent.width
-                height: 1
-                color: uiParams.splitColor
-            }
+            C.SLine { anchors.bottom: parent.bottom }
         }
 
+        // DNS Port
         ItemDelegate {
             id: dnsPort
 
-            font.family: uiParams.fonts.paragraph.family
-            font.weight: Font.Light
-            /*height: 50*/
+            font: uiParams.fonts.small
             width: parent.width
             text: "DNS PORT"
             enabled: tractor.status === Tractor.STOPED
@@ -135,12 +111,47 @@ Page {
                 onValueModified: { tractor.settings.dnsPort = value }
             }
 
-            // bottom splite
-            Rectangle {
-                anchors.bottom: parent.bottom
-                width: parent.width
-                height: 1
-                color: uiParams.splitColor
+            C.SLine { anchors.bottom: parent.bottom }
+        }
+
+        C.GroupHeader { text: qsTr("Others") }
+
+        // Set Proxy
+        SwitchDelegate {
+            id: proxySwitch
+
+            width: parent.width
+            text: qsTr("SET PROXY")
+            font: uiParams.fonts.small
+            checked: tractor.settings.eProxy
+
+            onToggled: { tractor.settings.toggleEProxy() }
+
+            C.SLine { anchors.bottom: parent.bottom }
+        }
+
+        // Accept Connection
+        SwitchDelegate {
+            id: acSwitch
+
+            width: parent.width
+            text: "ACCEPT CONNECTION"
+            font: uiParams.fonts.small
+            enabled: tractor.status === Tractor.STOPED
+            checked: tractor.settings.acceptConnection
+
+            onToggled: { tractor.settings.acceptConnection = checked }
+
+            C.SLine { anchors.bottom: parent.bottom }
+
+            ToolTip {
+                Material.theme: Material.Light
+                text: qsTr("Whether or not allowing external devices <br> to use this network")
+                visible: parent.hovered
+                delay: 2000
+                timeout: 3000
+                font.pointSize: 10
+                font.weight: Font.Light
             }
         }
     }

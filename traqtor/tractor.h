@@ -15,6 +15,8 @@ class Tractor : public QObject
     Q_PROPERTY(QString statusMessage READ statusMessage NOTIFY statusMessageChanged)
     Q_PROPERTY(bool runningTested READ runningTested NOTIFY runningTestDone)
     Q_PROPERTY(QGSettings* settings READ settings CONSTANT)
+    Q_PROPERTY(QString torIP READ torIP NOTIFY torIPAvailable)
+    Q_PROPERTY(QString geoIP READ geoIP NOTIFY torIPAvailable)
 
 public:
     Tractor();
@@ -32,6 +34,7 @@ public:
     Q_INVOKABLE void restart();
     Q_INVOKABLE void testConnection();
     void testRunning();
+    Q_INVOKABLE void calTorIP();
 
     Status status() { return _status; }
     QString statusMessage() { return _statusMessage; }
@@ -39,6 +42,8 @@ public:
     bool connectionTested() { return _connectionTested; }
     bool runningTested() { return _runningTested; }
     QGSettings* settings() { return _dconf; }
+    QString torIP() { return _torIP; }
+    QString geoIP();
 
     void setStatus(Status s);
     void setProgress(int p);
@@ -49,13 +54,17 @@ Q_SIGNALS:
     void statusMessageChanged();
     void progressChanged();
     void runningTestDone();
+    void torIPAvailable();
 
 public slots:
-    void handleFinish(int exitCode, QProcess::ExitStatus extStatus);
+    void handleFinish(int, QProcess::ExitStatus);
     void handleOutput();
+    void handleTorIP(int);
 
 private:
     QProcess *_proc;
+    QProcess *_torIPProc;
+    QString _torIP;
     Status _status;
     QString _statusMessage;
     int _progress;

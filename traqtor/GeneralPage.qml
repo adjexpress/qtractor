@@ -45,7 +45,7 @@ Page {
 
         anchors.fill: parent
 
-        // circular bar
+        // Circular Bar
         Item {
             id: barCtnr
 
@@ -225,76 +225,42 @@ Page {
             }
         }
 
-        // parameters
+        // Exit Node
         Item {
             id: slCtr
             width: parent.width
             anchors.top: barCtnr.bottom
             anchors.bottom: mapCtnr.top
 
+            /*Rectangle {  //DEBUG*/
+                /*anchors.fill: parent*/
+                /*color: "blue"*/
+            /*}*/
+
             Column {
                 id: selectionList
 
                 anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenterOffset: 12
                 width: parent.width
 
-                // accept connection
-                SwitchDelegate {
-                    id: acceptConnectionDelegate
-
-                    width: parent.width
-                    text: "ACCEPT CONNECTION"
-                    /*font.weight: Font.Light*/
-                    font: uiParams.fonts.paragraph
-                    enabled: tractor.status === Tractor.STOPED
-
-                    checked: tractor.settings.acceptConnection
-
-                    // top splite
-                    Rectangle {
-                        anchors.top: parent.top
-                        width: parent.width
-                        height: 1
-                        color: uiParams.splitColor
-                    }
-
-                    // bottom splite
-                    Rectangle {
-                        anchors.bottom: parent.bottom
-                        width: parent.width
-                        height: 1
-                        color: uiParams.splitColor
-                    }
-
-                    ToolTip {
-                        Material.theme: Material.Light
-                        text: qsTr("Whether or not allowing external devices <br> to use this network")
-                        visible: parent.hovered
-                        delay: 2000
-                        timeout: 3000
-                        font.pointSize: 10
-                        font.weight: Font.Light
-                    }
-
-                    onToggled: { tractor.settings.acceptConnection = checked }
-                }
-
-                // exit node
+                // Exit Node
                 ItemDelegate {
                     width: parent.width
-                    font: uiParams.fonts.paragraph
-                    /*text: "EXIT NODE:"*/
-                    text: "EXIT NODE:"
+                    font: uiParams.fonts.small
+                    text: "EXIT NODE :"
                     enabled: tractor.status !== Tractor.CONNECTING
 
                     Label {
                         id: eNodeName
 
-                        anchors.left: eNImg.right
-                        anchors.leftMargin: 8
+                        /*anchors.left: eNImg.right*/
+                        /*anchors.leftMargin: 8*/
+                        anchors.right: parent.right
+                        anchors.rightMargin: 16
                         anchors.verticalCenter: parent.verticalCenter
 
-                        font: uiParams.fonts.paragraph
+                        font: uiParams.fonts.small
 
                         text: {
                             var m = eNView.model
@@ -310,8 +276,10 @@ Page {
                         id: eNImg
 
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent.left
-                        anchors.leftMargin: 110
+                        /*anchors.left: parent.left*/
+                        /*anchors.leftMargin: 110*/
+                        anchors.right: eNodeName.left
+                        anchors.rightMargin: 8
 
                         width: 25
                         height: 25
@@ -327,13 +295,8 @@ Page {
                         }
                     }
 
-                    // bottom splite
-                    Rectangle {
-                        anchors.bottom: parent.bottom
-                        width: parent.width
-                        height: 1
-                        color: uiParams.splitColor
-                    }
+                    C.SLine { anchors.top: parent.top }
+                    C.SLine { anchors.bottom: parent.bottom }
 
                     onClicked: {
                         eNodeDialog.open()
@@ -342,31 +305,34 @@ Page {
             }
         }
 
-        // map
+        // Map
         Item {
             id: mapCtnr
 
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 75
+            anchors.bottomMargin: 65
             anchors.horizontalCenter: parent.horizontalCenter
+
+            /*Rectangle {  //DEBUG*/
+                /*anchors.fill: parent*/
+                /*color: "green"*/
+            /*}*/
 
             readonly property real offmapOpacity: 0.125
             readonly property real onmapOpacity: 0.4
 
-            property real _avaHeight: parent.height - barCtnr.height_2 - selectionList.height -
-                                                                cdnCtr.height - header.height - 16
+            property real _avaHeight: parent.height - barCtnr.height_2 - selectionList.height - 
+            cdnCtr.height - header.height - 24 //+ urIP.height
 
-            property real _maxHeight: root.width * 180 / 340
+            property real _maxHeight: root.width * 180 / 340 + urIP.height
 
             property real height_2: Math.min(_avaHeight, _maxHeight)
             property real height_1: 0
 
-            width: height_2 * 340 / 180
+            width: parent.width//height_2 * 340 / 180 + urIP.height
             height: tractor.status === Tractor.CONNECTED ? height_2 : height_1
             opacity: tractor.status === Tractor.CONNECTED ? 1 : 0
             clip: true
-
-            readonly property real imgHeight: height_2
 
             Behavior on height {
                 enabled: tractor.status === Tractor.CONNECTING
@@ -383,369 +349,113 @@ Page {
                 }
             }
 
-                /*Image {*/
-                        /*id: global*/
+            // Locationas
+            Repeater {
+                model: [
+                    { "src": "qrc:/images/austria_map.png", "code": "au", "name": "Austria"},
+                    { "src": "qrc:/images/canada_map.png", "code": "ca", "name": "Canada"},
+                    { "src": "qrc:/images/czech_map.png", "code": "cz", "name": "Czech"},
+                    { "src": "qrc:/images/finland_map.png", "code": "fi", "name": "Finland"},
+                    { "src": "qrc:/images/france_map.png", "code": "fr", "name": "France"},
+                    { "src": "qrc:/images/germany_map.png", "code": "de", "name": "Germany"},
+                    { "src": "qrc:/images/ireland_map.png", "code": "ie", "name": "Ireland"},
+                    { "src": "qrc:/images/moldova_map.png", "code": "md", "name": "Moldova"},
+                    { "src": "qrc:/images/netherlands_map.png", "code": "nl", "name": "Netherlands"},
+                    { "src": "qrc:/images/norway_map.png", "code": "no", "name": "Norway"},
+                    { "src": "qrc:/images/poland_map.png", "code": "pl", "name": "Poland"},
+                    { "src": "qrc:/images/romania_map.png", "code": "ro", "name": "Romania"},
+                    { "src": "qrc:/images/russia_map.png", "code": "ru", "name": "Russia"},
+                    { "src": "qrc:/images/seychelles_map.png", "code": "sc", "name": "Seychelles"},
+                    { "src": "qrc:/images/spain_map.png", "code": "es", "name": "Spain"},
+                    { "src": "qrc:/images/sweden_map.png", "code": "se", "name": "Sweden"},
+                    { "src": "qrc:/images/switzerland_map.png", "code": "ch", "name": "Switzerland"},
+                    { "src": "qrc:/images/ukraine_map.png", "code": "ua", "name": "Ukraine"},
+                    { "src": "qrc:/images/unitedKingdom_map.png", "code": "uk", "name": "United Kingdom"},
+                    { "src": "qrc:/images/unitedStates_map.png", "code": "us", "name": "United States"},
+                    { "src": "qrc:/images/other_map.png", "code": "", "name": ""},
+                ]
 
-                        /*source: "qrc:/images/global.png"*/
-                        /*anchors.fill: parent*/
-                        /*anchors.top: parent.top*/
-                        /*anchors.left: parent.left*/
-                        /*anchors.right: parent.right*/
-                        /*height: 180*/
-                        /*opacity: 0.1*/
-                /*}*/
+                Image {
+                    id: austria_map
 
-            Image {
-                id: otherMap
+                    source: modelData.src
+                    width: mapCtnr.width
+                    height: mapCtnr.height_2 - urIP.height
 
-                source: "qrc:/images/other_map.png"
-                /*anchors.fill: parent*/
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: parent.imgHeight//180
-                opacity: parent.offmapOpacity
-            }
+                    opacity: {
+                        if (tractor.status === Tractor.CONNECTED) {
+                            var geo = tractor.geoIP.split(',')
+                            var cname = ""
+                            if (geo.length > 1) cname = geo[1]
 
-            Image {
-                id: austria_map
+                            if (tractor.settings.exitNode === modelData.code || 
+                            (modelData.name.length > 0 && cname.includes(modelData.name))) {
+                                return 0.4;
+                            } 
+                        }
 
-                source: "qrc:/images/austria_map.png"
-                /*anchors.fill: parent*/
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: parent.imgHeight
-                opacity: {
-                    if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "au")
-                        return parent.onmapOpacity
-                    else
-                        return parent.offmapOpacity
+                        return 0.125
+                    }
                 }
             }
 
-            Image {
-                id: canadaMap
-
-                source: "qrc:/images/canada_map.png"
-                anchors.top: parent.top
-                anchors.left: parent.left
+            Button {
+                id: ipRefBtn
+                width: 32
+                height: 32
+                padding: 8
                 anchors.right: parent.right
-                height: parent.imgHeight
-                opacity: {
-                    if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "ca")
-                        return parent.onmapOpacity
-                    else
-                        return parent.offmapOpacity
+                anchors.rightMargin: 16
+                anchors.bottom: urIP.top
+                icon.source: "qrc:/icons/sync.svg"
+                topInset: 0
+                bottomInset: 0
+
+                /*background: Item {}*/
+                background: Rectangle {
+                    color: uiParams.backgroundColor
+                    radius: width
+                    border.width: 1
+                    border.color: uiParams.accentColor
+                    opacity: ipRefBtn.hovered ? 1 : 0.7
+                }
+
+                Behavior on rotation {
+                    NumberAnimation {
+                        duration: 800
+                        easing.type: Easing.InOutQuart
+                    }
+                }
+
+                onClicked: {
+                    tractor.calTorIP()
+                    rotation += 180
                 }
             }
 
-            Image {
-                    id: czechMap
+            // IP, GeoIP
+            Item {
+                id: urIP
+                anchors.bottom: parent.bottom
+                height: 40
+                width: parent.width
+                visible: tractor.status === Tractor.CONNECTED
 
-                    source: "qrc:/images/czech_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "cz")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
+                Label {
+                    /*anchors.verticalCenter: parent.verticalCenter*/
+                    /*anchors.left: parent.left*/
+                    /*anchors.leftMargin: 16*/
+                    anchors.centerIn: parent
+                    text: "Tor IP :  " + tractor.torIP + "  " + tractor.geoIP
+                    font: uiParams.fonts.small
+                }
 
-            Image {
-                    id: finlandMap
-
-                    source: "qrc:/images/finland_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "fi")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: franceMap
-
-                    source: "qrc:/images/france_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "fr")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: germanyMap
-
-                    source: "qrc:/images/germany_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "de")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: irelandMap
-
-                    source: "qrc:/images/ireland_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "ie")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: moldovaMap
-
-                    source: "qrc:/images/moldova_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "md")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: netherlandsMap
-
-                    source: "qrc:/images/netherlands_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "nl")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: norwayMap
-
-                    source: "qrc:/images/norway_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "no")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: polandMap
-
-                    source: "qrc:/images/poland_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "pl")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: romaniaMap
-
-                    source: "qrc:/images/romania_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "ro")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: russiaMap
-
-                    source: "qrc:/images/russia_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "ru")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: seychellesMap
-
-                    source: "qrc:/images/seychelles_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "sc")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-                /*Image {*/
-                        /*id: singaporeMap*/
-
-                        /*source: "qrc:/images/singapore_map.png"*/
-                        /*anchors.top: parent.top*/
-                        /*anchors.left: parent.left*/
-                        /*anchors.right: parent.right*/
-                        /*height: parent.imgHeight*/
-                        /*opacity: {*/
-                                /*if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "sg")*/
-                                        /*return 0.4*/
-                                /*else*/
-                                        /*return 0.1*/
-                        /*}*/
-                /*}*/
-
-            Image {
-                    id: spainMap
-
-                    source: "qrc:/images/spain_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "es")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: swedenMap
-
-                    source: "qrc:/images/sweden_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "se")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: switzerlandMap
-
-                    source: "qrc:/images/switzerland_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "ch")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: ukraineMap
-
-                    source: "qrc:/images/ukraine_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "ua")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: unitedKingdomMap
-
-                    source: "qrc:/images/unitedKingdom_map.png"
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "uk")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
-            }
-
-            Image {
-                    id: unitedStatesMap
-
-                    source: "qrc:/images/unitedStates_map.png"
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: parent.imgHeight
-                    opacity: {
-                            if (tractor.status === Tractor.CONNECTED && tractor.settings.exitNode === "us")
-                                    return parent.onmapOpacity
-                            else
-                                    return parent.offmapOpacity
-                    }
+                C.SLine { anchors.bottom: parent.bottom }
             }
         }
 
-        // status bar
-        Rectangle {
+        // Status Bar
+        Item {
             id: cdnCtr
 
             anchors.bottom: parent.bottom
@@ -776,22 +486,21 @@ Page {
 
                 color: {
                     if (tractor.status === Tractor.CONNECTED) {
-                        return "#E91E63"
+                        return uiParams.accentColor
                     } else {
-                        return "#191a2f"
+                        return uiParams.splitColor
                     }
                 }
             }
 
-            color: "transparent"
-
             Label {
                 id: tractorCondition
 
-                height: 17
+                height: 20
                 clip: true
                 anchors.top: parent.top
                 anchors.horizontalCenter: parent.horizontalCenter
+                font: uiParams.fonts.paragraph
                 text: tractor.statusMessage
                 width: root.width - 16
                 horizontalAlignment: Label.AlignHCenter
@@ -807,8 +516,6 @@ Page {
                         easing.type: Easing.Linear
                     }
                 }
-
-                font: uiParams.fonts.paragraph
             }
         }
     }
@@ -866,26 +573,26 @@ Page {
             }
 
             model: [
-                { "title": "Optimal",           "icon": "qrc:/icons/speed.png",                     "code": "ww" },
-                { "title": "Austria",           "icon": "qrc:/icons/austria.png",                   "code": "au" },
-                { "title": "Canada",            "icon": "qrc:/icons/canada.png",                    "code": "ca" },
-                { "title": "Czech",             "icon": "qrc:/icons/czech-republic.png",    "code": "cz" },
-                { "title": "Finland",           "icon": "qrc:/icons/finland.png",                   "code": "fi" },
-                { "title": "France",            "icon": "qrc:/icons/france.png",                    "code": "fr" },
-                { "title": "Germany",           "icon": "qrc:/icons/germany.png",                   "code": "de" },
-                { "title": "Ireland",           "icon": "qrc:/icons/ireland.png",                   "code": "ie" },
-                { "title": "Moldova",           "icon": "qrc:/icons/moldova.png",                   "code": "md" },
-                { "title": "Netherlands", "icon": "qrc:/icons/netherlands.png",         "code": "nl" },
-                { "title": "Norway",            "icon": "qrc:/icons/norway.png",                    "code": "no" },
-                { "title": "Poland",            "icon": "qrc:/icons/poland.png",                    "code": "pl" },
-                { "title": "Romania",           "icon": "qrc:/icons/romania.png",                   "code": "ro" },
-                { "title": "Russia",            "icon": "qrc:/icons/russia.png",                    "code": "ru" },
-                { "title": "Seychelles",    "icon": "qrc:/icons/seychelles.png",            "code": "sc" },
-                { "title": "Singapore",     "icon": "qrc:/icons/singapore.png",             "code": "sg" },
-                { "title": "Spain",             "icon": "qrc:/icons/spain.png",                     "code": "es" },
-                { "title": "Sweden",            "icon": "qrc:/icons/sweden.png",                    "code": "se" },
-                { "title": "Switzerland", "icon": "qrc:/icons/switzerland.png",         "code": "ch" },
-                { "title": "Ukraine",           "icon": "qrc:/icons/ukraine.png",                   "code": "ua" },
+                { "title": "Optimal", "icon": "qrc:/icons/speed.png", "code": "ww" },
+                { "title": "Austria", "icon": "qrc:/icons/austria.png", "code": "au" },
+                { "title": "Canada", "icon": "qrc:/icons/canada.png", "code": "ca" },
+                { "title": "Czech", "icon": "qrc:/icons/czech-republic.png", "code": "cz" },
+                { "title": "Finland", "icon": "qrc:/icons/finland.png", "code": "fi" },
+                { "title": "France", "icon": "qrc:/icons/france.png", "code": "fr" },
+                { "title": "Germany", "icon": "qrc:/icons/germany.png", "code": "de" },
+                { "title": "Ireland", "icon": "qrc:/icons/ireland.png", "code": "ie" },
+                { "title": "Moldova", "icon": "qrc:/icons/moldova.png", "code": "md" },
+                { "title": "Netherlands", "icon": "qrc:/icons/netherlands.png", "code": "nl" },
+                { "title": "Norway", "icon": "qrc:/icons/norway.png", "code": "no" },
+                { "title": "Poland", "icon": "qrc:/icons/poland.png", "code": "pl" },
+                { "title": "Romania", "icon": "qrc:/icons/romania.png", "code": "ro" },
+                { "title": "Russia", "icon": "qrc:/icons/russia.png", "code": "ru" },
+                { "title": "Seychelles", "icon": "qrc:/icons/seychelles.png", "code": "sc" },
+                { "title": "Singapore", "icon": "qrc:/icons/singapore.png", "code": "sg" },
+                { "title": "Spain", "icon": "qrc:/icons/spain.png", "code": "es" },
+                { "title": "Sweden", "icon": "qrc:/icons/sweden.png", "code": "se" },
+                { "title": "Switzerland", "icon": "qrc:/icons/switzerland.png", "code": "ch" },
+                { "title": "Ukraine", "icon": "qrc:/icons/ukraine.png", "code": "ua" },
                 { "title": "United Kingdom", "icon": "qrc:/icons/united-kingdom.png", "code": "uk" },
                 { "title": "United States", "icon": "qrc:/icons/united-states.png", "code": "us" },
             ]

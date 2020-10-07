@@ -59,6 +59,7 @@
         <file>icons/bridge.svg</file>
         <file>icons/rightarrow.svg</file>
         <file>icons/leftarrow.svg</file>
+        <file>icons/sync.svg</file>
 
         <file>fonts/Nunito_Sans/NunitoSans-Black.ttf</file>
         <file>fonts/Nunito_Sans/NunitoSans-BlackItalic.ttf</file>

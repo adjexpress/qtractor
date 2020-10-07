@@ -3,5 +3,7 @@
         <file>components/SpinBox.qml</file>
         <file>components/Dialog.qml</file>
         <file>components/UIParameters.qml</file>
+        <file>components/GroupHeader.qml</file>
+        <file>components/SLine.qml</file>
     </qresource>
 </RCC>

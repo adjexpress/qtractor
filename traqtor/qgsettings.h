@@ -17,11 +17,12 @@ class QGSettings : public QObject{
     Q_PROPERTY(int httpPort READ httpPort WRITE setHttpPort NOTIFY httpPortChanged)
     Q_PROPERTY(bool useBridges READ useBridges WRITE setUseBridges NOTIFY useBridgesChanged)
     Q_PROPERTY(QString bridges READ bridges WRITE setBridges NOTIFY bridgesChanged)
+    Q_PROPERTY(bool eProxy READ eProxy NOTIFY eProxyChanged)
 
 public:
-    QGSettings(QByteArray s_id);
+    QGSettings(QByteArray);
 
-    void settingNew(QByteArray schema_id) { _gSettingInstance = g_settings_new(schema_id.data()); }
+    void settingNew(QByteArray schema_id);
 
     bool acceptConnection() { return getBoolValue("accept-connection"); }
     QString exitNode() { return getStringValue("exit-node"); }
@@ -30,14 +31,16 @@ public:
     int httpPort() { return getIntValue("http-port"); }
     bool useBridges() { return getBoolValue("use-bridges"); }
     QString bridges() { return _bridges; }
+    bool eProxy();
 
-    void setAcceptConnection(bool ac);
-    void setExitNode(QString n);
-    void setDnsPort(int p);
-    void setSocksPort(int p);
-    void setHttpPort(int p);
-    void setUseBridges(bool u);
-    void setBridges(QString b);
+    void setAcceptConnection(bool);
+    void setExitNode(QString);
+    void setDnsPort(int);
+    void setSocksPort(int);
+    void setHttpPort(int);
+    void setUseBridges(bool);
+    void setBridges(QString);
+    Q_INVOKABLE void toggleEProxy();
 
     bool setStringValue(QString key, QString value);
     bool setBoolValue(QString key, bool value);
@@ -54,10 +57,13 @@ Q_SIGNALS:
     void socksPortChanged();
     void httpPortChanged();
     void useBridgesChanged();
+    void eProxyChanged();
     void bridgesChanged();
 
 private:
     GSettings* _gSettingInstance;
+    GSettings* _sproxy;  // system proxy
+    GSettings* _ssocks;  // system socks
     QString _bridges;
 
     QFile _bridgesFile;
