@@ -27,6 +27,10 @@ sudo apt install traqtor
 
 `libglib2.0-dev`
 
+`curl`
+
+`tractor`
+
 NOTE: Use your system package manager to install these requirements (like apt on ubuntu)
 NOTE: Minimal require Qt version is 5.11 (you can see the installed version with command: `qmake -v`)
 NOTE: These requirements are tested on ubuntu
