@@ -5,7 +5,8 @@ if [[ $1 == 'debug' || $1 == 'release' ]]; then
     cd build/$1
     qmake ../../traqtor.pro -spec linux-g++ CONFIG+=$1 CONFIG+=qml_debug
     make -j4
-    if [[ $? -eq 0 ]]; then
+    build_code=$?
+    if [[ $build_code -eq 0 ]]; then
         echo -e "\n---> Output built in `pwd`"
     fi
     cd ../..
@@ -32,8 +33,8 @@ else
 fi
 
 
-if [[ $1 == 'debug' || $1 == 'release' && $2 == 'run' ]]; then
-    if [[ -e build/$1/traqtor/traqtor ]]; then
+if [[ ($1 == 'debug' || $1 == 'release') && $2 == 'run' && $build_code -eq 0 ]]; then
+    if [[ -e build/$1/traqtor/traqtor  ]]; then
         "./build/$1/traqtor/traqtor"
     else
         echo "---> There isn't file (./build/$1/traqtor/traqtor) to run"
