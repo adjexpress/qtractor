@@ -30,11 +30,21 @@ bool QGSettings::eProxy() {
     return spMode == "manual" && ssPort == socksPort() && ssHost == ip;
 }
 
+void QGSettings::setProxy() {
+    QProcess::execute("tractor", {"set"});
+    emit eProxyChanged();
+}
+
+void QGSettings::unsetProxy() {
+    QProcess::execute("tractor", {"unset"});
+    emit eProxyChanged();
+}
+
 void QGSettings::toggleEProxy() {
     if (eProxy()) {
-        QProcess::execute("tractor", {"unset"});
+        unsetProxy();
     } else {
-        QProcess::execute("tractor", {"set"});
+        setProxy();
     }
 
     emit eProxyChanged();

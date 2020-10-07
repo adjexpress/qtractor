@@ -40,6 +40,8 @@ public:
     void setHttpPort(int);
     void setUseBridges(bool);
     void setBridges(QString);
+    void setProxy();
+    void unsetProxy();
     Q_INVOKABLE void toggleEProxy();
 
     bool setStringValue(QString key, QString value);

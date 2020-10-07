@@ -113,6 +113,7 @@ void Tractor::handleFinish(int exitCode, QProcess::ExitStatus extStatus) {
     if (_proc->arguments() == _args[STOP]) {
         setProgress(0);
         setStatus(STOPED);
+        _dconf->unsetProxy();
 
         if (_restart) {
             start();
