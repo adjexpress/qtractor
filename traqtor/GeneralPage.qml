@@ -66,6 +66,25 @@ Page {
                 }
             }
 
+            // Bar background
+            Rectangle {
+                anchors.fill: bar
+                anchors.margins: 3
+                radius: width
+                color: "transparent"
+                border.width: 3
+                border.color: uiParams.splitColor
+
+                Rectangle {
+                    anchors.top: parent.top
+                    anchors.topMargin: -5
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    height: 40
+                    width: 40
+                    color: uiParams.backgroundColor
+                }
+            }
+
             RadialBar {
                 id: bar
 
@@ -351,6 +370,7 @@ Page {
 
             // Locationas
             Repeater {
+
                 model: [
                     { "src": "qrc:/images/austria_map.png", "code": "au", "name": "Austria"},
                     { "src": "qrc:/images/canada_map.png", "code": "ca", "name": "Canada"},
@@ -378,8 +398,9 @@ Page {
                 Image {
                     id: austria_map
 
+                    anchors.horizontalCenter: mapCtnr.horizontalCenter
                     source: modelData.src
-                    width: mapCtnr.width
+                    width: mapCtnr.width - 32
                     height: mapCtnr.height_2 - urIP.height
 
                     opacity: {
@@ -436,7 +457,8 @@ Page {
             // IP, GeoIP
             Item {
                 id: urIP
-                anchors.bottom: parent.bottom
+                anchors.top: parent.top
+                anchors.topMargin: parent.height_2 - height
                 height: 40
                 width: parent.width
                 visible: tractor.status === Tractor.CONNECTED
