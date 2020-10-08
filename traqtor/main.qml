@@ -1,6 +1,7 @@
 import QtQuick                      2.4
 import QtQuick.Controls             2.4
 import QtQuick.Controls.Material    2.4
+import QtQuick.Window               2.2
 import app.tractor                  1.0
 
 import "./components" as C
@@ -33,6 +34,8 @@ ApplicationWindow {
     minimumHeight: 640
     maximumWidth: 360
     maximumHeight: 640
+    x: (Screen.width - width) / 2
+    y: (Screen.height - height) / 2
 
     C.UIParameters { id: uiParams }
 
