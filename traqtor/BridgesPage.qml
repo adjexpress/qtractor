@@ -27,6 +27,7 @@ Page {
         }
     }
 
+    // Use Bridges
     SwitchDelegate {
         id: useBridgesDelegate
 
@@ -35,8 +36,7 @@ Page {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 50
-        text: "Use bridges"
-//        font.weight: Font.Light
+        text: "USE BRIDGES"
         font: uiParams.fonts.paragraph
         enabled: tractor.status === Tractor.STOPED
 
@@ -83,10 +83,9 @@ Page {
         Label {
             id: briLabel
 
-            text: qsTr("Bridges:")
+            text: qsTr("BRIDGES:")
             color: uiParams.foregroundColor
             font: uiParams.fonts.paragraph
-//            font.weight: Font.Light
             anchors.left: parent.left
             anchors.leftMargin: 15
             anchors.top: parent.top
