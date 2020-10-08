@@ -127,20 +127,26 @@ Page {
                     Math.round(bar.value) + " %"
 
                     color: barMouseArea.containsMouse && 
-                    tractor.status !== Tractor.CONNECTING ? "#E91E63" : "white"
+                    tractor.status !== Tractor.CONNECTING ? uiParams.accentColor : "white"
 
                     enabled: tractor.status !== Tractor.CONNECTING
                     font.family: uiParams.fonts.paragraph.family
                     font.pixelSize: bar.width * 26 / 174
                     font.capitalization: Font.AllUppercase
                     font.bold: true
+                }
 
-                    Behavior on font.pixelSize {
-                        NumberAnimation {
-                            duration: 400
-                            easing.type: "OutElastic"
-                        }
-                    }
+                Label {
+                    anchors.horizontalCenter: barText.horizontalCenter
+                    anchors.top: barText.bottom
+                    anchors.topMargin: 8
+                    font.family: uiParams.fonts.paragraph.family
+                    font.pixelSize: barText.pixelSize * 2 / 5
+                    /*font.capitalization: Font.AllUppercase*/
+                    enabled: tractor.status == Tractor.CONNECTING
+                    visible: enabled
+                    color: barMouseArea.containsMouse ? uiParams.accentColor : "white"
+                    text: "STOP"
                 }
 
                 /*Text {*/
@@ -228,16 +234,17 @@ Page {
                     width: parent.width
                     height: parent.height
                     hoverEnabled: true
-                    cursorShape: tractor.status === Tractor.STOPED ||
-                    tractor.status === Tractor.CONNECTED ? Qt.PointingHandCursor : Qt.WaitCursor
+                    /*cursorShape: tractor.status === Tractor.STOPED ||*/
+                    /*tractor.status === Tractor.CONNECTED ? Qt.PointingHandCursor : Qt.WaitCursor*/
+                    cursorShape: Qt.PointingHandCursor
 
                     onClicked: {
                         if (tractor.status === Tractor.STOPED){
-                                tractor.start()
+                            tractor.start()
                         } else if (tractor.status === Tractor.CONNECTED) {
-                                tractor.stop()
-                        } else {
-                                // NOTHING
+                            tractor.stop()
+                        } else {  // tractor.status === Tractor.CONNECTING
+                            tractor.kill()
                         }
                     }
                 }
@@ -370,7 +377,6 @@ Page {
 
             // Locationas
             Repeater {
-
                 model: [
                     { "src": "qrc:/images/austria_map.png", "code": "au", "name": "Austria"},
                     { "src": "qrc:/images/canada_map.png", "code": "ca", "name": "Canada"},
@@ -437,7 +443,7 @@ Page {
                     color: uiParams.backgroundColor
                     radius: width
                     border.width: 1
-                    border.color: uiParams.accentColor
+                    border.color: uiParams.splitColor
                     opacity: ipRefBtn.hovered ? 1 : 0.7
                 }
 

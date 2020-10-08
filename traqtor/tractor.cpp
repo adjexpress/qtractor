@@ -1,4 +1,3 @@
-//#include <QApplication>
 #include <QDebug>
 #include "tractor.h"
 
@@ -37,6 +36,16 @@ void Tractor::stop() {
 void Tractor::restart() {
     _restart = true;
     stop();
+}
+
+void Tractor::kill() {
+    _proc->terminate();
+    QProcess killtorP;
+    killtorP.start("pkill", {"-x", "tor", "-e"});
+    killtorP.waitForFinished();
+    setStatusMessage(QString(killtorP.readAll()).trimmed());
+    setProgress(0);
+    setStatus(STOPED);
 }
 
 void Tractor::testConnection() {
@@ -134,7 +143,6 @@ void Tractor::handleOutput() {
             setStatus(CONNECTED);
             setProgress(100);
             setStatusMessage("Tractor is connected");
-
         } else if (data.contains("False")) {
             setStatus(STOPED);
             setProgress(0);

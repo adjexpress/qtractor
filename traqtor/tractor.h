@@ -32,6 +32,7 @@ public:
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();
     Q_INVOKABLE void restart();
+    Q_INVOKABLE void kill();
     Q_INVOKABLE void testConnection();
     void testRunning();
     Q_INVOKABLE void calTorIP();
