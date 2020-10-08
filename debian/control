@@ -9,7 +9,7 @@ Homepage: https://gitlab.com/tractor-team/qtractor
 Package: traqtor
 Architecture: any
 Multi-Arch: foreign
-Depends: ${misc:Depends}, ${shlibs:Depends}, curl, qml-module-qtquick2, qml-module-qtquick-controls2, qml-module-qtquick-window2, tractor (>=2.2-0~)
+Depends: ${misc:Depends}, ${shlibs:Depends}, curl, libnotify-bin, qml-module-qtquick2, qml-module-qtquick-controls2, qml-module-qtquick-window2, tractor (>=2.2-0~)
 Description: Settings app for Tractor
  This package is a graphical settings for tractor
  which is an app using Python stem to provide

@@ -97,6 +97,12 @@ void Tractor::setStatus(Tractor::Status s) {
 
     _status = s;
     emit statusChanged(s);
+
+    if (_status == CONNECTED) {
+        QProcess::execute("notify-send", {"Traqtor", "Tractor is running"});
+    } else if (_status == STOPED && !_restart) {
+        QProcess::execute("notify-send", {"Traqtor", "Tractor is stoped"});
+    }
 }
 
 void Tractor::setProgress(int p) {
@@ -128,7 +134,7 @@ void Tractor::handleFinish(int exitCode, QProcess::ExitStatus extStatus) {
             start();
             _restart = false;
         }
-    }
+    } 
 
     calTorIP();
 }

@@ -29,6 +29,8 @@ sudo apt install traqtor
 
 `curl`
 
+`libnotify-bin`
+
 `tractor`
 
 NOTE: Use your system package manager to install these requirements (like apt on ubuntu)
