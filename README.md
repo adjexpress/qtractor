@@ -4,6 +4,8 @@ This is a graphical settings app for tractor which is a package uses Python stem
 
 <!--![traqtorPoster](/uploads/b06f001c6bf186f15da12fdd62c2749e/traqtorPoster.png)-->
 
+![traqtorPoster](./screenshots/traqtor_poster.png)
+
 ## Installation
 
 
