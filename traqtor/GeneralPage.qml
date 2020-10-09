@@ -274,7 +274,7 @@ Page {
                 ItemDelegate {
                     width: parent.width
                     font: uiParams.fonts.small
-                    text: "EXIT NODE :"
+                    text: "EXIT NODE"
                     enabled: tractor.status !== Tractor.CONNECTING
 
                     Label {

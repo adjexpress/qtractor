@@ -83,7 +83,7 @@ Page {
         Label {
             id: briLabel
 
-            text: qsTr("BRIDGES:")
+            text: qsTr("BRIDGES")
             color: uiParams.foregroundColor
             font: uiParams.fonts.paragraph
             anchors.left: parent.left
@@ -105,7 +105,7 @@ Page {
 
             font.bold: true
             text: "Save"
-            enabled: tractor.status === Tractor.STOPED
+            /*enabled: tractor.status === Tractor.STOPED*/
 
             onClicked: {
                 tractor.settings.bridges = bridgesText.text
