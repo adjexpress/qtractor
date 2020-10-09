@@ -78,7 +78,7 @@ Item {
             source: "qrc:/fonts/Ubuntu-C.ttf"
         }
 
-
+        // Nunito Sans
         FontLoader {
             id: nunitoSans
             source: "qrc:/fonts/Nunito_Sans/NunitoSans-Regular.ttf"

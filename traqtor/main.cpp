@@ -10,10 +10,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    int fontId = QFontDatabase::addApplicationFont(":/fonts/Ubuntu-R.ttf");
+    int fontId = QFontDatabase::addApplicationFont(":/fonts/Nunito_Sans/NunitoSans-Regular.ttf");
     if (fontId != -1) {
-        QFont ubuntuFont("Ubuntu");
-        app.setFont(ubuntuFont);
+        QFont nunitoFont("Nunito Sans");
+        app.setFont(nunitoFont);
     }
 
     qmlRegisterType<Tractor>("app.tractor", 1, 0, "Tractor");

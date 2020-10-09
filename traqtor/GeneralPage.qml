@@ -553,6 +553,7 @@ Page {
 
         rootItem: root
         title: "Choose exit node"
+        standardButtons: Dialog.Cancel
 
         ListView {
             id: eNView
@@ -560,8 +561,10 @@ Page {
             focus: true
             clip: true
             currentIndex: -1
-            width: aboutDialog.contentWidth
+            /*width: aboutDialog.contentWidth*/
+            width: 256//aboutDialog.contentWidth
             height: Math.min(contentHeight, root.height / 2)
+            spacing: 1
 
             ScrollBar.vertical: ScrollBar {
                 parent: eNodeDialog.contentItem
@@ -634,8 +637,9 @@ Page {
         title: "About"
 
         Column {
-            width: aboutDialog.contentWidth
-            spacing: 2
+            /*width: aboutDialog.contentWidth*/
+            width: 256
+            spacing: 1
 
             // logo
             Image {
@@ -663,7 +667,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
 
                 width: parent.width
-                text: "Version 1.0\n\nGraphical setting app for tractor\nReleased under the term of the GNU GPL v3"
+                text: "Version 1.0\n\nGraphical setting app for tractor.\nReleased under the term of the GNU GPL v3"
                 wrapMode: "WordWrap"
                 color: uiParams.foregroundColor
                 font.pixelSize: 16
@@ -679,9 +683,14 @@ Page {
             TabButton {
                 anchors.horizontalCenter: parent.horizontalCenter
                 checkable: false
-                text: "Star on gitlab"
                 width: parent.width
-                font: uiParams.fonts.paragraph
+                height: 40
+
+                Label {
+                    anchors.centerIn: parent
+                    text: "STAR ON GITLAB"
+                    color: uiParams.accentColor
+                }
 
                 onClicked: {
                     Qt.openUrlExternally("https://gitlab.com/tractor-team/qtractor")
@@ -692,11 +701,15 @@ Page {
             // report a bug
             TabButton {
                 anchors.horizontalCenter: parent.horizontalCenter
-
                 checkable: false
-                text: "Report a bug"
                 width: parent.width
-                font: uiParams.fonts.paragraph
+                height: 40
+
+                Label {
+                    anchors.centerIn: parent
+                    text: "REPORT A BUG"
+                    color: uiParams.accentColor
+                }
 
                 onClicked: {
                     Qt.openUrlExternally("https://gitlab.com/tractor-team/qtractor/issues")
@@ -707,11 +720,15 @@ Page {
             // close
             TabButton {
                 anchors.horizontalCenter: parent.horizontalCenter
-
                 width: parent.width
                 checkable: false
-                text: "Close"
-                font: uiParams.fonts.paragraph
+                height: 40
+
+                Label {
+                    anchors.centerIn: parent
+                    text: "CLOSE"
+                    color: uiParams.accentColor
+                }
 
                 onClicked: {    aboutDialog.close() }
             }

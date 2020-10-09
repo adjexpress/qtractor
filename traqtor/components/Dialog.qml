@@ -11,14 +11,14 @@ Dialog {
     x: (rootItem.width - width) / 2
     y: (rootItem.height - height) / 2 - 32
 
-    /*width: contentWidth + leftPadding + rightPadding*/
-    width: parent.width
+    width: contentWidth + leftPadding + rightPadding
+    /*width: parent.width*/
     height: contentHeight + topPadding + bottomPadding + 
     (header && header.visible ? header.height : 0) + 
     (footer && footer.visible ? footer.height : 0)
 
-    /*contentWidth: (contentChildren.length >= 1 ? contentChildren[0].width : 0)*/
-    contentWidth: width - leftPadding - rightPadding
+    contentWidth: (contentChildren.length >= 1 ? contentChildren[0].width : 0)
+    /*contentWidth: width - leftPadding - rightPadding*/
     contentHeight: (contentChildren.length >= 1 ? contentChildren[0].height : 0)
 
     title: "Title"
