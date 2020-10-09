@@ -428,12 +428,14 @@ Page {
 
             Button {
                 id: ipRefBtn
+                anchors.right: parent.right
+                anchors.rightMargin: 16
+                anchors.top: parent.top
+                /*anchors.bottom: urIP.top*/
+                /*anchors.verticalCenter: parent.verticalCenter*/
                 width: 32
                 height: 32
                 padding: 8
-                anchors.right: parent.right
-                anchors.rightMargin: 16
-                anchors.bottom: urIP.top
                 icon.source: "qrc:/icons/sync.svg"
                 topInset: 0
                 bottomInset: 0
